@@ -36,7 +36,7 @@ block_reps = 1  # Conv block repetition factor: 1 or 2
 
 use_cuda = torch.cuda.is_available()
 # exp_name = 'unet_scale20_m16_rep1_notResidualBlocks'
-exp_name = 'unet_scale{}_m{}_rep{}_residual{}'.format(data.scale, m, block_reps, residual_blocks)
+exp_name = 'log/unet_scale{}_m{}_rep{}_residual{}'.format(data.scale, m, block_reps, residual_blocks)
 
 
 class Model(nn.Module):
