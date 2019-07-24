@@ -6,6 +6,7 @@ from shutil import copyfile
 
 data_dir = "/home/dtczhl/Data/ScanNet"
 save_dir = "/home/dtczhl/MyGit/dtc-sparseconvnet"
+
 # --- end of Configurations ---
 
 scannet_url = "https://raw.githubusercontent.com/ScanNet/ScanNet/master/Tasks/Benchmark/"
