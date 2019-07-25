@@ -13,7 +13,7 @@ import scipy.ndimage
 import multiprocessing as mp
 
 # Options
-scale = 20  # Voxel size = 1/scale
+scale = 100  # Voxel size = 1/scale, 20
 val_reps = 1  # Number of test views, 1 or more
 batch_size = 32
 elastic_deformation = False

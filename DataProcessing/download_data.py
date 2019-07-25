@@ -3,7 +3,9 @@ import os
 import re
 
 # ----- Configurations -----
+
 save_dir = "/home/dtc/Data/ScanNet"
+
 # --- end of Configurations ---
 
 scannet_url = "http://kaldir.vc.in.tum.de/scannet/download-scannet.py"

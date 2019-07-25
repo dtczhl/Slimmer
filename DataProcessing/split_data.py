@@ -1,11 +1,20 @@
+"""
+    Split data according to train/val
+
+    Run after
+        download_data.py
+"""
 import os
 import urllib.request
 from shutil import copyfile
 
 # ----- Configurations -----
 
-data_dir = "/home/dtczhl/Data/ScanNet"
-save_dir = "/home/dtczhl/MyGit/dtc-sparseconvnet"
+# path to ScanNet dataset
+data_dir = "/home/dtc/Data/ScanNet"
+
+# path to dtc-sparseconvnet~/
+save_dir = "/home/dtc/MyGit/dtc-sparseconvnet"
 
 # --- end of Configurations ---
 
@@ -23,6 +32,7 @@ save_valid_dir = os.path.join(save_dir, "val")
 urllib.request.urlretrieve(train_url, data_train_txt)
 urllib.request.urlretrieve(valid_url, data_valid_txt)
 
+print("processing train data")
 with open(data_train_txt, "r") as f_in:
     lines = f_in.readlines()
     for line in lines:
@@ -36,6 +46,7 @@ with open(data_train_txt, "r") as f_in:
         f_dst = os.path.join(save_train_dir, f_name)
         copyfile(f_src, f_dst)
 
+print("processing validation data")
 with open(data_valid_txt, "r") as f_in:
     lines = f_in.readlines()
     for line in lines:
