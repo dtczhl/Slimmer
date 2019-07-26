@@ -18,7 +18,7 @@ import math
 import numpy as np
 
 # Options
-m = 16  # 16 or 32; 16
+m = 32  # 16 or 32; 16
 residual_blocks = True  # True or False; False
 block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
@@ -86,7 +86,7 @@ for epoch in range(training_epoch, training_epochs+1):
           'MegaHidden', scn.forward_pass_hidden_states/len(data.train)/1e6, 'time=', time.time() - start, 's')
     scn.checkpoint_save(unet, exp_name, 'unet', epoch, use_cuda)
 
-    if scn.is_power2(epoch) or epoch % 100 == 0:
+    if scn.is_power2(epoch) or epoch % 10 == 0:
         with torch.no_grad():
             unet.eval()
             store = torch.zeros(data.valOffsets[-1], 20)
