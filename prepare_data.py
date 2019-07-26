@@ -9,6 +9,7 @@ import plyfile
 import numpy as np
 import multiprocessing as mp
 import torch
+import sys
 
 # Map relevant classes to {0,1,...,19}, and ignored classes to -100
 remapper = np.ones(150)*(-100)
@@ -33,7 +34,14 @@ def f(fn):
     colors = np.ascontiguousarray(v[:, 3:6])/127.5-1
     a = plyfile.PlyData().read(fn2)
     w = remapper[np.array(a.elements[0]['label'])]
-    torch.save((coords, colors, w), fn[:-4]+'.pth')
+
+    testData = ((coords, colors, w))
+    print(len(testData))
+    print(len(testData[0]))
+    print(len(testData[1]))
+    print(len(testData[2]))
+    sys.exit(0)
+    # torch.save((coords, colors, w), fn[:-4]+'.pth')
     print(fn, fn2)
 
 

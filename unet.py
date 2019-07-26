@@ -18,7 +18,7 @@ import math
 import numpy as np
 
 # Options
-m = 16  # 16 or 32; 16
+m = 32  # 16 or 32; 16
 residual_blocks = True  # True or False; False
 block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
