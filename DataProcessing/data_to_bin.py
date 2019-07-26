@@ -22,7 +22,7 @@ data_dir = "/home/dtc/Data/ScanNet"
 pth_dir = "/home/dtc/MyGit/dtc-sparseconvnet"
 
 # path to save .bin
-save_dir = "/home/dtc/Data/ScanNet/Bin"
+save_dir = "/home/dtc/Data/ScanNet/Bin/"
 
 # --- end of Configurations ---
 
@@ -59,7 +59,7 @@ if __name__ == "__main__":
             line = line.strip()
             print(line)
             pth_filename = os.path.join(pth_train_dir, line + "_vh_clean_2.pth")
-            bin_filename = os.path.join(save_dir, line + "_vh_clean_2.bin")
+            bin_filename = os.path.join(os.path.join(save_dir, "train"), line + "_vh_clean_2.bin")
             pth_to_bin(pth_filename, bin_filename)
 
     with open(data_valid_txt, "r") as f_in:
@@ -68,5 +68,5 @@ if __name__ == "__main__":
             line = line.strip()
             print(line)
             pth_filename = os.path.join(pth_valid_dir, line + "_vh_clean_2.pth")
-            bin_filename = os.path.join(save_dir, line + "_vh_clean_2.bin")
+            bin_filename = os.path.join(os.path.join(save_dir, "val"), line + "_vh_clean_2.bin")
             pth_to_bin(pth_filename, bin_filename)

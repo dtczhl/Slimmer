@@ -65,6 +65,14 @@ optimizer = optim.Adam(unet.parameters())
 print('#classifer parameters', sum([x.nelement() for x in unet.parameters()]))
 
 
+def my_checkpoint_save(model, exp_name, name2, epoch, use_cuda=True):
+    f = exp_name+'-%09d-' % epoch+name2+'.pth'
+    model.cpu()
+    torch.save(model.state_dict(), f)
+    if use_cuda:
+        model.cuda()
+
+
 for epoch in range(training_epoch, training_epochs+1):
     unet.train()
     stats = {}
@@ -86,7 +94,8 @@ for epoch in range(training_epoch, training_epochs+1):
           'MegaHidden', scn.forward_pass_hidden_states/len(data.train)/1e6, 'time=', time.time() - start, 's')
     scn.checkpoint_save(unet, exp_name, 'unet', epoch, use_cuda)
 
-    if scn.is_power2(epoch) or epoch % 100 == 0:
+    if epoch % 10 == 0:
+        my_checkpoint_save(unet, exp_name, 'unet', epoch, use_cuda)
         with torch.no_grad():
             unet.eval()
             store = torch.zeros(data.valOffsets[-1], 20)
