@@ -42,7 +42,7 @@ def evaluate(pred_ids,gt_ids):
     for i in range(N_CLASSES):
         label_name = CLASS_LABELS[i]
         class_ious[label_name] = get_iou(i, confusion)
-        mean_iou+=class_ious[label_name][0]/20
+        mean_iou += class_ious[label_name][0]/20
 
     print('classes          IoU')
     print('----------------------------')

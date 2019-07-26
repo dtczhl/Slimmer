@@ -44,6 +44,7 @@ if not os.path.exists(save_dir):
 offset_filename = "valOffsets.txt"
 result_filename = "data.txt"
 
+
 # load model
 class Model(nn.Module):
     def __init__(self):
@@ -83,6 +84,26 @@ for idx, x in enumerate(val):
     valOffsets.append(valOffsets[-1]+x[2].size)
     valLabels.append(x[2].astype(np.int32))
 valLabels = np.hstack(valLabels)
+
+
+def coords_transform(physical_val):
+    a, b, c = physical_val
+    m = np.eye(3)
+    m *= scale
+    # theta = np.random.rand()*2*math.pi
+    theta = 0
+    m = np.matmul(m, [[math.cos(theta), math.sin(theta), 0], [-math.sin(theta), math.cos(theta), 0], [0, 0, 1]])
+    a = np.matmul(a, m) + full_scale / 2
+    m = a.min(0)
+    M = a.max(0)
+    q = M - m
+    offset = -m
+    a += offset
+    idxs = (a.min(1) >= 0) * (a.max(1) < full_scale)
+    a = a[idxs]
+    b = b[idxs]
+    c = c[idxs]
+    return a, b, c
 
 
 def valMerge(tbl):
@@ -143,7 +164,7 @@ with torch.no_grad():
     print("saving results")
     val_arr = []
     for scene in val:
-        coords, colors, labels = scene
+        coords, colors, labels = coords_transform(scene)
         var_scene = np.c_[coords, colors, labels]
         val_arr.append(var_scene)
     val_arr = np.vstack(val_arr)
