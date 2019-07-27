@@ -26,9 +26,11 @@ valOffsets = np.loadtxt(valOffsets_file, dtype="uint64")
 data_file = os.path.join(result_dir, "data.txt")
 results = np.loadtxt(data_file, dtype="float32")
 
+ignore_index = results[:, 6] == -100
+results = results[~ignore_index]
 n_tot = len(results)
 n_correct = np.sum(results[:, 6] == results[:, 7])
-print("Total accuracy:", n_correct/n_tot)
+print("Total pixel accuracy:", n_correct/n_tot)
 
 # index_ignore = results[:, 6] == -100
 # coords = results[:, :3][~index_ignore]
@@ -48,15 +50,15 @@ def show(result_id):
     gt = results[start_index:end_index, 6]
     pred = results[start_index:end_index, 7]
 
-    ignore_index = gt == -100
-    coords = coords[~ignore_index]
-    gt = gt[~ignore_index]
-    pred = pred[~ignore_index]
+    # ignore_index = gt == -100
+    # coords = coords[~ignore_index]
+    # gt = gt[~ignore_index]
+    # pred = pred[~ignore_index]
 
     gt_color = [CLASS_COLOR[x] for x in gt.astype("int32")]
     pred_color = [CLASS_COLOR[x] for x in pred.astype("int32")]
 
-    print("Accuracy with ignores",  np.sum(gt == pred) / len(gt))
+    print("Pixel Accuracy for", result_id,  np.sum(gt == pred) / len(gt))
 
     pptk.viewer(coords, gt_color)
     pptk.viewer(coords, pred_color)

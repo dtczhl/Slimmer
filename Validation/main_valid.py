@@ -17,9 +17,9 @@ import sys
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-model_name = "unet_scale100_m16_rep2_residualTrue-000000064-unet.pth"
+model_name = "unet_scale100_m16_rep2_residualTrue-000000220.pth"
 
-data_name = "Original"
+data_type = "Random"
 
 use_cuda = True
 
@@ -34,16 +34,13 @@ block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
 # --- end of configurations ---
 
-data_dir = os.path.join(scannet_dir, "Pth", data_name)
-model_file = os.path.join(scannet_dir, "Model", model_name)
-
-save_dir = os.path.join(scannet_dir, "Accuracy", os.path.splitext(model_name)[0], data_name)
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
-
 offset_filename = "valOffsets.txt"
 result_filename = "data.txt"
 
+
+val = []
+valOffsets = []
+valLabels = []
 
 # load model
 class Model(nn.Module):
@@ -61,29 +58,6 @@ class Model(nn.Module):
         x = self.sparseModel(x)
         x = self.linear(x)
         return x
-
-
-print("loading model")
-unet = Model()
-unet.load_state_dict(torch.load(model_file))
-if use_cuda:
-    unet.cuda()
-
-# load val data
-print("loading val data")
-val = []
-for x in torch.utils.data.DataLoader(
-        glob.glob(os.path.join(data_dir, "*.pth")),
-        collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
-    val.append(x)
-print("data from {} scenes".format(len(val)))
-
-valOffsets = [0]
-valLabels = []
-for idx, x in enumerate(val):
-    valOffsets.append(valOffsets[-1]+x[2].size)
-    valLabels.append(x[2].astype(np.int32))
-valLabels = np.hstack(valLabels)
 
 
 def coords_transform(physical_val):
@@ -140,34 +114,104 @@ def valMerge(tbl):
     return {'x': [locs, feats], 'y': labels.long(), 'id': tbl, 'point_ids': point_ids}
 
 
-val_data_loader = torch.utils.data.DataLoader(
-    list(range(len(val))), batch_size=1, collate_fn=valMerge, num_workers=20, shuffle=False)
+# --- my main function to validate ---
+def valid_data(data_id):
+    data_name = data_type + "/" + str(data_id)
 
-print("calculating accuracy ")
-with torch.no_grad():
-    unet.eval()
-    store = torch.zeros(valOffsets[-1], 20)
-    scn.forward_pass_multiplyAdd_count = 0
-    scn.forward_pass_hidden_states = 0
-    start = time.time()
-    # for rep in range(1, 1 + val_reps):
-    for i, batch in enumerate(val_data_loader):
-        if use_cuda:
-            batch['x'][1] = batch['x'][1].cuda()
-            batch['y'] = batch['y'].cuda()
-        predictions = unet(batch['x'])
-        store.index_add_(0, batch['point_ids'], predictions.cpu())
-    print('Val MegaMulAdd=', scn.forward_pass_multiplyAdd_count / len(val) / 1e6, 'MegaHidden',
-          scn.forward_pass_hidden_states / len(val) / 1e6, 'time=', time.time() - start, 's')
-    iou.evaluate(store.max(1)[1].numpy(), valLabels)
+    ret_data_id = data_id
+    ret_muladd = 0
+    ret_time = 0
+    ret_iou = 0
 
-    print("saving results")
-    val_arr = []
-    for scene in val:
-        coords, colors, labels = coords_transform(scene)
-        var_scene = np.c_[coords, colors, labels]
-        val_arr.append(var_scene)
-    val_arr = np.vstack(val_arr)
-    val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
-    np.savetxt(os.path.join(save_dir, offset_filename), valOffsets, fmt="%d")
-    np.savetxt(os.path.join(save_dir, result_filename),  val_arr, fmt="%.2f %.2f %.2f %.2f %.2f %.2f %d %d")
+    #data_id = "25"
+    #data_name = data_type + "/" + data_id
+
+    data_dir = os.path.join(scannet_dir, "Pth", data_name)
+    model_file = os.path.join(scannet_dir, "Model", model_name)
+
+    save_dir = os.path.join(scannet_dir, "Accuracy", os.path.splitext(model_name)[0], data_name)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    print(" --- loading model ---")
+    unet = Model()
+    unet.load_state_dict(torch.load(model_file))
+    if use_cuda:
+        unet.cuda()
+
+    # load val data
+    print("loading val data", data_name)
+    global val
+    val = []
+    for x in torch.utils.data.DataLoader(
+            glob.glob(os.path.join(data_dir, "*.pth")),
+            collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
+        val.append(x)
+    print("data from {} scenes".format(len(val)))
+
+    global valOffsets
+    global valLabels
+    valOffsets = [0]
+    valLabels = []
+    for idx, x in enumerate(val):
+        valOffsets.append(valOffsets[-1]+x[2].size)
+        valLabels.append(x[2].astype(np.int32))
+    valLabels = np.hstack(valLabels)
+
+    val_data_loader = torch.utils.data.DataLoader(
+        list(range(len(val))), batch_size=1, collate_fn=valMerge, num_workers=20, shuffle=False)
+
+    print("calculating accuracy ")
+    with torch.no_grad():
+        unet.eval()
+        store = torch.zeros(valOffsets[-1], 20)
+        scn.forward_pass_multiplyAdd_count = 0
+        scn.forward_pass_hidden_states = 0
+        start = time.time()
+        # for rep in range(1, 1 + val_reps):
+        for i, batch in enumerate(val_data_loader):
+            if use_cuda:
+                batch['x'][1] = batch['x'][1].cuda()
+                batch['y'] = batch['y'].cuda()
+            predictions = unet(batch['x'])
+            store.index_add_(0, batch['point_ids'], predictions.cpu())
+
+        ret_muladd = scn.forward_pass_multiplyAdd_count / len(val) / 1e6
+        ret_time = time.time() - start
+        print('Val MegaMulAdd=', scn.forward_pass_multiplyAdd_count / len(val) / 1e6, 'MegaHidden',
+              scn.forward_pass_hidden_states / len(val) / 1e6, 'time=', time.time() - start, 's')
+        ret_iou = iou.evaluate(store.max(1)[1].numpy(), valLabels)
+
+        print("saving results")
+        val_arr = []
+        for scene in val:
+            coords, colors, labels = coords_transform(scene)
+            var_scene = np.c_[coords, colors, labels]
+            val_arr.append(var_scene)
+        val_arr = np.vstack(val_arr)
+        val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
+
+        # pixel accuracy
+        ignore_index = val_arr[:, 6] == -100
+        accuracy_label = val_arr[:, 6][~ignore_index]
+        accuracy_pred = val_arr[:, 7][~ignore_index]
+        print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
+
+        # np.savetxt(os.path.join(save_dir, offset_filename), valOffsets, fmt="%d")
+        # np.savetxt(os.path.join(save_dir, result_filename),  val_arr, fmt="%.2f %.2f %.2f %.2f %.2f %.2f %d %d")
+
+        # len(val): number of scenes
+        # len(valLabels): number of dots
+        return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val)
+
+
+if __name__ == "__main__":
+    result = []
+    for my_id in range(5, 101, 5):
+        result.append(valid_data(my_id))
+    print(np.vstack(result))
+    save_file_dir = "../log/save/" + data_type
+    if not os.path.exists(save_file_dir):
+        os.makedirs(save_file_dir)
+    np.savetxt(os.path.join(save_file_dir, "result.cvs"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f",
+               header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M)")

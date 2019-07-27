@@ -34,14 +34,7 @@ def f(fn):
     colors = np.ascontiguousarray(v[:, 3:6])/127.5-1
     a = plyfile.PlyData().read(fn2)
     w = remapper[np.array(a.elements[0]['label'])]
-
-    testData = ((coords, colors, w))
-    print(len(testData))
-    print(len(testData[0]))
-    print(len(testData[1]))
-    print(len(testData[2]))
-    sys.exit(0)
-    # torch.save((coords, colors, w), fn[:-4]+'.pth')
+    torch.save((coords, colors, w), fn[:-4]+'.pth')
     print(fn, fn2)
 
 
