@@ -58,7 +58,7 @@ def show(result_id):
     gt_color = [CLASS_COLOR[x] for x in gt.astype("int32")]
     pred_color = [CLASS_COLOR[x] for x in pred.astype("int32")]
 
-    print("Pixel Accuracy for", result_id,  np.sum(gt == pred) / len(gt))
+    print("Pixel Accuracy for", result_id, "---", np.sum(gt == pred) / len(gt))
 
     pptk.viewer(coords, gt_color)
     pptk.viewer(coords, pred_color)

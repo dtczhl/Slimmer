@@ -197,8 +197,8 @@ def valid_data(data_id):
         accuracy_pred = val_arr[:, 7][~ignore_index]
         print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
 
-        # np.savetxt(os.path.join(save_dir, offset_filename), valOffsets, fmt="%d")
-        # np.savetxt(os.path.join(save_dir, result_filename),  val_arr, fmt="%.2f %.2f %.2f %.2f %.2f %.2f %d %d")
+        np.save(os.path.join(save_dir, offset_filename), valOffsets)
+        np.save(os.path.join(save_dir, result_filename),  val_arr)
 
         # len(val): number of scenes
         # len(valLabels): number of dots
@@ -207,11 +207,12 @@ def valid_data(data_id):
 
 if __name__ == "__main__":
     result = []
-    for my_id in range(5, 101, 5):
+    for my_id in range(10, 101, 10):
         result.append(valid_data(my_id))
     print(np.vstack(result))
-    save_file_dir = "../log/save/" + data_type
+    # save_file_dir = "../log/save/" + data_type
+    save_file_dir = os.path.join(scannet_dir, "Result/" + data_type)
     if not os.path.exists(save_file_dir):
         os.makedirs(save_file_dir)
-    np.savetxt(os.path.join(save_file_dir, "result.cvs"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f",
+    np.savetxt(os.path.join(save_file_dir, "result.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f",
                header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M)")
