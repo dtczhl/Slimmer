@@ -19,7 +19,7 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 
 model_name = "unet_scale100_m16_rep2_residualTrue-000000220.pth"
 
-data_type = "Random"
+data_type = "Curvature"
 
 use_cuda = True
 
@@ -34,8 +34,8 @@ block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
 # --- end of configurations ---
 
-offset_filename = "valOffsets.txt"
-result_filename = "data.txt"
+offset_filename = "valOffsets.npy"
+result_filename = "data.npy"
 
 
 val = []
@@ -207,7 +207,7 @@ def valid_data(data_id):
 
 if __name__ == "__main__":
     result = []
-    for my_id in range(10, 101, 10):
+    for my_id in range(10, 11, 10):
         result.append(valid_data(my_id))
     print(np.vstack(result))
     # save_file_dir = "../log/save/" + data_type

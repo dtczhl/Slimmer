@@ -8,7 +8,7 @@ import os
 import pptk
 import iou
 
-result_dir = "/home/dtc/Data/ScanNet/Accuracy/unet_scale100_m16_rep2_residualTrue-000000064-unet/Original"
+result_dir = "/home/dtc/Data/ScanNet/Accuracy/unet_scale100_m16_rep2_residualTrue-000000220/Curvature/10"
 
 CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf',
                 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub', 'otherfurniture']
@@ -20,11 +20,11 @@ CLASS_COLOR = [
 ]
 CLASS_COLOR = np.array(CLASS_COLOR) / 255.0
 
-valOffsets_file = os.path.join(result_dir, "valOffsets.txt")
-valOffsets = np.loadtxt(valOffsets_file, dtype="uint64")
+valOffsets_file = os.path.join(result_dir, "valOffsets.npy")
+valOffsets = np.load(valOffsets_file)
 
-data_file = os.path.join(result_dir, "data.txt")
-results = np.loadtxt(data_file, dtype="float32")
+data_file = os.path.join(result_dir, "data.npy")
+results = np.load(data_file)
 
 ignore_index = results[:, 6] == -100
 results = results[~ignore_index]
