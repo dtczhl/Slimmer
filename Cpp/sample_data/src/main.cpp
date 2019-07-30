@@ -51,7 +51,7 @@ int main(int argc, char*argv[])
 
     for (int keep_ratio = start; keep_ratio <= end; keep_ratio += step) {
         int n_keep_points = (int)(keep_ratio / 100.0 * number_of_points);
-        for (double cell_size = 0.005; cell_size < 1.0; cell_size += 0.0005) {
+        for (double cell_size = 0.005; cell_size < 1.0; cell_size += 0.001) {
             std::vector<Point> points_copy = points;
             points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), cell_size),
                 points_copy.end());
