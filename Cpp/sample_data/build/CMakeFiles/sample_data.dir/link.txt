@@ -1,1 +1,1 @@
-/usr/bin/x86_64-linux-gnu-g++-7  -g   CMakeFiles/sample_data.dir/src/main.cpp.o  -o sample_data -lgmp -lCGAL 
+/usr/bin/x86_64-linux-gnu-g++-7  -g  -rdynamic CMakeFiles/sample_data.dir/src/main.cpp.o CMakeFiles/sample_data.dir/src/grid.cpp.o  -o sample_data -lgmp -lCGAL 

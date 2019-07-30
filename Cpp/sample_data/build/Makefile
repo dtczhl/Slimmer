@@ -123,6 +123,33 @@ sample_data/fast:
 	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/build
 .PHONY : sample_data/fast
 
+src/grid.o: src/grid.cpp.o
+
+.PHONY : src/grid.o
+
+# target to build an object file
+src/grid.cpp.o:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/grid.cpp.o
+.PHONY : src/grid.cpp.o
+
+src/grid.i: src/grid.cpp.i
+
+.PHONY : src/grid.i
+
+# target to preprocess a source file
+src/grid.cpp.i:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/grid.cpp.i
+.PHONY : src/grid.cpp.i
+
+src/grid.s: src/grid.cpp.s
+
+.PHONY : src/grid.s
+
+# target to generate assembly for a file
+src/grid.cpp.s:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/grid.cpp.s
+.PHONY : src/grid.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sample_data"
 	@echo "... edit_cache"
+	@echo "... src/grid.o"
+	@echo "... src/grid.i"
+	@echo "... src/grid.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

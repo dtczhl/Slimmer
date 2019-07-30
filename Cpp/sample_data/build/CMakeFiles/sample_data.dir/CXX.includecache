@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/main.cpp
+../include/grid.hpp
+
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp
+grid.hpp
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.hpp
 CGAL/Exact_predicates_inexact_constructions_kernel.h
 -
 CGAL/grid_simplify_point_set.h
