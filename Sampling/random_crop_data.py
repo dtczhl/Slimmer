@@ -48,7 +48,7 @@ def crop_data(keep_ratio):
         torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
 
-for keep_ratio in range(5, 6, 5):
+for keep_ratio in range(10, 101, 10):
     crop_data(keep_ratio)
 
 

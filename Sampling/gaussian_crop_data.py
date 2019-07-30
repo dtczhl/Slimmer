@@ -1,6 +1,7 @@
 """
-    Crop data with Menger curvature sampling
+    Bayesian Gaussian Mixture Model
 """
+
 import torch
 import glob
 import os
@@ -8,19 +9,11 @@ import pandas as pd
 import numpy as np
 import sys
 
-from pyntcloud import PyntCloud
-
-# KEEP_RATIO = 100
+from sklearn.mixture import BayesianGaussianMixture
 
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-n_k_neighbors = 10
-data_type = "Curvature"
-
-# Ascending, Descending
-curvature_order = "Ascending"
-
-data_type = data_type + curvature_order
+data_type = "Gaussian"
 
 
 def crop_data(keep_ratio):
@@ -37,24 +30,10 @@ def crop_data(keep_ratio):
         data = torch.load(src_file)
         coords, colors, labels = data
 
-        pd_data = pd.DataFrame({"x": coords[:, 0], "y": coords[:, 1], "z": coords[:, 2]})
-        cloud = PyntCloud(pd_data)
-        k_neighbors = cloud.get_neighbors(k=n_k_neighbors)
-        ev = cloud.add_scalar_field("eigen_values", k_neighbors=k_neighbors)
-        cloud.add_scalar_field("curvature", ev=ev)
-
-        n_keep_points = int(keep_ratio / 100.0 * len(labels))
-
-        if curvature_order == "Descending":
-            index_sort = np.argsort(np.abs(cloud.points["curvature({})".format(n_k_neighbors + 1)].to_numpy()))[::-1][
-                         :n_keep_points]
-        elif curvature_order == "Ascending":
-            index_sort = np.argsort(np.abs(cloud.points["curvature({})".format(n_k_neighbors + 1)].to_numpy()))[::1][
-                         :n_keep_points]
-        else:
-            sys.exit("Unknown curvature_order: " + curvature_order)
-
-        index_sort.sort()
+        bgm = BayesianGaussianMixture(n_components=30, n_init=2)
+        bgm.fit(coords)
+        print(bgm.weights_)
+        sys.exit(0)
 
         new_coords = np.array(coords[index_sort], dtype="float32")
         new_colors = np.array(colors[index_sort], dtype="float32")

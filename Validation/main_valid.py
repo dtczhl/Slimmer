@@ -19,7 +19,8 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 
 model_name = "unet_scale100_m16_rep2_residualTrue-000000220.pth"
 
-data_type = "Curvature"
+# Random, CurvatureDescending, CurvatureAscending
+data_type = "CurvatureDescending"
 
 use_cuda = True
 
@@ -207,7 +208,7 @@ def valid_data(data_id):
 
 if __name__ == "__main__":
     result = []
-    for my_id in range(10, 11, 10):
+    for my_id in range(10, 101, 10):
         result.append(valid_data(my_id))
     print(np.vstack(result))
     # save_file_dir = "../log/save/" + data_type

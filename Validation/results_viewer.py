@@ -64,4 +64,4 @@ def show(result_id):
     pptk.viewer(coords, pred_color)
 
 
-show(0)
+show(1)
