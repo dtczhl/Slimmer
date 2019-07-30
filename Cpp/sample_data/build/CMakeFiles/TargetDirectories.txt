@@ -1,0 +1,3 @@
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/rebuild_cache.dir
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/sample_data.dir
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/edit_cache.dir

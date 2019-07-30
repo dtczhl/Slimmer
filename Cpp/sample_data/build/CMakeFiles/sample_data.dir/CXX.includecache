@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/main.cpp
+CGAL/Exact_predicates_inexact_constructions_kernel.h
+-
+CGAL/grid_simplify_point_set.h
+-
+CGAL/IO/read_xyz_points.h
+-
+vector
+-
+fstream
+-
+iostream
+-
+
