@@ -6,7 +6,8 @@ include_directories(include)
 
 
 set (SOURCES    "src/main.cpp"
-                "src/grid.cpp")
+                "src/grid.cpp"
+                "src/hierarchy.cpp")
 
 add_executable(sample_data ${SOURCES})
 

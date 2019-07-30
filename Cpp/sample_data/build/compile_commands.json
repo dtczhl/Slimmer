@@ -8,5 +8,10 @@
   "directory": "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build",
   "command": "/usr/bin/x86_64-linux-gnu-g++-7   -I/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/include  -g   -o CMakeFiles/sample_data.dir/src/grid.cpp.o -c /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp",
   "file": "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp"
+},
+{
+  "directory": "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-7   -I/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/include  -g   -o CMakeFiles/sample_data.dir/src/hierarchy.cpp.o -c /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp",
+  "file": "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp"
 }
 ]

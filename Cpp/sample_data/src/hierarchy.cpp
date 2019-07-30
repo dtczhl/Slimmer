@@ -1,8 +1,7 @@
-#include "grid.hpp"
+#include "hierarchy.hpp"
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/grid_simplify_point_set.h>
-#include <CGAL/IO/read_xyz_points.h>
+#include <CGAL/hierarchy_simplify_point_set.h>
 
 #include <vector>
 #include <fstream>
@@ -12,10 +11,10 @@
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef Kernel::Point_3 Point;
 
-void grid(int argc, char*argv[]) {
+void hierarchy(int argc, char*argv[]) {
 
     if (argc != 7) {
-        std::cerr << "argc: " << argc << " input argc = " << argc << std::endl;
+            std::cerr << "argc: " << argc << " input argc = " << argc << std::endl;
     }
 
     std::string sampler(argv[1]);
@@ -51,30 +50,17 @@ void grid(int argc, char*argv[]) {
 
     std::cout << "Point number of points: " << points.size() << std::endl;
 
-    int n_sample = 2000;
-    double max_cell_size = 1.0;
-    std::vector<double> cell_size_vec;
-    std::vector<int> cell_number_points_vec;
-    for (int i = 0; i < n_sample; i++) {
-        cell_size_vec.push_back(max_cell_size / n_sample * (i+1));
-        cell_number_points_vec.push_back(0);
-    }
-
-    for (int i = 0; i < cell_size_vec.size(); i++) {
-        std::vector<Point> points_copy = points;
-        points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), cell_size_vec[i]),
-                points_copy.end());
-        cell_number_points_vec[i] = points_copy.size();
-    }
-
     for (int keep_ratio = start; keep_ratio <= end; keep_ratio += step) {
         int n_keep_points = (int)(keep_ratio / 100.0 * number_of_points);
+        for (int cluster_size = 10; cluster_size < 1000; cluster_size += 10) {
+            std::vector<Point> points_copy = points;
+            points_copy.erase(CGAL::hierarchy_simplify_point_set(points_copy.begin(), points_copy.end(), cluster_size),
+                points_copy.end());
+            
+            std::cout << points_copy.size() << std::endl;
+            exit(0);
 
-        for (int i = 0; i < cell_number_points_vec.size(); i++) {
-            if (n_keep_points <= cell_number_points_vec[i]) {
-                std::vector<Point> points_copy = points;
-                points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), cell_size_vec[i]),
-                    points_copy.end());
+            if (points_copy.size() <= n_keep_points) {
                 // save to file
                 std::string dstFileSave = srcFilename + "." + std::to_string(keep_ratio);
                 // std::cout << dstFileSave << " " << points_copy.size() << std::endl;
@@ -92,4 +78,5 @@ void grid(int argc, char*argv[]) {
             }
         }
     }
+
 }

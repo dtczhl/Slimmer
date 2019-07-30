@@ -150,6 +150,33 @@ src/grid.cpp.s:
 	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/grid.cpp.s
 .PHONY : src/grid.cpp.s
 
+src/hierarchy.o: src/hierarchy.cpp.o
+
+.PHONY : src/hierarchy.o
+
+# target to build an object file
+src/hierarchy.cpp.o:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/hierarchy.cpp.o
+.PHONY : src/hierarchy.cpp.o
+
+src/hierarchy.i: src/hierarchy.cpp.i
+
+.PHONY : src/hierarchy.i
+
+# target to preprocess a source file
+src/hierarchy.cpp.i:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/hierarchy.cpp.i
+.PHONY : src/hierarchy.cpp.i
+
+src/hierarchy.s: src/hierarchy.cpp.s
+
+.PHONY : src/hierarchy.s
+
+# target to generate assembly for a file
+src/hierarchy.cpp.s:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/hierarchy.cpp.s
+.PHONY : src/hierarchy.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -189,6 +216,9 @@ help:
 	@echo "... src/grid.o"
 	@echo "... src/grid.i"
 	@echo "... src/grid.s"
+	@echo "... src/hierarchy.o"
+	@echo "... src/hierarchy.i"
+	@echo "... src/hierarchy.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -15,7 +15,7 @@ from pyntcloud import PyntCloud
 scannet_dir = "/home/dtc/Data/ScanNet"
 
 n_k_neighbors = 10
-data_type = "Grid"
+data_type = "Hierarchy"
 
 
 def crop_data(keep_ratio_overall):
@@ -77,7 +77,7 @@ def crop_data(keep_ratio_overall):
 
 
 # start, end(include), step
-crop_data([5, 100, 5])
+crop_data([50, 50, 10])
 
 
 

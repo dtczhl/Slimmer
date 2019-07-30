@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "grid.hpp"
+#include "hierarchy.hpp"
 
 int main(int argc, char*argv[])
 {
@@ -9,6 +10,8 @@ int main(int argc, char*argv[])
 
     if (sampler == "grid") {
         grid(argc, argv);
+    } else if (sampler == "hierarchy") {
+        hierarchy(argc, argv);
     }
     
     return 0;
