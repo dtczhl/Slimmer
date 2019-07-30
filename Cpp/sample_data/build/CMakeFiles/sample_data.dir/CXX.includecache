@@ -15,6 +15,8 @@ CGAL/Exact_predicates_inexact_constructions_kernel.h
 -
 CGAL/grid_simplify_point_set.h
 -
+CGAL/property_map.h
+-
 CGAL/IO/read_xyz_points.h
 -
 vector
@@ -22,5 +24,9 @@ vector
 fstream
 -
 iostream
+-
+cmath
+-
+boost/tuple/tuple.hpp
 -
 

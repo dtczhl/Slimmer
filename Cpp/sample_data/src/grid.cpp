@@ -2,15 +2,21 @@
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/grid_simplify_point_set.h>
+#include <CGAL/property_map.h>
 #include <CGAL/IO/read_xyz_points.h>
 
 #include <vector>
 #include <fstream>
 #include <iostream>
 
+#include <cmath> 
+
+#include <boost/tuple/tuple.hpp>
+
 // Types
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef Kernel::Point_3 Point;
+typedef boost::tuple<Point, float, float, float, float> MYPoint;
 
 void grid(int argc, char*argv[]) {
 
@@ -25,13 +31,12 @@ void grid(int argc, char*argv[]) {
     std::string dstDir(argv[5]);
     std::string dstFile(argv[6]);
 
-    /*
+    
     std::cout << "sampler: " << sampler
         << ", start: " << start << ", end: " << end << ", step: " << step 
         << ", dstDir: " << dstDir << ", dstFile: " << dstFile << std::endl;
-    */
 
-    std::vector<Point> points;
+    std::vector<MYPoint> points;
 
     std::string srcFilename = "../tmp/" + dstFile;
 
@@ -43,49 +48,78 @@ void grid(int argc, char*argv[]) {
     rewind(pFile);                // rewind file pointer to the beginning
     float *rawData = new float[fileSize];
     fread(rawData, sizeof(float), fileSize/sizeof(float), pFile);
-    long number_of_points = fileSize / 3 / sizeof(float); // x, y, z
+    int nProperties = 7;
+    long number_of_points = fileSize / nProperties / sizeof(float); // x, y, z, r, g, b, label
 
     for (int i = 0; i < number_of_points; i++) {
-        points.push_back(Point(rawData[3*i], rawData[3*i+1], rawData[3*i+2]));
+        points.push_back(MYPoint(Point(rawData[nProperties*i], rawData[nProperties*i+1], rawData[nProperties*i+2]), 
+            rawData[nProperties*i+3], rawData[nProperties*i+4], rawData[nProperties*i+5], rawData[nProperties*i+6]));
     }
 
     std::cout << "Point number of points: " << points.size() << std::endl;
 
-    int n_sample = 100;
-    double max_cell_size = 0.1;
+/*
+    for (int i = 0; i < 10; i++) {   
+        float x = points[i].get<0>().x();
+        float y = points[i].get<0>().y();
+        float z = points[i].get<0>().z();
+        float r = points[i].get<1>();
+        float g = points[i].get<2>();
+        float b = points[i].get<3>();
+        float label = points[i].get<4>();
+        std::cout << "x:" << x << " y: " << y << " z: " << z << " r: " << r << " g: " << g << " b: " << b << " l: " << label << std::endl; 
+    }
+*/
+
     std::vector<double> cell_size_vec;
-    std::vector<int> cell_number_points_vec;
-    for (int i = 0; i < n_sample; i++) {
-        cell_size_vec.push_back(max_cell_size / n_sample * (i+1));
-        cell_number_points_vec.push_back(0);
-    }
+    std::vector<int> cell_num_vec;
+    double min_cell_size = 0.0001, max_cell_size = 0.2;
+    int nStep = 1000;
+    for (int i = 0; i < nStep; i++) {
+        cell_size_vec.push_back((max_cell_size - min_cell_size)/nStep*i + min_cell_size);
 
-    for (int i = 0; i < cell_size_vec.size(); i++) {
-        std::vector<Point> points_copy = points;
-        points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), cell_size_vec[i]),
-                points_copy.end());
-        cell_number_points_vec[i] = points_copy.size();
-    }
+        std::vector<MYPoint> points_copy = points;
+        points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), cell_size_vec[i]),
+            points_copy.end());
 
+        cell_num_vec.push_back(points_copy.size());
+    }
+/*
+    for(int i = 0; i < cell_num_vec.size(); i++) {
+        std::cout << cell_num_vec[i] << " " << 1.0*cell_num_vec[i]/number_of_points * 100 <<"% ";
+    }
+    std::cout << std::endl;
+*/
     for (int keep_ratio = start; keep_ratio <= end; keep_ratio += step) {
+        
         int n_keep_points = (int)(keep_ratio / 100.0 * number_of_points);
 
-        for (int i = 0; i < cell_number_points_vec.size(); i++) {
-            if (n_keep_points <= cell_number_points_vec[i]) {
-                std::vector<Point> points_copy = points;
-                points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), cell_size_vec[i]),
+        for (int i = 0; i < cell_num_vec.size(); i++) {
+            if (n_keep_points < cell_num_vec[i]) {
+
+                std::vector<MYPoint> points_copy = points;
+                points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), cell_size_vec[i]),
                     points_copy.end());
-                // save to file
                 std::string dstFileSave = srcFilename + "." + std::to_string(keep_ratio);
-                // std::cout << dstFileSave << " " << points_copy.size() << std::endl;
+                std::cout << dstFileSave << std::endl;
+
                 std::ofstream out(dstFileSave, std::ios_base::binary);
                 for (int i = 0; i < points_copy.size(); i++) {
-                    float x = points_copy[i].x();
-                    float y = points_copy[i].y();
-                    float z = points_copy[i].z();
+                        
+                    float x = points_copy[i].get<0>().x();
+                    float y = points_copy[i].get<0>().y();
+                    float z = points_copy[i].get<0>().z();
+                    float r = points_copy[i].get<1>();
+                    float g = points_copy[i].get<2>();
+                    float b = points_copy[i].get<3>();
+                    float label = points_copy[i].get<4>();
                     out.write((char *)&x, sizeof(float));
                     out.write((char *)&y, sizeof(float));
                     out.write((char *)&z, sizeof(float));
+                    out.write((char *)&r, sizeof(float));
+                    out.write((char *)&g, sizeof(float));
+                    out.write((char *)&b, sizeof(float));
+                    out.write((char *)&label, sizeof(float));
                 }
                 out.close();
                 break;

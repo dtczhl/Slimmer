@@ -14,7 +14,7 @@ typedef Kernel::Point_3 Point;
 void hierarchy(int argc, char*argv[]) {
 
     if (argc != 7) {
-            std::cerr << "argc: " << argc << " input argc = " << argc << std::endl;
+        std::cerr << "argc: " << argc << " input argc = " << argc << std::endl;
     }
 
     std::string sampler(argv[1]);
@@ -49,34 +49,4 @@ void hierarchy(int argc, char*argv[]) {
     }
 
     std::cout << "Point number of points: " << points.size() << std::endl;
-
-    for (int keep_ratio = start; keep_ratio <= end; keep_ratio += step) {
-        int n_keep_points = (int)(keep_ratio / 100.0 * number_of_points);
-        for (int cluster_size = 10; cluster_size < 1000; cluster_size += 10) {
-            std::vector<Point> points_copy = points;
-            points_copy.erase(CGAL::hierarchy_simplify_point_set(points_copy.begin(), points_copy.end(), cluster_size),
-                points_copy.end());
-            
-            std::cout << points_copy.size() << std::endl;
-            exit(0);
-
-            if (points_copy.size() <= n_keep_points) {
-                // save to file
-                std::string dstFileSave = srcFilename + "." + std::to_string(keep_ratio);
-                // std::cout << dstFileSave << " " << points_copy.size() << std::endl;
-                std::ofstream out(dstFileSave, std::ios_base::binary);
-                for (int i = 0; i < points_copy.size(); i++) {
-                    float x = points_copy[i].x();
-                    float y = points_copy[i].y();
-                    float z = points_copy[i].z();
-                    out.write((char *)&x, sizeof(float));
-                    out.write((char *)&y, sizeof(float));
-                    out.write((char *)&z, sizeof(float));
-                }
-                out.close();
-                break;
-            }
-        }
-    }
-
 }

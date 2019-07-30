@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 import sys
+from shutil import copyfile
 
 from pyntcloud import PyntCloud
 
@@ -37,10 +38,11 @@ def crop_data(keep_ratio_overall):
         colors = np.array(colors, "float32")
         labels = np.array(labels, "float32")
 
-        # write coords file
+        # copy file
+        original_data = np.c_[coords, colors, labels]
         tmp_dir = "../tmp/"
         tmp_file_name = os.path.join(tmp_dir, src_filename)
-        coords.ravel().tofile(tmp_file_name)
+        original_data.ravel().tofile(tmp_file_name)
 
         mycmd = "../Cpp/sample_data/build/sample_data {} {} {} {} {} {}"\
             .format(data_type.lower(), keep_ratio_overall[0], keep_ratio_overall[1], keep_ratio_overall[2], dst_dir, src_filename)
@@ -49,20 +51,17 @@ def crop_data(keep_ratio_overall):
 
         for keep_ratio in range(keep_ratio_overall[0], keep_ratio_overall[1]+1, keep_ratio_overall[2]):
             src_trim_file = tmp_file_name + ".{}".format(keep_ratio)
+            if not os.path.exists(src_trim_file):
+                sys.exit("Error, file " + src_trim_file + " does not exist")
+
             # print(src_trim_file)
-            new_coords = np.fromfile(src_trim_file, "<f4")
-            new_coords = np.reshape(new_coords, (-1, 3))
+            new_data = np.fromfile(src_trim_file, "<f4")
+            new_data = np.reshape(new_data, (-1, 7))
             os.remove(src_trim_file)
 
-            new_colors, new_labels = [], []
-            for i_coords in new_coords:
-                index = np.where(coords == i_coords)[0][0]
-                # print(i_coords, coords[index], index)
-                new_colors.append(colors[index])
-                new_labels.append(labels[index])
-
-            if len(new_coords) != len(new_colors):
-                sys.exit("new coords and colors do not match")
+            new_coords = new_data[:, 3]
+            new_colors = new_data[:, 3:6]
+            new_labels = new_data[:, 6]
 
             new_coords = np.array(new_coords, "float32")
             new_colors = np.array(new_colors, "float32")
@@ -77,7 +76,7 @@ def crop_data(keep_ratio_overall):
 
 
 # start, end(include), step
-crop_data([5, 100, 5])
+crop_data([10, 90, 10])
 
 
 
