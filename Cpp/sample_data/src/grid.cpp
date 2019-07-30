@@ -51,8 +51,8 @@ void grid(int argc, char*argv[]) {
 
     std::cout << "Point number of points: " << points.size() << std::endl;
 
-    int n_sample = 2000;
-    double max_cell_size = 1.0;
+    int n_sample = 100;
+    double max_cell_size = 0.1;
     std::vector<double> cell_size_vec;
     std::vector<int> cell_number_points_vec;
     for (int i = 0; i < n_sample; i++) {
