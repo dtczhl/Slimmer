@@ -198,8 +198,8 @@ def valid_data(data_id):
         accuracy_pred = val_arr[:, 7][~ignore_index]
         print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
 
-        np.save(os.path.join(save_dir, offset_filename), valOffsets)
-        np.save(os.path.join(save_dir, result_filename),  val_arr)
+        # np.save(os.path.join(save_dir, offset_filename), valOffsets)
+        # np.save(os.path.join(save_dir, result_filename),  val_arr)
 
         # len(val): number of scenes
         # len(valLabels): number of dots
@@ -208,9 +208,22 @@ def valid_data(data_id):
 
 if __name__ == "__main__":
     result = []
-    for my_id in range(10, 51, 10):
+
+    def func_filename(x):
+        return int(os.path.basename(x))
+
+    data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
+    for data_dir in data_dirs:
+        my_id = int(os.path.basename(data_dir))
         result.append(valid_data(my_id))
+
+    # for my_id in range(5, 96, 5):
+    #     result.append(valid_data(my_id))
+
     print(np.vstack(result))
+    result_vstack = np.vstack(result)
+    print(np.array_str(result_vstack, precision=2, suppress_small=True))
+
     # save_file_dir = "../log/save/" + data_type
     save_file_dir = os.path.join(scannet_dir, "Result/" + data_type)
     if not os.path.exists(save_file_dir):
