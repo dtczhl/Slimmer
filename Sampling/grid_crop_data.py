@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 import sys
+import time
 from shutil import copyfile
 
 from pyntcloud import PyntCloud
@@ -31,6 +32,9 @@ def crop_data(keep_ratio_overall):
 
     files = sorted(glob.glob(os.path.join(original_dir, '*.pth')))
     for src_file in files:
+
+        start_time = time.time()
+
         src_filename = os.path.basename(src_file)
         data = torch.load(src_file)
         coords, colors, labels = data
@@ -74,9 +78,11 @@ def crop_data(keep_ratio_overall):
             new_labels = np.ascontiguousarray(new_labels)
             torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
+        print("------ Time", time.time() - start_time)
+
 
 # start, end(include), step
-crop_data([10, 90, 10])
+crop_data([5, 95, 5])
 
 
 

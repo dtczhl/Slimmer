@@ -73,7 +73,29 @@ void grid(int argc, char*argv[]) {
 
     std::vector<double> cell_size_vec;
     std::vector<int> cell_num_vec;
-    double min_cell_size = 0.0001, max_cell_size = 0.2;
+    double min_cell_size = 0.001, max_cell_size = 0.01;
+
+    while (true) {
+        std::vector<MYPoint> points_copy = points;
+        points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), max_cell_size),
+            points_copy.end());
+        if (1.0*points_copy.size()/number_of_points > 0.05) {
+            max_cell_size *= 2.0;
+        } else {
+            break;
+        }
+    }
+    while (true) {
+        std::vector<MYPoint> points_copy = points;
+        points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), min_cell_size),
+            points_copy.end());
+        if (1.0*points_copy.size()/number_of_points < 0.95) {
+            min_cell_size /= 2.0;
+        } else {
+            break;
+        }
+    }
+
     int nStep = 1000;
     for (int i = 0; i < nStep; i++) {
         cell_size_vec.push_back((max_cell_size - min_cell_size)/nStep*i + min_cell_size);
@@ -95,13 +117,15 @@ void grid(int argc, char*argv[]) {
         int n_keep_points = (int)(keep_ratio / 100.0 * number_of_points);
 
         for (int i = 0; i < cell_num_vec.size(); i++) {
-            if (n_keep_points < cell_num_vec[i]) {
+            if (n_keep_points >= cell_num_vec[i]) {
 
                 std::vector<MYPoint> points_copy = points;
                 points_copy.erase(CGAL::grid_simplify_point_set(points_copy.begin(), points_copy.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), cell_size_vec[i]),
                     points_copy.end());
                 std::string dstFileSave = srcFilename + "." + std::to_string(keep_ratio);
-                std::cout << dstFileSave << std::endl;
+                // std::cout << dstFileSave << std::endl;
+
+                // std::cout << "ratio: " << 1.0 * points_copy.size() / number_of_points * 100 << std::endl;
 
                 std::ofstream out(dstFileSave, std::ios_base::binary);
                 for (int i = 0; i < points_copy.size(); i++) {
