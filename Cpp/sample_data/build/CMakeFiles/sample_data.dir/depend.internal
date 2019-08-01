@@ -5,7 +5,7 @@ CMakeFiles/sample_data.dir/src/grid.cpp.o
  ../include/grid.hpp
  /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp
 CMakeFiles/sample_data.dir/src/hierarchy.cpp.o
- ../include/hierarchy.hpp
+ ../include/grid.hpp
  /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp
 CMakeFiles/sample_data.dir/src/main.cpp.o
  ../include/grid.hpp

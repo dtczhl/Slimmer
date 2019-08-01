@@ -20,7 +20,7 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 model_name = "unet_scale100_m16_rep2_residualTrue-000000220.pth"
 
 # Random, CurvatureDescending, CurvatureAscending
-data_type = "Grid"
+data_type = "Hierarchy"
 
 use_cuda = True
 

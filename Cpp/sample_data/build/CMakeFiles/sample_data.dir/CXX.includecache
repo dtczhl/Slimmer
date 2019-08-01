@@ -8,12 +8,14 @@
 
 ../include/grid.hpp
 
-/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp
 grid.hpp
 /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.hpp
 CGAL/Exact_predicates_inexact_constructions_kernel.h
 -
 CGAL/grid_simplify_point_set.h
+-
+CGAL/hierarchy_simplify_point_set.h
 -
 CGAL/property_map.h
 -
