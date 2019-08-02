@@ -22,7 +22,8 @@ model_name = "unet_scale100_m16_rep2_residualTrue-000000530.pth"
 # Random, CurvatureDescending, CurvatureAscending
 data_type = "Random"
 
-save_pixel_result = True
+save_pixel_result = True  # save processed pixel label
+specify_id = []  # if want to valid specific ids
 
 use_cuda = True
 
@@ -215,10 +216,14 @@ if __name__ == "__main__":
     def func_filename(x):
         return int(os.path.basename(x))
 
-    data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
-    for data_dir in data_dirs:
-        my_id = int(os.path.basename(data_dir))
-        result.append(valid_data(my_id))
+    if specify_id:
+        for my_id in specify_id:
+            result.append(valid_data(my_id))
+    else:
+        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
+        for data_dir in data_dirs:
+            my_id = int(os.path.basename(data_dir))
+            result.append(valid_data(my_id))
 
     # for my_id in range(5, 96, 5):
     #     result.append(valid_data(my_id))

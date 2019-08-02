@@ -66,7 +66,7 @@ print('#classifer parameters', sum([x.nelement() for x in unet.parameters()]))
 
 
 def my_checkpoint_save(model, exp_name, name2, epoch, use_cuda=True):
-    f = exp_name+'-%09d' % epoch +'.pth'
+    f = exp_name+'-%09d' % epoch + '.pth'
     model.cpu()
     torch.save(model.state_dict(), f)
     if use_cuda:
