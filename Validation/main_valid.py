@@ -17,10 +17,12 @@ import sys
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-model_name = "unet_scale100_m16_rep2_residualTrue-000000220.pth"
+model_name = "unet_scale100_m16_rep2_residualTrue-000000530.pth"
 
 # Random, CurvatureDescending, CurvatureAscending
-data_type = "Hierarchy"
+data_type = "Random"
+
+save_pixel_result = True
 
 use_cuda = True
 
@@ -198,8 +200,9 @@ def valid_data(data_id):
         accuracy_pred = val_arr[:, 7][~ignore_index]
         print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
 
-        # np.save(os.path.join(save_dir, offset_filename), valOffsets)
-        # np.save(os.path.join(save_dir, result_filename),  val_arr)
+        if save_pixel_result:
+            np.save(os.path.join(save_dir, offset_filename), valOffsets)
+            np.save(os.path.join(save_dir, result_filename),  val_arr)
 
         # len(val): number of scenes
         # len(valLabels): number of dots
@@ -220,7 +223,7 @@ if __name__ == "__main__":
     # for my_id in range(5, 96, 5):
     #     result.append(valid_data(my_id))
 
-    print(np.vstack(result))
+    # print(np.vstack(result))
     result_vstack = np.vstack(result)
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 

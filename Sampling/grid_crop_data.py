@@ -14,7 +14,7 @@ data_type = "Grid"
 
 # 0.1: 4.3%
 # 0.01: 96.9%
-cell_size_arr = np.linspace(0.01, 0.1, 50)
+cell_size_arr = np.linspace(0.01, 0.1, 100)
 
 
 def crop_data(cell_size):

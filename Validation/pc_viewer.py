@@ -3,7 +3,8 @@ import torch
 
 import pptk
 
-pth_file = "/home/dtc/Data/ScanNet/Pth/Grid/4/scene0011_00_vh_clean_2.pth"
+# pth_file = "/home/dtc/Data/ScanNet/Pth/Hierarchy/32/scene0011_00_vh_clean_2.pth"
+pth_file = "/home/dtc/Data/ScanNet/Pth/Original/scene0011_00_vh_clean_2.pth"
 
 data = torch.load(pth_file)
 coords, colors, labels = data
