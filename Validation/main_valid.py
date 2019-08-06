@@ -17,7 +17,7 @@ import psutil
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-model_name = "unet_scale100_m16_rep2_residualTrue-000000530.pth"
+model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 
 # Random, Grid, Hierarchy
 data_type = "Random"
@@ -27,16 +27,16 @@ specify_id = []  # if want to valid specific ids
 
 use_cuda = True
 
-dimension = 3
-scale = 100
-full_scale = 4096
-
-# Options
+# Model Options
 m = 16  # 16 or 32; 16
 residual_blocks = True  # True or False; False
 block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
 # --- end of configurations ---
+
+dimension = 3
+scale = 100
+full_scale = 4096
 
 offset_filename = "valOffsets.npy"
 result_filename = "data.npy"
@@ -120,6 +120,8 @@ def valMerge(tbl):
 
 # --- my main function to validate ---
 def valid_data(data_id):
+
+    start_time = time.time()
 
     process = psutil.Process(os.getpid())
     memory_usage = 0
@@ -208,6 +210,8 @@ def valid_data(data_id):
         if save_pixel_result:
             np.save(os.path.join(save_dir, offset_filename), valOffsets)
             np.save(os.path.join(save_dir, result_filename),  val_arr)
+
+        print("Time for data_id {}: {:.2f} s".format(data_id, time.time() - start_time))
 
         return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val), memory_usage
 

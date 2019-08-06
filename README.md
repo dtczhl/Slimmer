@@ -38,3 +38,19 @@
   cluster_size_arr = range(2, 30, 1)
   var_max = 0.33
 ```
+
+## Validation 
+
+1.  `Validation/main_valid.py`
+```
+  scannet_dir =
+  model_name =
+  data_type =
+  save_pixel_result =
+  specify_id =
+  use_cuda =
+
+  m =
+  residual_blocks =
+  block_reps =
+```
