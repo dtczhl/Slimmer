@@ -1,20 +1,40 @@
-[ScanNet](http://www.scan-net.org/)
--------
 
-To train a small U-Net with 5cm-cubed sparse voxels:
-
-1. Download [ScanNet](http://www.scan-net.org/) files
-2. [Split](https://github.com/ScanNet/ScanNet/tree/master/Tasks/Benchmark) the files *vh_clean_2.ply and *_vh_clean_2.labels.ply files into 'train/' and 'val/' folders
-3. Run 'pip install plyfile'
-4. Run 'python prepare_data.py'
-5. Run 'python unet.py'
-
-You can train a bigger/more accurate network by changing `m` / `block_reps` / `residual_blocks` / `scale` / `val_reps` in unet.py / data.py, e.g.
+1.  download ScanNet data. `DataProcessing/download_data.py`
+```plain
+  scannet_dir = path to scannet directory
 ```
-m=32 # Wider network
-block_reps=2 # Deeper network
-residual_blocks=True # ResNet style basic blocks
-scale=50 # 1/50 m = 2cm voxels
-val_reps=3 # Multiple views at test time
-batch_size=5 # Fit in 16GB of GPU memory
+
+2.  copy data to `train` and `val` folder. `DataProcessing/split_data.py`
+```plain
+  scannet_dir = path to scannet directory
+  git_dir = path to this git
+```
+
+3.  `.ply` to `.pth`. `prepare_data.py`
+
+4.  copy `.pth` to ScanNet. `DataProcessing/copy_val_pth.py`
+```plain
+  git_dir =
+  scannet_dir =
+```
+
+## Data Simplification
+
+1.  random simplification. `Sampling/random_crop_data.py`
+```plain
+  scannet_dir =
+  keep_ratio_arr = range(...)
+```
+
+2.  grid simplificaiton. `Sampling/grid_crop_data.py`
+```plain
+  scannet_dir =
+  cell_size_arr = np.linspace(0.01, 0.1, 100)
+```
+
+3.  hierarchy simplification. `Sampling/hierarchy_crop_data.py`
+```plain
+  scannet_dir =
+  cluster_size_arr = range(2, 30, 1)
+  var_max = 0.33
 ```

@@ -1,5 +1,5 @@
 """
-    Crop data with Menger curvature sampling
+    Crop data with Hierarchy sampling
 """
 import torch
 import glob
@@ -9,14 +9,17 @@ import sys
 import time
 import pptk
 
-scannet_dir = "/home/dtc/Data/ScanNet"
-data_type = "Hierarchy"
 
-# cluster_size, mar_max: ratio
-#   2, 0.33: 59
-#   20, 0.33: 4
+# ------ configuration ------
+
+scannet_dir = "/home/dtc/Data/ScanNet"
+
 cluster_size_arr = range(2, 30, 1)
 var_max = 0.33
+
+# --- end of configuration ---
+
+data_type = "Hierarchy"
 
 
 def crop_data(cluster_size, var_max):
@@ -69,11 +72,11 @@ def crop_data(cluster_size, var_max):
 
         trim_number_points_tot += len(new_labels)
 
-    ratio_point = int(trim_number_points_tot/original_number_points_tot*100)
-    # print("ratio", ratio_point)
+    keep_ratio = int(trim_number_points_tot/original_number_points_tot*100)
+    # print("ratio", keep_ratio)
 
-    if not os.path.exists(os.path.join(dst_dir, "{}".format(ratio_point))):
-        os.makedirs(os.path.join(dst_dir, "{}".format(ratio_point)))
+    if not os.path.exists(os.path.join(dst_dir, "{}".format(keep_ratio))):
+        os.makedirs(os.path.join(dst_dir, "{}".format(keep_ratio)))
 
     # copy files to dst
     files = sorted(glob.glob(os.path.join(tmp_dir, '*.trim')))
@@ -92,14 +95,14 @@ def crop_data(cluster_size, var_max):
         new_colors = np.array(new_colors, "float32")
         new_labels = np.array(new_labels, "float32")
 
-        dst_file_path = os.path.join(dst_dir, "{}/{}".format(ratio_point, src_filename))
+        dst_file_path = os.path.join(dst_dir, "{}/{}".format(keep_ratio, src_filename))
         # print(trim_file, " ---> ", dst_file_path)
         new_coords = np.ascontiguousarray(new_coords)
         new_colors = np.ascontiguousarray(new_colors)
         new_labels = np.ascontiguousarray(new_labels)
         torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
-    print("------ cluster size {}, max_var {:.3f}, ratio {}%, {:.2f}s".format(cluster_size, var_max, ratio_point, time.time() - start_time))
+    print("------ cluster size {}, max_var {:.3f}, ratio {}%, {:.2f}s".format(cluster_size, var_max, keep_ratio, time.time() - start_time))
 
 
 if __name__ == "__main__":

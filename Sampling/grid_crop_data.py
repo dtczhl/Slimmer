@@ -1,5 +1,5 @@
 """
-    Crop data with Menger curvature sampling
+    Crop data with grid sampling
 """
 import torch
 import glob
@@ -7,14 +7,18 @@ import os
 import numpy as np
 import sys
 import time
-import pptk
+
+# ------ configuration ------
 
 scannet_dir = "/home/dtc/Data/ScanNet"
-data_type = "Grid"
 
 # 0.1: 4.3%
 # 0.01: 96.9%
 cell_size_arr = np.linspace(0.01, 0.1, 100)
+
+# --- end of configuration
+
+data_type = "Grid"
 
 
 def crop_data(cell_size):
@@ -67,10 +71,10 @@ def crop_data(cell_size):
 
         trim_number_points_tot += len(new_labels)
 
-    ratio_point = int(trim_number_points_tot/original_number_points_tot*100)
+    keep_ratio = int(trim_number_points_tot/original_number_points_tot*100)
 
-    if not os.path.exists(os.path.join(dst_dir, "{}".format(ratio_point))):
-        os.makedirs(os.path.join(dst_dir, "{}".format(ratio_point)))
+    if not os.path.exists(os.path.join(dst_dir, "{}".format(keep_ratio))):
+        os.makedirs(os.path.join(dst_dir, "{}".format(keep_ratio)))
 
     # copy files to dst
     files = sorted(glob.glob(os.path.join(tmp_dir, '*.trim')))
@@ -89,14 +93,14 @@ def crop_data(cell_size):
         new_colors = np.array(new_colors, "float32")
         new_labels = np.array(new_labels, "float32")
 
-        dst_file_path = os.path.join(dst_dir, "{}/{}".format(ratio_point, src_filename))
+        dst_file_path = os.path.join(dst_dir, "{}/{}".format(keep_ratio, src_filename))
         # print(trim_file, " ---> ", dst_file_path)
         new_coords = np.ascontiguousarray(new_coords)
         new_colors = np.ascontiguousarray(new_colors)
         new_labels = np.ascontiguousarray(new_labels)
         torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
-    print("------ cell_size {:.3f}, ratio {}%, {:.2f}s".format(cell_size, ratio_point, time.time() - start_time))
+    print("------ cell_size {:.3f}, ratio {}%, {:.2f}s".format(cell_size, keep_ratio, time.time() - start_time))
 
 
 if __name__ == "__main__":

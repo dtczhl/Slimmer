@@ -8,21 +8,19 @@ import sparseconvnet as scn
 import iou
 
 import torch.utils.data
-import scipy.ndimage
 import multiprocessing as mp
 import os
 import time
 import sys
 import psutil
-import threading
 
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
 model_name = "unet_scale100_m16_rep2_residualTrue-000000530.pth"
 
-# Random, CurvatureDescending, CurvatureAscending
-data_type = "Grid"
+# Random, Grid, Hierarchy
+data_type = "Random"
 
 save_pixel_result = False  # save processed pixel label
 specify_id = []  # if want to valid specific ids
@@ -129,9 +127,6 @@ def valid_data(data_id):
     data_name = data_type + "/" + str(data_id)
 
     ret_data_id = data_id
-    ret_muladd = 0
-    ret_time = 0
-    ret_iou = 0
 
     data_dir = os.path.join(scannet_dir, "Pth", data_name)
     model_file = os.path.join(scannet_dir, "Model", model_name)
@@ -214,8 +209,6 @@ def valid_data(data_id):
             np.save(os.path.join(save_dir, offset_filename), valOffsets)
             np.save(os.path.join(save_dir, result_filename),  val_arr)
 
-        # len(val): number of scenes
-        # len(valLabels): number of dots
         return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val), memory_usage
 
 
