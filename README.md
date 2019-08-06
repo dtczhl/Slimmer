@@ -1,4 +1,16 @@
 
+## Setup
+
+Install Facebook SparseConvNet <https://github.com/facebookresearch/SparseConvNet>
+
+```shell
+  conda create -n sparseconvnet python=3.6
+  conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+  conda install google-sparsehash -c bioconda
+  conda install -c anaconda pillow
+```
+
+
 1.  download ScanNet data. `DataProcessing/download_data.py`
 ```plain
   scannet_dir = path to scannet directory
@@ -39,7 +51,7 @@
   var_max = 0.33
 ```
 
-## Validation 
+## Validation
 
 1.  `Validation/main_valid.py`
 ```

@@ -70,9 +70,22 @@ CMakeFiles/sample_data.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sample_data.dir/src/main.cpp.s"
 	/usr/bin/x86_64-linux-gnu-g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/main.cpp -o CMakeFiles/sample_data.dir/src/main.cpp.s
 
+CMakeFiles/sample_data.dir/src/random.cpp.o: CMakeFiles/sample_data.dir/flags.make
+CMakeFiles/sample_data.dir/src/random.cpp.o: ../src/random.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sample_data.dir/src/random.cpp.o"
+	/usr/bin/x86_64-linux-gnu-g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sample_data.dir/src/random.cpp.o -c /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/random.cpp
+
+CMakeFiles/sample_data.dir/src/random.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sample_data.dir/src/random.cpp.i"
+	/usr/bin/x86_64-linux-gnu-g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/random.cpp > CMakeFiles/sample_data.dir/src/random.cpp.i
+
+CMakeFiles/sample_data.dir/src/random.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sample_data.dir/src/random.cpp.s"
+	/usr/bin/x86_64-linux-gnu-g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/random.cpp -o CMakeFiles/sample_data.dir/src/random.cpp.s
+
 CMakeFiles/sample_data.dir/src/grid.cpp.o: CMakeFiles/sample_data.dir/flags.make
 CMakeFiles/sample_data.dir/src/grid.cpp.o: ../src/grid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sample_data.dir/src/grid.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sample_data.dir/src/grid.cpp.o"
 	/usr/bin/x86_64-linux-gnu-g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sample_data.dir/src/grid.cpp.o -c /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp
 
 CMakeFiles/sample_data.dir/src/grid.cpp.i: cmake_force
@@ -85,7 +98,7 @@ CMakeFiles/sample_data.dir/src/grid.cpp.s: cmake_force
 
 CMakeFiles/sample_data.dir/src/hierarchy.cpp.o: CMakeFiles/sample_data.dir/flags.make
 CMakeFiles/sample_data.dir/src/hierarchy.cpp.o: ../src/hierarchy.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sample_data.dir/src/hierarchy.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sample_data.dir/src/hierarchy.cpp.o"
 	/usr/bin/x86_64-linux-gnu-g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sample_data.dir/src/hierarchy.cpp.o -c /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp
 
 CMakeFiles/sample_data.dir/src/hierarchy.cpp.i: cmake_force
@@ -99,6 +112,7 @@ CMakeFiles/sample_data.dir/src/hierarchy.cpp.s: cmake_force
 # Object files for target sample_data
 sample_data_OBJECTS = \
 "CMakeFiles/sample_data.dir/src/main.cpp.o" \
+"CMakeFiles/sample_data.dir/src/random.cpp.o" \
 "CMakeFiles/sample_data.dir/src/grid.cpp.o" \
 "CMakeFiles/sample_data.dir/src/hierarchy.cpp.o"
 
@@ -106,11 +120,12 @@ sample_data_OBJECTS = \
 sample_data_EXTERNAL_OBJECTS =
 
 sample_data: CMakeFiles/sample_data.dir/src/main.cpp.o
+sample_data: CMakeFiles/sample_data.dir/src/random.cpp.o
 sample_data: CMakeFiles/sample_data.dir/src/grid.cpp.o
 sample_data: CMakeFiles/sample_data.dir/src/hierarchy.cpp.o
 sample_data: CMakeFiles/sample_data.dir/build.make
 sample_data: CMakeFiles/sample_data.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable sample_data"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable sample_data"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sample_data.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

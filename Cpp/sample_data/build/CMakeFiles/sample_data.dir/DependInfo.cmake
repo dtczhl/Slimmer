@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.cpp" "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/sample_data.dir/src/grid.cpp.o"
   "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp" "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/sample_data.dir/src/hierarchy.cpp.o"
   "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/main.cpp" "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/sample_data.dir/src/main.cpp.o"
+  "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/random.cpp" "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/CMakeFiles/sample_data.dir/src/random.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

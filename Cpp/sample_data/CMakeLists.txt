@@ -6,6 +6,7 @@ include_directories(include)
 
 
 set (SOURCES    "src/main.cpp"
+                "src/random.cpp"
                 "src/grid.cpp"
                 "src/hierarchy.cpp")
 

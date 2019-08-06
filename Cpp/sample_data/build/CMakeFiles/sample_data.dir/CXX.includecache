@@ -8,27 +8,19 @@
 
 ../include/grid.hpp
 
-/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.cpp
-grid.hpp
-/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.hpp
-CGAL/Exact_predicates_inexact_constructions_kernel.h
--
-CGAL/grid_simplify_point_set.h
--
-CGAL/hierarchy_simplify_point_set.h
--
-CGAL/property_map.h
--
-CGAL/IO/read_xyz_points.h
--
-vector
+../include/hierarchy.hpp
+
+../include/random.hpp
+
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/main.cpp
+iostream
 -
 fstream
 -
-iostream
--
-cmath
--
-boost/tuple/tuple.hpp
--
+grid.hpp
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/grid.hpp
+hierarchy.hpp
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/hierarchy.hpp
+random.hpp
+/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/src/random.hpp
 
