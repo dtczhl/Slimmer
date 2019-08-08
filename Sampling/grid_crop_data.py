@@ -7,28 +7,32 @@ import os
 import numpy as np
 import sys
 import time
+import shutil
 
 # ------ configuration ------
 
 scannet_dir = "/home/dtc/Data/ScanNet"
 
+processing_time_only = True  # whether only care about processing time
+
 # 0.1: 4.3%
 # 0.01: 96.9%
+
 cell_size_arr = np.linspace(0.01, 0.1, 100)
 
 # --- end of configuration
 
 data_type = "Grid"
 
+# clear tmp
+files = glob.glob("../tmp/*")
+for file in files:
+    os.remove(file)
+
 
 def crop_data(cell_size):
 
     start_time = time.time()
-
-    # clear tmp
-    files = glob.glob("../tmp/*")
-    for file in files:
-        os.remove(file)
 
     original_dir = os.path.join(scannet_dir, "Pth/Original")
     dst_dir = os.path.join(scannet_dir, "Pth/{}".format(data_type))
@@ -54,7 +58,7 @@ def crop_data(cell_size):
         original_data.ravel().tofile(tmp_file_name)
 
         mycmd = "../Cpp/sample_data/build/sample_data {} {} {} {}"\
-            .format(data_type.lower(), dst_dir, src_filename, cell_size)
+            .format(data_type.lower(), tmp_dir, src_filename, cell_size)
         os.system(mycmd)
         os.remove(tmp_file_name)
 
@@ -73,33 +77,41 @@ def crop_data(cell_size):
 
     keep_ratio = int(trim_number_points_tot/original_number_points_tot*100)
 
-    if not os.path.exists(os.path.join(dst_dir, "{}".format(keep_ratio))):
-        os.makedirs(os.path.join(dst_dir, "{}".format(keep_ratio)))
+    if not processing_time_only:
+        if not os.path.exists(os.path.join(dst_dir, "{}".format(keep_ratio))):
+            os.makedirs(os.path.join(dst_dir, "{}".format(keep_ratio)))
 
-    # copy files to dst
-    files = sorted(glob.glob(os.path.join(tmp_dir, '*.trim')))
-    for trim_file in files:
-        src_filename = os.path.basename(trim_file)
-        src_filename = src_filename[:-5]  # remove .trim
-        new_data = np.fromfile(trim_file, "<f4")
-        new_data = np.reshape(new_data, (-1, 7))
-        os.remove(trim_file)
+        # copy files to dst
+        files = sorted(glob.glob(os.path.join(tmp_dir, '*.trim')))
+        for trim_file in files:
+            src_filename = os.path.basename(trim_file)
+            src_filename = src_filename[:-5]  # remove .trim
+            new_data = np.fromfile(trim_file, "<f4")
+            new_data = np.reshape(new_data, (-1, 7))
+            os.remove(trim_file)
 
-        new_coords = new_data[:, :3]
-        new_colors = new_data[:, 3:6]
-        new_labels = new_data[:, 6]
+            new_coords = new_data[:, :3]
+            new_colors = new_data[:, 3:6]
+            new_labels = new_data[:, 6]
 
-        new_coords = np.array(new_coords, "float32")
-        new_colors = np.array(new_colors, "float32")
-        new_labels = np.array(new_labels, "float32")
+            new_coords = np.array(new_coords, "float32")
+            new_colors = np.array(new_colors, "float32")
+            new_labels = np.array(new_labels, "float32")
 
-        dst_file_path = os.path.join(dst_dir, "{}/{}".format(keep_ratio, src_filename))
-        # print(trim_file, " ---> ", dst_file_path)
-        new_coords = np.ascontiguousarray(new_coords)
-        new_colors = np.ascontiguousarray(new_colors)
-        new_labels = np.ascontiguousarray(new_labels)
-        torch.save((new_coords, new_colors, new_labels), dst_file_path)
+            dst_file_path = os.path.join(dst_dir, "{}/{}".format(keep_ratio, src_filename))
+            # print(trim_file, " ---> ", dst_file_path)
+            new_coords = np.ascontiguousarray(new_coords)
+            new_colors = np.ascontiguousarray(new_colors)
+            new_labels = np.ascontiguousarray(new_labels)
+            torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
+    shutil.move(os.path.join(tmp_dir, "time.txt"), os.path.join(tmp_dir, "time.txt.{}".format(keep_ratio)))
+    # clear tmp
+    files = glob.glob("../tmp/*")
+    for file in files:
+        if os.path.basename(file).startswith("time.txt."):
+            continue
+        os.remove(file)
     print("------ cell_size {:.3f}, ratio {}%, {:.2f}s".format(cell_size, keep_ratio, time.time() - start_time))
 
 

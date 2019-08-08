@@ -13,6 +13,8 @@
 
 #include <boost/tuple/tuple.hpp>
 
+#include "DtcMainHelper.hpp"
+
 // Types
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef Kernel::Point_3 Point;
@@ -39,8 +41,6 @@ Input:
     std::string srcFile(argv[3]);
     double keep_ratio = atof(argv[4]);
     
-    // std::cout << "sampler: " << sampler << ", dstDir: " << dstDir << ", srcFile: " << srcFile << ", keep ratio: " << keep_ratio << std::endl;
-
     std::vector<MYPoint> points;
     std::string srcFilename = "../tmp/" + srcFile;
 
@@ -60,44 +60,18 @@ Input:
             rawData[nProperties*i+3], rawData[nProperties*i+4], rawData[nProperties*i+5], rawData[nProperties*i+6]));
     }
 
-    // std::cout << "Point number of points: " << points.size() << std::endl;
 
-    /*
-    std::cout << "Before data sampling" << std::endl;
-    for (int i = 0; i < 10; i++) {   
-        float x = points[i].get<0>().x();
-        float y = points[i].get<0>().y();
-        float z = points[i].get<0>().z();
-        float r = points[i].get<1>();
-        float g = points[i].get<2>();
-        float b = points[i].get<3>();
-        float label = points[i].get<4>();
-        std::cout << "x:" << x << " y: " << y << " z: " << z << " r: " << r << " g: " << g << " b: " << b << " l: " << label << std::endl; 
-    }
-    */
+    // processing time
+    uint64_t time_before_sample = DtcMainHelper::getTimestamp();
 
-    // std::cout << "From cpp keep ratio " << 100 - keep_ratio << std::endl; 
     points.erase(CGAL::random_simplify_point_set(points.begin(), points.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), 100.0-keep_ratio),
         points.end());
-    
-    /*
-    std::cout << "After data sampling" << std::endl;
-    for (int i = 0; i < 10; i++) {   
-        float x = points[i].get<0>().x();
-        float y = points[i].get<0>().y();
-        float z = points[i].get<0>().z();
-        float r = points[i].get<1>();
-        float g = points[i].get<2>();
-        float b = points[i].get<3>();
-        float label = points[i].get<4>();
-        std::cout << "x:" << x << " y: " << y << " z: " << z << " r: " << r << " g: " << g << " b: " << b << " l: " << label << std::endl; 
-    }
-    */
 
-    std::string dstFileSave = srcFilename + ".trim";
+    DtcMainHelper::dataToFile() << DtcMainHelper::getTimestamp() - time_before_sample << std::endl;
+
+    // log processing time to file time.txt
+    std::string dstFileSave = dstDir + "/" + srcFile + ".trim";
     // std::cout << dstFileSave << std::endl;
-
-    // std::cout << "Original number of points: " << number_of_points << ", After trim: " << points.size() << std::endl;
 
     std::ofstream out(dstFileSave, std::ios_base::binary);
     for (int i = 0; i < points.size(); i++) {
@@ -109,8 +83,6 @@ Input:
         float g = points[i].get<2>();
         float b = points[i].get<3>();
         float label = points[i].get<4>();
-
-        // std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << label << std::endl; 
         
         out.write((char *)&x, sizeof(float));
         out.write((char *)&y, sizeof(float));

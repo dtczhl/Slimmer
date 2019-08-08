@@ -8,8 +8,17 @@ Install Facebook SparseConvNet <https://github.com/facebookresearch/SparseConvNe
   conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
   conda install google-sparsehash -c bioconda
   conda install -c anaconda pillow
+
+  cd SparseConvNet
+  bash develop.sh
 ```
 
+Configure this git
+
+```shell
+  pip install plyfile
+  conda install scipy
+```
 
 1.  download ScanNet data. `DataProcessing/download_data.py`
 ```plain
@@ -28,6 +37,22 @@ Install Facebook SparseConvNet <https://github.com/facebookresearch/SparseConvNe
 ```plain
   git_dir =
   scannet_dir =
+```
+
+## Training
+
+Relevant files
+
+1.  `unet.py`
+```python
+  m =
+  residual_blocks =
+  block_reps =
+```
+
+2.  `data.py`
+```python
+  batch_size =
 ```
 
 ## Data Simplification

@@ -50,7 +50,7 @@ def crop_data(cluster_size, var_max):
 
         # copy file
         original_data = np.c_[coords, colors, labels]
-        tmp_dir = "../tmp/"
+        tmp_dir = "../tmp"
         tmp_file_name = os.path.join(tmp_dir, src_filename)
         original_data.ravel().tofile(tmp_file_name)
 

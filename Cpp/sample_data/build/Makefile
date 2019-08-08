@@ -123,6 +123,33 @@ sample_data/fast:
 	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/build
 .PHONY : sample_data/fast
 
+src/DtcMainHelper.o: src/DtcMainHelper.cpp.o
+
+.PHONY : src/DtcMainHelper.o
+
+# target to build an object file
+src/DtcMainHelper.cpp.o:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/DtcMainHelper.cpp.o
+.PHONY : src/DtcMainHelper.cpp.o
+
+src/DtcMainHelper.i: src/DtcMainHelper.cpp.i
+
+.PHONY : src/DtcMainHelper.i
+
+# target to preprocess a source file
+src/DtcMainHelper.cpp.i:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/DtcMainHelper.cpp.i
+.PHONY : src/DtcMainHelper.cpp.i
+
+src/DtcMainHelper.s: src/DtcMainHelper.cpp.s
+
+.PHONY : src/DtcMainHelper.s
+
+# target to generate assembly for a file
+src/DtcMainHelper.cpp.s:
+	$(MAKE) -f CMakeFiles/sample_data.dir/build.make CMakeFiles/sample_data.dir/src/DtcMainHelper.cpp.s
+.PHONY : src/DtcMainHelper.cpp.s
+
 src/grid.o: src/grid.cpp.o
 
 .PHONY : src/grid.o
@@ -240,6 +267,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... sample_data"
 	@echo "... edit_cache"
+	@echo "... src/DtcMainHelper.o"
+	@echo "... src/DtcMainHelper.i"
+	@echo "... src/DtcMainHelper.s"
 	@echo "... src/grid.o"
 	@echo "... src/grid.i"
 	@echo "... src/grid.s"

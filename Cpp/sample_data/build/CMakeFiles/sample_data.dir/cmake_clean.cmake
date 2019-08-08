@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/sample_data.dir/src/random.cpp.o"
   "CMakeFiles/sample_data.dir/src/grid.cpp.o"
   "CMakeFiles/sample_data.dir/src/hierarchy.cpp.o"
+  "CMakeFiles/sample_data.dir/src/DtcMainHelper.cpp.o"
   "sample_data.pdb"
   "sample_data"
 )

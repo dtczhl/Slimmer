@@ -8,7 +8,8 @@ include_directories(include)
 set (SOURCES    "src/main.cpp"
                 "src/random.cpp"
                 "src/grid.cpp"
-                "src/hierarchy.cpp")
+                "src/hierarchy.cpp"
+                "src/DtcMainHelper.cpp")
 
 add_executable(sample_data ${SOURCES})
 

@@ -20,10 +20,10 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Test"
 
 save_pixel_result = False  # save processed pixel label
-specify_id = []  # if want to valid specific ids
+specify_id = [1]  # if want to valid specific ids
 
 use_cuda = True
 
@@ -124,7 +124,8 @@ def valid_data(data_id):
     start_time = time.time()
 
     process = psutil.Process(os.getpid())
-    memory_usage = 0
+    ret_memory = 0
+    ret_time = 0
 
     data_name = data_type + "/" + str(data_id)
 
@@ -179,17 +180,16 @@ def valid_data(data_id):
                 batch['x'][1] = batch['x'][1].cuda()
                 batch['y'] = batch['y'].cuda()
 
+            start_time_ret = time.time()
             predictions = unet(batch['x'])
             store.index_add_(0, batch['point_ids'], predictions.cpu())
-            memory_usage += process.memory_info().rss / 1e6
+            ret_memory += process.memory_info().rss / 1e6
+            ret_time += time.time() - start_time_ret
 
-        memory_usage = memory_usage / len(val_data_loader)
-
-        ret_muladd = scn.forward_pass_multiplyAdd_count / len(val) / 1e6
-        ret_time = time.time() - start
+        ret_muladd = scn.forward_pass_multiplyAdd_count / 1e6
         print('Val MegaMulAdd=', scn.forward_pass_multiplyAdd_count / len(val) / 1e6, 'MegaHidden',
               scn.forward_pass_hidden_states / len(val) / 1e6, 'time=', time.time() - start, 's',
-              "Memory (M)=", memory_usage)
+              "Memory (M)=", ret_memory / len(val))
         ret_iou = iou.evaluate(store.max(1)[1].numpy(), valLabels)
 
         print("saving results")
@@ -202,10 +202,10 @@ def valid_data(data_id):
         val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
 
         # pixel accuracy
-        ignore_index = val_arr[:, 6] == -100
-        accuracy_label = val_arr[:, 6][~ignore_index]
-        accuracy_pred = val_arr[:, 7][~ignore_index]
-        print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
+        # ignore_index = val_arr[:, 6] == -100
+        # accuracy_label = val_arr[:, 6][~ignore_index]
+        # accuracy_pred = val_arr[:, 7][~ignore_index]
+        # print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
 
         if save_pixel_result:
             np.save(os.path.join(save_dir, offset_filename), valOffsets)
@@ -213,7 +213,7 @@ def valid_data(data_id):
 
         print("Time for data_id {}: {:.2f} s".format(data_id, time.time() - start_time))
 
-        return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val), memory_usage
+        return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val), ret_memory/len(val)
 
 
 if __name__ == "__main__":
@@ -236,6 +236,7 @@ if __name__ == "__main__":
 
     # print(np.vstack(result))
     result_vstack = np.vstack(result)
+    print("id, avg num of points, mean iou, avg time (s), avg_flop(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
     # save_file_dir = "../log/save/" + data_type
