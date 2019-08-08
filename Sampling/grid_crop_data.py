@@ -13,10 +13,8 @@ import shutil
 
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-processing_time_only = True  # whether only care about processing time
-
-# 0.1: 4.3%
-# 0.01: 96.9%
+# only calculating processing time
+processing_time_only = True
 
 cell_size_arr = np.linspace(0.01, 0.1, 100)
 

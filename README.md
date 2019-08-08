@@ -58,20 +58,23 @@ Relevant files
 ## Data Simplification
 
 1.  random simplification. `Sampling/random_crop_data.py`
-```plain
+```python
   scannet_dir =
+  processing_time_only = [True|False]
   keep_ratio_arr = range(...)
 ```
 
 2.  grid simplificaiton. `Sampling/grid_crop_data.py`
-```plain
+```python
   scannet_dir =
+  processing_time_only = [True|False]
   cell_size_arr = np.linspace(0.01, 0.1, 100)
 ```
 
 3.  hierarchy simplification. `Sampling/hierarchy_crop_data.py`
-```plain
+```python
   scannet_dir =
+  processing_time_only = [True|False]
   cluster_size_arr = range(2, 30, 1)
   var_max = 0.33
 ```

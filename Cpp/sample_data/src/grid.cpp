@@ -66,6 +66,8 @@ Input:
     points.erase(CGAL::grid_simplify_point_set(points.begin(), points.end(), CGAL::Nth_of_tuple_property_map<0, MYPoint>(), cell_size),
         points.end());
     
+    DtcMainHelper::dataToFile() << DtcMainHelper::getTimestamp() - time_before_sample << std::endl;
+
     // log processing time to file time.txt
     std::string dstFileSave = dstDir + "/" + srcFile + ".trim";
 
