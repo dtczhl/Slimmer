@@ -2,8 +2,8 @@
 clear, clc
 
 main_dir = '/home/dtc/Data/ScanNet/Accuracy/processing_time';
-device = 'laptop';
-data_type = 'grid';
+device = 'pmserver';
+data_type = 'random';
 
 raw_dir = strcat(main_dir, '/', device, '/', data_type, '/');
 

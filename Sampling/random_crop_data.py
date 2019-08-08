@@ -16,7 +16,7 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 processing_time_only = True  # whether only care about processing time
 
 # keep ratios
-keep_ratio_arr = range(2, 101, 10)
+keep_ratio_arr = range(2, 101, 2)
 
 # --- end of configuration
 

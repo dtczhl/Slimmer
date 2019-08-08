@@ -5,7 +5,7 @@ Install Facebook SparseConvNet <https://github.com/facebookresearch/SparseConvNe
 
 ```shell
   conda create -n sparseconvnet python=3.6
-  conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+  conda install pytorch=1.1 torchvision cudatoolkit=10.0 -c pytorch
   conda install google-sparsehash -c bioconda
   conda install -c anaconda pillow
 

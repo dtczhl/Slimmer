@@ -20,10 +20,10 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 
 # Random, Grid, Hierarchy
-data_type = "Test"
+data_type = "Random"
 
-save_pixel_result = False  # save processed pixel label
-specify_id = [1]  # if want to valid specific ids
+save_pixel_result = True  # save processed pixel label
+specify_id = [22, 42, 100]  # if want to valid specific ids
 
 use_cuda = True
 
