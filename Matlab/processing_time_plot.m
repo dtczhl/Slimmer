@@ -3,7 +3,7 @@
 clear, clc
 
 main_dir = '/home/dtc/Data/ScanNet/Accuracy/processing_time';
-device = 'laptop';
+device = 'pmserver';
 
 f_random = strcat(main_dir, '/', device, '/random.time.txt');
 f_grid = strcat(main_dir, '/', device, '/grid.time.txt');

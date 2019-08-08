@@ -22,7 +22,7 @@ model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 # Random, Grid, Hierarchy
 data_type = "Random"
 
-save_pixel_result = True  # save processed pixel label
+# save_pixel_result = False  # save processed pixel label
 specify_id = [22, 42, 100]  # if want to valid specific ids
 
 use_cuda = True
@@ -134,9 +134,9 @@ def valid_data(data_id):
     data_dir = os.path.join(scannet_dir, "Pth", data_name)
     model_file = os.path.join(scannet_dir, "Model", model_name)
 
-    save_dir = os.path.join(scannet_dir, "Accuracy", os.path.splitext(model_name)[0], data_name)
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
+    # save_dir = os.path.join(scannet_dir, "Accuracy", os.path.splitext(model_name)[0], data_name)
+    # if not os.path.exists(save_dir):
+    #     os.makedirs(save_dir)
 
     print(" --- loading model ---")
     unet = Model()
@@ -207,9 +207,9 @@ def valid_data(data_id):
         # accuracy_pred = val_arr[:, 7][~ignore_index]
         # print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
 
-        if save_pixel_result:
-            np.save(os.path.join(save_dir, offset_filename), valOffsets)
-            np.save(os.path.join(save_dir, result_filename),  val_arr)
+        # if save_pixel_result:
+        #     np.save(os.path.join(save_dir, offset_filename), valOffsets)
+        #     np.save(os.path.join(save_dir, result_filename),  val_arr)
 
         print("Time for data_id {}: {:.2f} s".format(data_id, time.time() - start_time))
 
