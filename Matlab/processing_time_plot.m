@@ -2,7 +2,7 @@
 
 clear, clc
 
-main_dir = '/home/dtc/Data/ScanNet/Accuracy/processing_time';
+main_dir = '../Result/ProcessingTime';
 device = 'pmserver';
 
 f_random = strcat(main_dir, '/', device, '/random.time.txt');

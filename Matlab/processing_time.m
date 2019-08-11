@@ -1,7 +1,7 @@
 % random processing time
 clear, clc
 
-main_dir = '/home/dtc/Data/ScanNet/Accuracy/processing_time';
+main_dir = '../Result/ProcessingTime';
 device = 'pmserver';
 data_type = 'hierarchy';
 
