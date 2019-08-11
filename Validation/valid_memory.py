@@ -12,12 +12,10 @@ import sparseconvnet as scn
 import iou
 
 import torch.utils.data
-import multiprocessing as mp
 import os
 import time
 import sys
 import psutil
-import pptk
 
 # ------ Configuration ------
 
@@ -27,6 +25,8 @@ model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
 
 # Original, Random, Grid, Hierarchy
 data_type = "Random"
+
+specify_id = [22, 42]  # if want to valid specific ids
 
 device = "alienware"
 
@@ -144,24 +144,68 @@ def valid_folder(pth_folder):
     return ret_data_id, ret_memory / n_file
 
 
+def valid_data(data_id):
+    start_time = time.time()
+
+    ret_data_id = data_id
+
+    scn.forward_pass_multiplyAdd_count = 0
+    scn.forward_pass_hidden_states = 0
+
+    process = psutil.Process(os.getpid())
+
+    ret_memory = 0
+    ret_time = 0
+    ret_flop = 0
+
+    pth_folder = os.path.join(scannet_dir, "Pth", data_type, str(data_id))
+    pth_files = glob.glob(os.path.join(pth_folder, '*.pth'))
+    n_file = len(pth_files)
+    for pth_file in pth_files:
+        data = torch.load(pth_file)
+        coords, colors, label = coords_transform(data)
+        coords = torch.from_numpy(coords).long()
+        coords = torch.cat([coords, torch.LongTensor(coords.shape[0], 1).fill_(0)], 1)
+        colors = torch.from_numpy(colors)
+
+        if use_cuda:
+            coords = coords.cuda()
+            colors = colors.cuda()
+
+        start_time_ret = time.time()
+        y = unet([coords, colors])
+        y = y.cpu().detach().numpy()
+        y = np.argmax(y, axis=1)
+        ret_memory += process.memory_info().rss / 1e6
+        ret_time += time.time() - start_time_ret
+
+    ret_flop = scn.forward_pass_multiplyAdd_count / 1e6
+
+    print(data_type, ret_data_id, "--- Script time(s): {:.2f}, memory(M): {:.2f}, time(s) {:.2f}, flops(M): {:.2f}"
+          .format(time.time() - start_time, ret_memory/n_file, ret_time/n_file, ret_flop/n_file))
+
+    return ret_data_id, ret_time/n_file, ret_flop/n_file, ret_memory/n_file
+
+
 if __name__ == "__main__":
     result = []
 
     def func_filename(x):
         return int(os.path.basename(x))
 
-
-    data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
-
-    for data_dir in data_dirs:
-        # my_id = int(os.path.basename(data_dir))
-        # result.append(valid_folder(my_id))
-        result.append(valid_folder(data_dir))
+    if specify_id:
+        for my_id in specify_id:
+            result.append(valid_data(my_id))
+    else:
+        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
+        for data_dir in data_dirs:
+            my_id = int(os.path.basename(data_dir))
+            result.append(valid_data(my_id))
 
     result_vstack = np.vstack(result)
-    print("id, memory(M)")
+    print("id, time(s), FLOP(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    np.savetxt(os.path.join(save_dir, "result_memory.csv"), result, fmt="%d,%.2f",
-               header="data_id,memory(M)")
+    np.savetxt(os.path.join(save_dir, "result_memory.csv"), result, fmt="%d,%.2f,%.2f,%.2f",
+               header="data_id,Time(s),FLOP(M),memory(M)")
 

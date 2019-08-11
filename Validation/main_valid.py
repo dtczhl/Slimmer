@@ -24,7 +24,7 @@ data_type = "Random"
 
 device = "alienware"
 
-specify_id = []  # if want to valid specific ids
+specify_id = [22, 42]  # if want to valid specific ids
 
 use_cuda = True
 
@@ -79,6 +79,14 @@ class Model(nn.Module):
         x = self.sparseModel(x)
         x = self.linear(x)
         return x
+
+
+print(" --- loading model ---")
+model_file = os.path.join("../Model", model_name)
+unet = Model()
+unet.load_state_dict(torch.load(model_file))
+if use_cuda:
+    unet.cuda()
 
 
 def coords_transform(physical_val):
@@ -136,6 +144,8 @@ def valMerge(tbl):
 
 
 # --- my main function to validate ---
+
+
 def valid_data(data_id):
 
     start_time = time.time()
@@ -149,13 +159,6 @@ def valid_data(data_id):
     ret_data_id = data_id
 
     data_dir = os.path.join(scannet_dir, "Pth", data_name)
-    model_file = os.path.join("../Model", model_name)
-
-    print(" --- loading model ---")
-    unet = Model()
-    unet.load_state_dict(torch.load(model_file))
-    if use_cuda:
-        unet.cuda()
 
     # load val data
     print("loading val data", data_name)
@@ -229,5 +232,5 @@ if __name__ == "__main__":
     print("id, avg num of points, mean iou, avg time (s), avg_flop(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    np.savetxt(os.path.join(save_dir, "result.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
+    np.savetxt(os.path.join(save_dir, "result_main.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
                header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M),memory(M)")
