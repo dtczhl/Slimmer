@@ -3,7 +3,7 @@ clear, clc
 
 main_dir = '/home/dtc/Data/ScanNet/Accuracy/processing_time';
 device = 'pmserver';
-data_type = 'grid';
+data_type = 'hierarchy';
 
 raw_dir = strcat(main_dir, '/', device, '/', data_type, '/');
 

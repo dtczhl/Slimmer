@@ -41,7 +41,7 @@ def crop_data(keep_ratio):
             if np.random.rand() <= keep_ratio/100.0:
                 new_coords.append(coords[i])
                 new_colors.append(colors[i])
-                new_labels.append(labels[i])
+                new_lab:els.append(labels[i])
 
         new_coords = np.array(new_coords, dtype="float32")
         new_colors = np.array(new_colors, dtype="float32")
