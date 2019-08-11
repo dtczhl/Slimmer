@@ -17,8 +17,10 @@ Configure this git
 
 ```shell
   pip install plyfile
-  conda install scipy
+  conda install scipy psutil
 ```
+
+Add Path to PYTHONPATH
 
 1.  download ScanNet data. `DataProcessing/download_data.py`
 ```plain

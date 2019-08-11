@@ -21,33 +21,37 @@ import pptk
 
 # ------ Configuration ------
 
-scannnet_dir = '/home/dtc/Data/ScanNet'
+scannet_dir = '/home/dtc/Data/ScanNet'
 
-model_file = '/home/dtc/Data/ScanNet/Model/scannet_m16_rep2_residualTrue-000000530.pth'
-
-use_cuda = False
+model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
 
 # Original, Random, Grid, Hierarchy
-data_type = "Original"
+data_type = "Random"
 
-keep_ratio = 42
-
-filename = 'scene0011_00_vh_clean_2.pth'
+device = "alienware"
 
 # --- end of configuration ---
 
+use_cuda = False
 
-if data_type.lower() == "original":
-    target_file = os.path.join(scannnet_dir, 'Pth', data_type, filename)
-else:
-    target_file = os.path.join(scannnet_dir, "Pth", data_type, "{}".format(keep_ratio), filename)
+model_file = os.path.join("../Model", model_name)
 
-tmp_dir = '../tmp'
+save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
 # Model Options
-m = 16  # 16 or 32; 16
-residual_blocks = True  # True or False; False
-block_reps = 2  # Conv block repetition factor: 1 or 2; 1
+extract_model_options = model_name.split("-")[0]
+extract_model_options = extract_model_options.split("_")
+m = int(extract_model_options[1][1:])
+block_reps = int(extract_model_options[2][3:])
+residual_blocks = extract_model_options[3][8:]
+if residual_blocks == "True":
+    residual_blocks = True
+elif residual_blocks == "False":
+    residual_blocks = False
+else:
+    sys.exit("Unknown residual blocks")
 
 dimension = 3
 scale = 100
@@ -100,32 +104,64 @@ if use_cuda:
 unet.eval()
 
 
-def valid_file(f_pth):
+def valid_folder(pth_folder):
+
+    start_time = time.time()
+
+    ret_data_id = int(os.path.basename(pth_folder))
+
     scn.forward_pass_multiplyAdd_count = 0
     scn.forward_pass_hidden_states = 0
 
-    data = torch.load(f_pth)
-    coords, colors, label = coords_transform(data)
-    coords = torch.from_numpy(coords).long()
-    coords = torch.cat([coords, torch.LongTensor(coords.shape[0], 1).fill_(0)], 1)
-    colors = torch.from_numpy(colors)
+    process = psutil.Process(os.getpid())
 
-    if use_cuda:
-        coords = coords.cuda()
-        colors = colors.cuda()
+    ret_memory = 0
+    ret_time = 0
 
-    y = unet([coords, colors])
-    y = y.cpu().detach().numpy()
-    y = np.argmax(y, axis=1)
+    pth_files = glob.glob(os.path.join(pth_folder, '*.pth'))
+    n_file = len(pth_files)
+    for pth_file in pth_files:
+        data = torch.load(pth_file)
+        coords, colors, label = coords_transform(data)
+        coords = torch.from_numpy(coords).long()
+        coords = torch.cat([coords, torch.LongTensor(coords.shape[0], 1).fill_(0)], 1)
+        colors = torch.from_numpy(colors)
 
-    if data_type.lower() == "original":
-        save_file = os.path.join(tmp_dir, "{}.{}".format(os.path.basename(f_pth), data_type))
-    else:
-        save_file = os.path.join(tmp_dir, "{}.{}.{}".format(os.path.basename(f_pth), data_type, keep_ratio))
+        if use_cuda:
+            coords = coords.cuda()
+            colors = colors.cuda()
 
-    print("saving file to:", save_file)
-    torch.save((data[0], data[1], data[2], y), save_file)
+        start_time_ret = time.time()
+        y = unet([coords, colors])
+        y = y.cpu().detach().numpy()
+        y = np.argmax(y, axis=1)
+        ret_memory += process.memory_info().rss / 1e6
+        ret_time += time.time() - start_time_ret
+
+    print(data_type, ret_data_id, "--- Script time: {:.2f}, memory(M): {:.2f}, time {:.2f} s"
+          .format(time.time() - start_time, ret_memory/n_file, ret_time/n_file))
+
+    return ret_data_id, ret_memory / n_file
 
 
 if __name__ == "__main__":
-    valid_file(target_file)
+    result = []
+
+    def func_filename(x):
+        return int(os.path.basename(x))
+
+
+    data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "Pth", data_type, "*")), key=func_filename)
+
+    for data_dir in data_dirs:
+        # my_id = int(os.path.basename(data_dir))
+        # result.append(valid_folder(my_id))
+        result.append(valid_folder(data_dir))
+
+    result_vstack = np.vstack(result)
+    print("id, memory(M)")
+    print(np.array_str(result_vstack, precision=2, suppress_small=True))
+
+    np.savetxt(os.path.join(save_dir, "result_memory.csv"), result, fmt="%d,%.2f",
+               header="data_id,memory(M)")
+

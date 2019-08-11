@@ -17,24 +17,35 @@ import psutil
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
+model_name = "scannet_m8_rep1_residualFalse-000000470.pth"
 
 # Random, Grid, Hierarchy
 data_type = "Random"
 
 device = "alienware"
 
-# save_pixel_result = False  # save processed pixel label
-specify_id = [22, 42, 100]  # if want to valid specific ids
+specify_id = []  # if want to valid specific ids
 
 use_cuda = True
 
-# Model Options
-m = 16  # 16 or 32; 16
-residual_blocks = True  # True or False; False
-block_reps = 2  # Conv block repetition factor: 1 or 2; 1
-
 # --- end of configurations ---
+
+# Model Options
+extract_model_options = model_name.split("-")[0]
+extract_model_options = extract_model_options.split("_")
+m = int(extract_model_options[1][1:])
+block_reps = int(extract_model_options[2][3:])
+residual_blocks = extract_model_options[3][8:]
+if residual_blocks == "True":
+    residual_blocks = True
+elif residual_blocks == "False":
+    residual_blocks = False
+else:
+    sys.exit("Unknown residual blocks")
+
+# m = 16  # 16 or 32; 16
+# residual_blocks = True  # True or False; False
+# block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
 dimension = 3
 scale = 100
@@ -140,10 +151,6 @@ def valid_data(data_id):
     data_dir = os.path.join(scannet_dir, "Pth", data_name)
     model_file = os.path.join("../Model", model_name)
 
-    # save_dir = os.path.join("../Result", os.path.splitext(model_name)[0], data_name)
-    # if not os.path.exists(save_dir):
-    #     os.makedirs(save_dir)
-
     print(" --- loading model ---")
     unet = Model()
     unet.load_state_dict(torch.load(model_file))
@@ -198,25 +205,6 @@ def valid_data(data_id):
               "Memory (M)=", ret_memory / len(val))
         ret_iou = iou.evaluate(store.max(1)[1].numpy(), valLabels)
 
-        # print("saving results")
-        # val_arr = []
-        # for scene in val:
-        #     coords, colors, labels = coords_transform(scene)
-        #     var_scene = np.c_[coords, colors, labels]
-        #     val_arr.append(var_scene)
-        # val_arr = np.vstack(val_arr)
-        # val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
-
-        # pixel accuracy
-        # ignore_index = val_arr[:, 6] == -100
-        # accuracy_label = val_arr[:, 6][~ignore_index]
-        # accuracy_pred = val_arr[:, 7][~ignore_index]
-        # print("Pixel Accuracy", np.sum(accuracy_label == accuracy_pred)/len(accuracy_label))
-
-        # if save_pixel_result:
-        #     np.save(os.path.join(save_dir, offset_filename), valOffsets)
-        #     np.save(os.path.join(save_dir, result_filename),  val_arr)
-
         print("Time for data_id {}: {:.2f} s".format(data_id, time.time() - start_time))
 
         return ret_data_id, len(valLabels)/len(val), 100*ret_iou, ret_time/len(val), ret_muladd/len(val), ret_memory/len(val)
@@ -237,18 +225,9 @@ if __name__ == "__main__":
             my_id = int(os.path.basename(data_dir))
             result.append(valid_data(my_id))
 
-    # for my_id in range(5, 96, 5):
-    #     result.append(valid_data(my_id))
-
-    # print(np.vstack(result))
     result_vstack = np.vstack(result)
     print("id, avg num of points, mean iou, avg time (s), avg_flop(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    # save_file_dir = "../log/save/" + data_type
-    # save_file_dir = os.path.join(scannet_dir, "Result/" + data_type)
-    # #save_file_dir = os.path.join(save)
-    # if not os.path.exists(save_file_dir):
-    #     os.makedirs(save_file_dir)
     np.savetxt(os.path.join(save_dir, "result.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
                header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M),memory(M)")
