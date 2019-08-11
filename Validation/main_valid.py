@@ -22,6 +22,8 @@ model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 # Random, Grid, Hierarchy
 data_type = "Random"
 
+device = "alienware"
+
 # save_pixel_result = False  # save processed pixel label
 specify_id = [22, 42, 100]  # if want to valid specific ids
 
@@ -44,6 +46,10 @@ result_filename = "data.npy"
 val = []
 valOffsets = []
 valLabels = []
+
+save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
 
 # load model
@@ -132,9 +138,9 @@ def valid_data(data_id):
     ret_data_id = data_id
 
     data_dir = os.path.join(scannet_dir, "Pth", data_name)
-    model_file = os.path.join(scannet_dir, "Model", model_name)
+    model_file = os.path.join("../Model", model_name)
 
-    # save_dir = os.path.join(scannet_dir, "Accuracy", os.path.splitext(model_name)[0], data_name)
+    # save_dir = os.path.join("../Result", os.path.splitext(model_name)[0], data_name)
     # if not os.path.exists(save_dir):
     #     os.makedirs(save_dir)
 
@@ -192,14 +198,14 @@ def valid_data(data_id):
               "Memory (M)=", ret_memory / len(val))
         ret_iou = iou.evaluate(store.max(1)[1].numpy(), valLabels)
 
-        print("saving results")
-        val_arr = []
-        for scene in val:
-            coords, colors, labels = coords_transform(scene)
-            var_scene = np.c_[coords, colors, labels]
-            val_arr.append(var_scene)
-        val_arr = np.vstack(val_arr)
-        val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
+        # print("saving results")
+        # val_arr = []
+        # for scene in val:
+        #     coords, colors, labels = coords_transform(scene)
+        #     var_scene = np.c_[coords, colors, labels]
+        #     val_arr.append(var_scene)
+        # val_arr = np.vstack(val_arr)
+        # val_arr = np.c_[val_arr, store.max(1)[1].numpy()]
 
         # pixel accuracy
         # ignore_index = val_arr[:, 6] == -100
@@ -240,8 +246,9 @@ if __name__ == "__main__":
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
     # save_file_dir = "../log/save/" + data_type
-    save_file_dir = os.path.join(scannet_dir, "Result/" + data_type)
-    if not os.path.exists(save_file_dir):
-        os.makedirs(save_file_dir)
-    np.savetxt(os.path.join(save_file_dir, "result.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
+    # save_file_dir = os.path.join(scannet_dir, "Result/" + data_type)
+    # #save_file_dir = os.path.join(save)
+    # if not os.path.exists(save_file_dir):
+    #     os.makedirs(save_file_dir)
+    np.savetxt(os.path.join(save_dir, "result.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
                header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M),memory(M)")
