@@ -73,7 +73,7 @@ def crop_data(cell_size):
 
         trim_number_points_tot += len(new_labels)
 
-    keep_ratio = int(trim_number_points_tot/original_number_points_tot*100)
+    keep_ratio = int(np.rint(trim_number_points_tot/original_number_points_tot*100))
 
     if not processing_time_only:
         if not os.path.exists(os.path.join(dst_dir, "{}".format(keep_ratio))):
