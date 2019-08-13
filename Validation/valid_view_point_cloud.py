@@ -1,5 +1,5 @@
 """
-    show results
+    view predication for point cloud
 """
 
 import torch
@@ -7,7 +7,15 @@ import numpy as np
 import sys
 import os
 import pptk
-import iou
+
+# ------ Configurations ------
+
+# path to pth file
+pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Hierarchy.20"
+
+show_gt = False  # show groundtruth or not
+
+# --- end of configurations ---
 
 CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf',
                 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink',
@@ -43,5 +51,5 @@ def show_predication_result(pth_file, show_gt):
     v2.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False, show_info=False)
 
 
-
-show_predication_result("../tmp/scene0011_00_vh_clean_2.pth.Hierarchy.42", False)
+if __name__ == "__main__":
+    show_predication_result(pth_file, show_gt)

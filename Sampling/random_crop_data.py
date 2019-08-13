@@ -18,7 +18,7 @@ processing_time_only = False  # whether only care about processing time
 device = "alienware"
 
 # keep ratios
-keep_ratio_arr = range(2, 101, 2)
+keep_ratio_arr = range(4, 101, 4)
 
 # --- end of configuration
 

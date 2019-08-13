@@ -18,7 +18,9 @@ device = "alienware"
 # only calculating processing time
 processing_time_only = False
 
-cluster_size_arr = range(2, 30, 1)
+# cluster_size_arr = range(2, 30, 1)
+cluster_size_arr = [2,  3,  4,  5,   6, 7,  8,  9,  10, 11, 12, 13, 14, 15, 17, 19, 22, ]
+#                  [60, 42, 33, 27, 23, 20, 17, 15, 14, 13, 12, 11, 10,  9, 8,   7,  6, ] %
 var_max = 0.33
 
 # --- end of configuration ---

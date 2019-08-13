@@ -21,33 +21,44 @@ import pptk
 
 # ------ Configuration ------
 
-scannnet_dir = '/home/dtc/Data/ScanNet'
+scannet_dir = '/home/dtc/Data/ScanNet'
 
-model_file = '/home/dtc/Data/ScanNet/Model/scannet_m16_rep2_residualTrue-000000530.pth'
-
-use_cuda = False
+# trained model in ../Model/
+model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
 
 # Original, Random, Grid, Hierarchy
-data_type = "Original"
+data_type = "Hierarchy"
 
-keep_ratio = 42
+# omit if data_type is Original
+keep_ratio = 20
 
-filename = 'scene0011_00_vh_clean_2.pth'
+pth_filename = 'scene0011_00_vh_clean_2.pth'
 
 # --- end of configuration ---
 
+use_cuda = False
 
 if data_type.lower() == "original":
-    target_file = os.path.join(scannnet_dir, 'Pth', data_type, filename)
+    target_file = os.path.join(scannet_dir, 'Pth', data_type, pth_filename)
 else:
-    target_file = os.path.join(scannnet_dir, "Pth", data_type, "{}".format(keep_ratio), filename)
+    target_file = os.path.join(scannet_dir, "Pth", data_type, "{}".format(keep_ratio), pth_filename)
 
 tmp_dir = '../tmp'
 
+model_file = os.path.join("../Model", model_name)
+
 # Model Options
-m = 16  # 16 or 32; 16
-residual_blocks = True  # True or False; False
-block_reps = 2  # Conv block repetition factor: 1 or 2; 1
+extract_model_options = model_name.split("-")[0]
+extract_model_options = extract_model_options.split("_")
+m = int(extract_model_options[1][1:])
+block_reps = int(extract_model_options[2][3:])
+residual_blocks = extract_model_options[3][8:]
+if residual_blocks == "True":
+    residual_blocks = True
+elif residual_blocks == "False":
+    residual_blocks = False
+else:
+    sys.exit("Unknown residual blocks")
 
 dimension = 3
 scale = 100

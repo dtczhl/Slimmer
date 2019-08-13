@@ -129,3 +129,36 @@ Data are saved to `../Result/{device}/{model_name}/{data_type}/result_memory.csv
 ```plain
   ratio of point cloud, running time per point cloud, flop per point cloud, memory per point cloud
 ```
+
+## Auxiliary
+
+1.  validate one point cloud. 'Validation/valid_one_point_cloud.py'
+```python
+  scannet_dir =
+  model_name =
+  data_type =
+  keep_ratio =
+  pth_filename =
+```
+Data saved to `../tmp/{pth_filename}.{data_type}.{keep_ratio}`
+
+2.  show predication result for a point cloud. `Validation/valid_view_point_cloud.py`
+```python
+pth_file = path_to_pth_file
+show_gt = [True|False] # show groundtruth?
+```
+
+## Folder Structure
+*   `Cpp`. C++ program for data simplification
+*   `DataProcessing`. Data pre-processing.
+*   `Image`.
+*   `log`. Checkpoints during training
+*   `Matlab`.
+*   `Model`. Trained models
+*   `PointFeature`. Exploring point cloud features
+*   `Result`. Saved results
+*   `Sampling`. Data simplification
+*   `tmp`. As workspace
+*   `train`. Training data. (ignore it)
+*   `val`. Validation data. (ignore it)
+*   `Validation`. Results processing
