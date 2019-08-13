@@ -21,9 +21,9 @@ import psutil
 
 scannet_dir = '/home/dtc/Data/ScanNet'
 
-model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
-
 device = "alienware"
+
+model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
 
 # Random, Grid, Hierarchy
 data_type = "Random"

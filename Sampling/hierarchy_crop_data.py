@@ -13,6 +13,8 @@ import shutil
 
 scannet_dir = "/home/dtc/Data/ScanNet"
 
+device = "alienware"
+
 # only calculating processing time
 processing_time_only = False
 
@@ -22,6 +24,10 @@ var_max = 0.33
 # --- end of configuration ---
 
 data_type = "Hierarchy"
+
+save_dir = os.path.join("../Result/ProcessingTime", device, data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
 # clear tmp
 files = glob.glob("../tmp/*")
@@ -104,12 +110,10 @@ def crop_data(cluster_size, var_max):
             new_labels = np.ascontiguousarray(new_labels)
             torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
-    shutil.move(os.path.join(tmp_dir, "time.txt"), os.path.join(tmp_dir, "time.txt.{}".format(keep_ratio)))
+    shutil.move(os.path.join(tmp_dir, "time.txt"), os.path.join(save_dir, "time.txt.{}".format(keep_ratio)))
     # clear tmp
     files = glob.glob("../tmp/*")
     for file in files:
-        if os.path.basename(file).startswith("time.txt."):
-            continue
         os.remove(file)
     print("------ cluster size {}, max_var {:.3f}, ratio {}%, {:.2f}s".format(cluster_size, var_max, keep_ratio, time.time() - start_time))
 

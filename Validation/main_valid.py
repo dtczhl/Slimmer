@@ -17,14 +17,15 @@ import psutil
 # ------ Configurations ------
 scannet_dir = "/home/dtc/Data/ScanNet"
 
+device = "alienware"
+
+# trained model in ../Model/
 model_name = "scannet_m8_rep1_residualFalse-000000470.pth"
 
 # Random, Grid, Hierarchy
 data_type = "Random"
 
-device = "alienware"
-
-specify_id = [22, 42]  # if want to valid specific ids
+specify_id = []  # if want to valid specific ids
 
 use_cuda = True
 
