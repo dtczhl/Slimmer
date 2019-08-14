@@ -14,6 +14,7 @@
     ```
 
 2.  Install extra packages
+
   ```shell
   pip install plyfile
   conda install scipy psutil
@@ -22,6 +23,7 @@
 3.  Add this git to `PYTHONPATH`
 
   1.  in conda environment
+  
     ```shell
     cd $CONDA_PREFIX
     mkdir etc/conda/activate.d
