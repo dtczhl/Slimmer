@@ -22,24 +22,24 @@
 
 3.  Add this git to `PYTHONPATH`
 
-  1.  in conda environment
+    1.  in conda environment
 
-        ```shell
-        cd $CONDA_PREFIX
-        mkdir etc/conda/activate.d
-        mkdir etc/conda/deactivate.d
-        ```
+          ```shell
+          cd $CONDA_PREFIX
+          mkdir etc/conda/activate.d
+          mkdir etc/conda/deactivate.d
+          ```
 
-  2.  add `PYTHONPATH` to this conda environment
+    2.  add `PYTHONPATH` to this conda environment
 
-        ```shell
-        vi etc/conda/activate.d/env_vars.sh
-        ```
-        with content of
-        ```shell
-        #!/bin/sh
-        export PYTHONPATH=path_to_this_git
-        ```
+          ```shell
+          vi etc/conda/activate.d/env_vars.sh
+          ```
+          with content of
+          ```shell
+          #!/bin/sh
+          export PYTHONPATH=path_to_this_git
+          ```
 
 4.  download ScanNet data. `DataProcessing/download_data.py`
 
