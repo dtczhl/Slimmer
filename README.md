@@ -15,35 +15,37 @@
 
 2.  Install extra packages
 
-  ```shell
-  pip install plyfile
-  conda install scipy psutil
-  ```
+    ```shell
+    pip install plyfile
+    conda install scipy psutil
+    ```
 
 3.  Add this git to `PYTHONPATH`
 
   1.  in conda environment
-  
-    ```shell
-    cd $CONDA_PREFIX
-    mkdir etc/conda/activate.d
-    mkdir etc/conda/deactivate.d
-    ```
+
+        ```shell
+        cd $CONDA_PREFIX
+        mkdir etc/conda/activate.d
+        mkdir etc/conda/deactivate.d
+        ```
 
   2.  add `PYTHONPATH` to this conda environment
-    ```shell
-    vi etc/conda/activate.d/env_vars.sh
-    ```
-    with content of
-    ```shell
-    #!/bin/sh
-    export PYTHONPATH=path_to_this_git
-    ```
+
+        ```shell
+        vi etc/conda/activate.d/env_vars.sh
+        ```
+        with content of
+        ```shell
+        #!/bin/sh
+        export PYTHONPATH=path_to_this_git
+        ```
 
 4.  download ScanNet data. `DataProcessing/download_data.py`
-  ```python
-  scannet_dir = path to scannet directory
-  ```
+
+    ```python
+    scannet_dir = path to scannet directory
+    ```
 
 5.  copy data to `train` and `val` folder. `DataProcessing/split_data.py`
   ```python
