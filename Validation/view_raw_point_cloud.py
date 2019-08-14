@@ -1,6 +1,9 @@
+"""
+    Showing raw point cloud in pth
+"""
+
 import numpy as np
 import torch
-
 import pptk
 
 # pth_file = "/home/dtc/Data/ScanNet/Pth/Hierarchy/32/scene0011_00_vh_clean_2.pth"

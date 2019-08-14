@@ -13,28 +13,26 @@ import torch.optim as optim
 import torch.nn.functional as F
 import sparseconvnet as scn
 import time
-import os, sys, glob
+import os
+import sys
+import glob
 import math
 import numpy as np
 
-# Options
+# ------ Configurations ------
+
 m = 16  # 16 or 32; 16
 residual_blocks = False  # True or False; False
 block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
-# number of parameters
-# m, block_reps, residual_blocks
-# 16, 1, False: 2689860
-# 16, 1, True:  4334692
-# 16, 2, False: 4288100
-# 16, 2, True:  7531172 !!!
-# 32, 1, False: 10748532
-# 32, 1, True:  17324724
-# 32, 2, False: 17138356
-# 32, 2, True:  30104372
+training_epochs = 1024
+
+# --- end of configuration ---
 
 use_cuda = torch.cuda.is_available()
-# exp_name = 'unet_scale20_m16_rep1_notResidualBlocks'
+if use_cuda is not True:
+    print("!!!! Caution !!! Cuda is not available")
+
 exp_name = 'log/scannet_m{}_rep{}_residual{}'.format(m, block_reps, residual_blocks)
 
 
@@ -59,7 +57,6 @@ unet = Model()
 if use_cuda:
     unet = unet.cuda()
 
-training_epochs = 1024
 training_epoch = scn.checkpoint_restore(unet, exp_name, 'unet', use_cuda)
 optimizer = optim.Adam(unet.parameters())
 print('#classifer parameters', sum([x.nelement() for x in unet.parameters()]))
@@ -94,6 +91,7 @@ for epoch in range(training_epoch, training_epochs+1):
           'MegaHidden', scn.forward_pass_hidden_states/len(data.train)/1e6, 'time=', time.time() - start, 's')
     scn.checkpoint_save(unet, exp_name, 'unet', epoch, use_cuda)
 
+    # save checkpoints
     if epoch % 10 == 0:
         my_checkpoint_save(unet, exp_name, 'unet', epoch, use_cuda)
         with torch.no_grad():

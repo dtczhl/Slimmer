@@ -36,10 +36,6 @@ use_cuda = False
 
 model_file = os.path.join("../Model", model_name)
 
-save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
-
 # Model Options
 extract_model_options = model_name.split("-")[0]
 extract_model_options = extract_model_options.split("_")
@@ -96,12 +92,16 @@ def coords_transform(physical_val):
     return a, b, c
 
 
-print(" --- loading model ---")
+print(" --- loading model ---", model_name)
 unet = Model()
 unet.load_state_dict(torch.load(model_file))
 if use_cuda:
     unet.cuda()
 unet.eval()
+
+save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
 
 def valid_folder(pth_folder):
@@ -206,6 +206,8 @@ if __name__ == "__main__":
     print("id, time(s), FLOP(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    np.savetxt(os.path.join(save_dir, "result_memory.csv"), result, fmt="%d,%.2f,%.2f,%.2f",
+    save_file = os.path.join(save_dir, "result_memory.csv")
+    print("saving file to:", save_file)
+    np.savetxt(save_file, result, fmt="%d,%.2f,%.2f,%.2f",
                header="data_id,Time(s),FLOP(M),memory(M)")
 

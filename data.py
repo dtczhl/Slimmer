@@ -12,12 +12,15 @@ import torch.utils.data
 import scipy.ndimage
 import multiprocessing as mp
 
-# Options
+# ------ Configurations ------
+
+batch_size = 8
+
+# --- end of Configuration ---
+
 scale = 100  # Voxel size = 1/scale, 20
 val_reps = 1  # Number of test views, 1 or more
-batch_size = 8
 elastic_deformation = False
-
 dimension = 3
 full_scale = 4096  # Input field size
 

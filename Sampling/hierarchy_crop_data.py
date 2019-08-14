@@ -18,9 +18,7 @@ device = "alienware"
 # only calculating processing time
 processing_time_only = False
 
-# cluster_size_arr = range(2, 30, 1)
-cluster_size_arr = [2,  3,  4,  5,   6, 7,  8,  9,  10, 11, 12, 13, 14, 15, 17, 19, 22, ]
-#                  [60, 42, 33, 27, 23, 20, 17, 15, 14, 13, 12, 11, 10,  9, 8,   7,  6, ] %
+cluster_size_arr = range(2, 30, 1)
 var_max = 0.33
 
 # --- end of configuration ---
@@ -112,7 +110,9 @@ def crop_data(cluster_size, var_max):
             new_labels = np.ascontiguousarray(new_labels)
             torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
-    shutil.move(os.path.join(tmp_dir, "time.txt"), os.path.join(save_dir, "time.txt.{}".format(keep_ratio)))
+    save_file = os.path.join(save_dir, "time.txt.{}".format(keep_ratio))
+    print("saving file to:", save_file)
+    shutil.move(os.path.join(tmp_dir, "time.txt"), save_file)
     # clear tmp
     files = glob.glob("../tmp/*")
     for file in files:

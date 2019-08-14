@@ -59,10 +59,6 @@ val = []
 valOffsets = []
 valLabels = []
 
-save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
-if not os.path.exists(save_dir):
-    os.makedirs(save_dir)
-
 
 # load model
 class Model(nn.Module):
@@ -82,12 +78,16 @@ class Model(nn.Module):
         return x
 
 
-print(" --- loading model ---")
+print(" --- loading model ---", model_name)
 model_file = os.path.join("../Model", model_name)
 unet = Model()
 unet.load_state_dict(torch.load(model_file))
 if use_cuda:
     unet.cuda()
+
+save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
 
 def coords_transform(physical_val):
@@ -144,10 +144,8 @@ def valMerge(tbl):
     return {'x': [locs, feats], 'y': labels.long(), 'id': tbl, 'point_ids': point_ids}
 
 
-# --- my main function to validate ---
-
-
 def valid_data(data_id):
+    # data_id is ratio of point clouds
 
     start_time = time.time()
 
@@ -233,5 +231,7 @@ if __name__ == "__main__":
     print("id, avg num of points, mean iou, avg time (s), avg_flop(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    np.savetxt(os.path.join(save_dir, "result_main.csv"), result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
+    save_file = os.path.join(save_dir, "result_main.csv")
+    print("saving file to:", save_file)
+    np.savetxt(save_file, result, fmt="%d,%.2f,%.2f,%.2f,%.2f,%.2f",
                header="data_id,avg_num_points,mean_iou,avg_time(s),avg_addmul(M),memory(M)")

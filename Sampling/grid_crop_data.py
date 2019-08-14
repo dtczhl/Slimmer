@@ -109,7 +109,9 @@ def crop_data(cell_size):
             new_labels = np.ascontiguousarray(new_labels)
             torch.save((new_coords, new_colors, new_labels), dst_file_path)
 
-    shutil.move(os.path.join(tmp_dir, "time.txt"), os.path.join(save_dir, "time.txt.{}".format(keep_ratio)))
+    save_file = os.path.join(save_dir, "time.txt.{}".format(keep_ratio))
+    print("saving file to:", save_file)
+    shutil.move(os.path.join(tmp_dir, "time.txt"), save_file)
     # clear tmp
     files = glob.glob("../tmp/*")
     for file in files:

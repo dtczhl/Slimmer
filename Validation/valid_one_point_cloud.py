@@ -9,15 +9,10 @@ import glob
 import math
 
 import sparseconvnet as scn
-import iou
 
 import torch.utils.data
-import multiprocessing as mp
 import os
-import time
 import sys
-import psutil
-import pptk
 
 # ------ Configuration ------
 
