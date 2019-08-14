@@ -24,22 +24,22 @@
 
     1.  in conda environment
 
-          ```shell
-          cd $CONDA_PREFIX
-          mkdir etc/conda/activate.d
-          mkdir etc/conda/deactivate.d
-          ```
+        ```shell
+        cd $CONDA_PREFIX
+        mkdir etc/conda/activate.d
+        mkdir etc/conda/deactivate.d
+        ```
 
     2.  add `PYTHONPATH` to this conda environment
 
-          ```shell
-          vi etc/conda/activate.d/env_vars.sh
-          ```
-          with content of
-          ```shell
-          #!/bin/sh
-          export PYTHONPATH=path_to_this_git
-          ```
+        ```shell
+        vi etc/conda/activate.d/env_vars.sh
+        ```
+        with content of
+        ```shell
+        #!/bin/sh
+        export PYTHONPATH=path_to_this_git
+        ```
 
 4.  download ScanNet data. `DataProcessing/download_data.py`
 
@@ -48,19 +48,21 @@
     ```
 
 5.  copy data to `train` and `val` folder. `DataProcessing/split_data.py`
-  ```python
-  scannet_dir = path to scannet directory
-  git_dir = path to this git
-  ```
+
+    ```python
+    scannet_dir = path to scannet directory
+    git_dir = path to this git
+    ```
 
 6.  convert `.ply` to `.pth`. `prepare_data.py`
 
 7.  copy `.pth` to ScanNet. `DataProcessing/copy_val_pth.py`
-  ```python
-  git_dir =
-  scannet_dir =
-  ```
-  Files are saved to `scannet_dir/Pth/Original`
+
+    ```python
+    git_dir =
+    scannet_dir =
+    ```
+    Files are saved to `scannet_dir/Pth/Original`
 
 ## Training
 
