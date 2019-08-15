@@ -3,11 +3,11 @@
 clear, clc
 
 main_dir = '../Result/ProcessingTime';
-device = 'pmserver';
+device = 'alienware';
 
-f_random = strcat(main_dir, '/', device, '/random.time.txt');
-f_grid = strcat(main_dir, '/', device, '/grid.time.txt');
-f_hierarchy = strcat(main_dir, '/', device, '/hierarchy.time.txt');
+f_random = strcat(main_dir, '/', device, '/Random.time.txt');
+f_grid = strcat(main_dir, '/', device, '/Grid.time.txt');
+f_hierarchy = strcat(main_dir, '/', device, '/Hierarchy.time.txt');
 
 data_random = dlmread(f_random);
 data_grid = dlmread(f_grid);
@@ -23,7 +23,7 @@ set(gca, 'fontsize', 22)
 xlabel('Point Cloud Size (%)')
 ylabel('Time (ms)')
 set(gca, 'yscale', 'log')
-ylim([0, 4000])
+ylim([0, 3000])
 legend('Random Simplification', 'Grid Simplification', 'Hierarchy Simplification')
 box on 
 grid on

@@ -14,7 +14,7 @@ from shutil import copyfile
 scannet_dir = "/home/dtc/Data/ScanNet"
 
 # path to dtc-sparseconvnet/
-git_dir = "/home/dtc/MyGit/dtc-sparseconvnet"
+git_dir = "/home/dtc/MyGit/dtc-scannet-sparseconvnet"
 
 # --- end of Configurations ---
 

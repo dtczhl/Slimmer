@@ -23,7 +23,7 @@ scannet_dir = '/home/dtc/Data/ScanNet'
 
 device = "alienware"
 
-model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
+model_name = 'scannet_m8_rep2_residualFalse-000000560.pth'
 
 # Random, Grid, Hierarchy
 data_type = "Random"
@@ -102,46 +102,6 @@ unet.eval()
 save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
-
-
-def valid_folder(pth_folder):
-
-    start_time = time.time()
-
-    ret_data_id = int(os.path.basename(pth_folder))
-
-    scn.forward_pass_multiplyAdd_count = 0
-    scn.forward_pass_hidden_states = 0
-
-    process = psutil.Process(os.getpid())
-
-    ret_memory = 0
-    ret_time = 0
-
-    pth_files = glob.glob(os.path.join(pth_folder, '*.pth'))
-    n_file = len(pth_files)
-    for pth_file in pth_files:
-        data = torch.load(pth_file)
-        coords, colors, label = coords_transform(data)
-        coords = torch.from_numpy(coords).long()
-        coords = torch.cat([coords, torch.LongTensor(coords.shape[0], 1).fill_(0)], 1)
-        colors = torch.from_numpy(colors)
-
-        if use_cuda:
-            coords = coords.cuda()
-            colors = colors.cuda()
-
-        start_time_ret = time.time()
-        y = unet([coords, colors])
-        y = y.cpu().detach().numpy()
-        y = np.argmax(y, axis=1)
-        ret_memory += process.memory_info().rss / 1e6
-        ret_time += time.time() - start_time_ret
-
-    print(data_type, ret_data_id, "--- Script time: {:.2f}, memory(M): {:.2f}, time {:.2f} s"
-          .format(time.time() - start_time, ret_memory/n_file, ret_time/n_file))
-
-    return ret_data_id, ret_memory / n_file
 
 
 def valid_data(data_id):

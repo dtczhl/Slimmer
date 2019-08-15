@@ -16,7 +16,7 @@ scannet_dir = "/home/dtc/Data/ScanNet"
 device = "alienware"
 
 # only calculating processing time
-processing_time_only = False
+processing_time_only = True
 
 cluster_size_arr = range(2, 30, 1)
 var_max = 0.33

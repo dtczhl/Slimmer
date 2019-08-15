@@ -2,8 +2,8 @@
 clear, clc
 
 main_dir = '../Result/ProcessingTime';
-device = 'pmserver';
-data_type = 'grid';
+device = 'alienware';
+data_type = 'Hierarchy';
 
 raw_dir = strcat(main_dir, '/', device, '/', data_type, '/');
 
