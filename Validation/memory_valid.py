@@ -23,7 +23,7 @@ scannet_dir = '/home/dtc/Data/ScanNet'
 
 device = "alienware"
 
-model_name = 'scannet_m8_rep2_residualFalse-000000560.pth'
+model_name = 'scannet_m16_rep2_residualFalse-000000570.pth'
 
 # Random, Grid, Hierarchy
 data_type = "Random"

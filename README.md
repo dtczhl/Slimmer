@@ -62,7 +62,7 @@
     git_dir =
     scannet_dir =
     ```
-    Files are saved to `scannet_dir/Pth/Original`
+    Files are saved to `{scannet_dir}/Pth/Original`
 
 ## Training
 
@@ -90,14 +90,20 @@
 
 ## Data Simplification
 
+Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 4.11.
+
+```shell
+  sudo apt-get install libcgal-dev
+```
+
 1.  random simplification. `Sampling/random_crop_data.py`
 
     ```python
     scannet_dir =
     device = a_tag_for_your_device
     ```
-    Simplified data are saved to `scannet_dir/Pth/Random/`. Folder structure: `{ratio of point cloud size}`  
-    Data processing time are saved to `../Result/{device}/Random/`. Filename structure: `time.txt.{ratio of point cloud size}`
+    Simplified data are saved to `{scannet_dir}/Pth/Random/`. Folder structure: `{ratio of point cloud size}`  
+    Data processing time are saved to `Result/{device}/Random/`. Filename structure: `time.txt.{ratio of point cloud size}`
 
 2.  grid simplificaiton. `Sampling/grid_crop_data.py`
 
@@ -105,8 +111,8 @@
     scannet_dir =
     device =
     ```
-    Simplified data are saved to `scannet_dir/Pth/Grid/`. Folder structure: `{ratio of point cloud size}`  
-    Data processing time are saved to `../Result/{device}/Grid/`. Filename structure: `time.txt.{ratio of point cloud size}`
+    Simplified data are saved to `{scannet_dir}/Pth/Grid/`. Folder structure: `{ratio of point cloud size}`  
+    Data processing time are saved to `Result/{device}/Grid/`. Filename structure: `time.txt.{ratio of point cloud size}`
 
 3.  hierarchy simplification. `Sampling/hierarchy_crop_data.py`
 
@@ -114,13 +120,13 @@
     scannet_dir =
     device =
     ```
-    Simplified data are saved to `scannet_dir/Pth/Hierarchy/`. Folder structure: `{ratio of point cloud size}`  
-    Data processing time are saved to `../Result/{device}/Hierarchy/`. Filename structure: `time.txt.{ratio of point cloud size}`
+    Simplified data are saved to `{scannet_dir}/Pth/Hierarchy/`. Folder structure: `{ratio of point cloud size}`  
+    Data processing time are saved to `Result/{device}/Hierarchy/`. Filename structure: `time.txt.{ratio of point cloud size}`
 
 
 ## Validation
 
-1.  All performance metrics except memory. `Validation/main_valid.py`
+1.  For IOU only. `Validation/main_valid.py`
 
     ```python
     scannet_dir =
@@ -128,12 +134,12 @@
     model_name = trained_model_in_../Model/
     data_type = [Random|Grid|Hierarchy]
     ```
-    Data are saved to `../Result/{device}/{model_name}/{data_type}/result_main.csv`. File structure
+    Data are saved to `Result/{device}/{model_name}/{data_type}/result_main.csv`. File structure
     ```plain
     ratio of point cloud, average number of points per point cloud, IOU, running time per point cloud, flop per point cloud, memory (do not use this value)
     ```
 
-2.  Memory only. Running on CPU. `Validation/valid_memory.py`
+2.  Everything except IOU. Running on CPU. `Validation/memory_valid.py`
 
     ```python
     scannet_dir =
@@ -141,14 +147,14 @@
     model_name =
     data_type =
     ```
-    Data are saved to `../Result/{device}/{model_name}/{data_type}/result_memory.csv`. File structure
+    Data are saved to `Result/{device}/{model_name}/{data_type}/result_memory.csv`. File structure
     ```plain
     ratio of point cloud, running time per point cloud, flop per point cloud, memory per point cloud
     ```
 
 ## Auxiliary
 
-1.  validate one point cloud. 'Validation/valid_one_point_cloud.py'
+1.  validate one point cloud. `Validation/valid_one_point_cloud.py`
 
     ```python
     scannet_dir =
@@ -157,13 +163,22 @@
     keep_ratio =
     pth_filename =
     ```
-    Data saved to `../tmp/{pth_filename}.{data_type}.{keep_ratio}`
+    Data saved to `tmp/{pth_filename}.{data_type}.{keep_ratio}`
 
 2.  show predication result for a point cloud. `Validation/valid_view_point_cloud.py`
+
     ```python
     pth_file = path_to_pth_file
     show_gt = [True|False] # show groundtruth?
     ```
+
+3.  scannet ratio of empty cells. `PointFeature/scannet_empty_cell.py`
+
+    Data are saved to `Result/EmptyCell/scannet_empty_cell.csv`
+
+4.  KITTI ratio of empty cells. `PointFeature/kitti_empty_cell.csv`
+
+    Data are saved to `Result/EmptyCell/kitti_empty_cell.csv`
 
 ## Folder Structure
 *   `Cpp`. C++ program for data simplification

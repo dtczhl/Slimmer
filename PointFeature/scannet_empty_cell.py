@@ -10,23 +10,26 @@ import sys
 
 scannet_dir = "/home/dtc/Data/ScanNet"
 
-cell_size_arr = np.arange(0.01, 0.11, 0.01)
+cell_size_arr = np.arange(0.03, 0.21, 0.02)
 
 # path to pth
 original_dir = os.path.join(scannet_dir, "Pth/Original")
-result_dir = os.path.join(scannet_dir, "Result")
+save_dir = "../Result/EmptyCell"
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 
-empty_filename = "empty.csv"
-result_file = os.path.join(result_dir, empty_filename)
-print("result file:", result_file)
+empty_filename = "scannet_empty_cell.csv"
+save_file = os.path.join(save_dir, empty_filename)
 
 pth_files = glob.glob(os.path.join(original_dir, "*.pth"))
+
+n_pth_file = 100
+pth_files = pth_files[:n_pth_file]
 
 result = []
 
 for cell_size in cell_size_arr:
 
-    n_pth_file = len(pth_files)
     ratio_empty_tot = 0.0
     for pth_file in pth_files:
         print("cell size:", cell_size, pth_file)
@@ -52,6 +55,7 @@ for cell_size in cell_size_arr:
 result = np.vstack(result)
 print(np.array_str(result, precision=2, suppress_small=True))
 
-np.savetxt(result_file, result, fmt="%.3f,%.2f", header="cell_size,empty_ratio(%)")
+print("saving file to:", save_file)
+np.savetxt(save_file, result, fmt="%.3f,%.2f", header="cell_size,empty_ratio(%)")
 
 
