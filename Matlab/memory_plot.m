@@ -1,4 +1,4 @@
-% memory
+% memory plot
 
 clear, clc
 

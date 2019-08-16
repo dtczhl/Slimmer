@@ -23,12 +23,12 @@ scannet_dir = '/home/dtc/Data/ScanNet'
 
 device = "alienware"
 
-model_name = 'scannet_m8_rep1_residualFalse-000000470.pth'
+model_name = 'scannet_m16_rep2_residualTrue-000000650.pth'
 
 # Random, Grid, Hierarchy
-data_type = "Hierarchy"
+data_type = "Random"
 
-specify_id = []  # if want to valid specific ids
+specify_id = [80]  # if want to valid specific ids
 
 # --- end of configuration ---
 
