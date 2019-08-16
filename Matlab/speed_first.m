@@ -1,8 +1,9 @@
-% memory first
+% speed first
 
 clear, clc
 
 iou_target = 70;
+
 
 models = {
     'scannet_m8_rep1_residualFalse-000000470';
