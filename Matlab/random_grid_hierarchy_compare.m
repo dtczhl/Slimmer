@@ -2,9 +2,9 @@
 
 clear, clc
 
-f_random = '/home/dtc/Data/ScanNet/Accuracy/scannet_m16_rep2_residualTrue-000000530/result_random.csv';
-f_grid = '/home/dtc/Data/ScanNet/Accuracy/scannet_m16_rep2_residualTrue-000000530/result_grid.csv';
-f_hierarchy = '/home/dtc/Data/ScanNet/Accuracy/scannet_m16_rep2_residualTrue-000000530/result_hierarchy.csv';
+f_random = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_main.csv';
+f_grid = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/grid_result_main.csv';
+f_hierarchy = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/hierarchy_result_main.csv';
 
 data_random = csvread(f_random, 1, 0);
 keep_ratio_random = data_random(:, 1);
@@ -13,6 +13,8 @@ iou_random = data_random(:, 3);
 inference_time_random = data_random(:, 4);
 flop_random = data_random(:, 5);
 memory_random = data_random(:, 6);
+
+max_iou = iou_random(end);
 
 data_grid = csvread(f_grid, 1, 0);
 keep_ratio_grid = data_grid(:, 1);
@@ -31,24 +33,43 @@ flop_hierarchy = data_hierarchy(:, 5);
 memory_hierarchy = data_hierarchy(:, 6);
 
 
-iou_random_for_grid = interp1(keep_ratio_random, iou_random, keep_ratio_grid);
-iou_random_for_hierarchy = interp1(keep_ratio_random, iou_random, keep_ratio_hierarchy);
+iou_loss_random = max_iou - iou_random;
+iou_loss_grid = max_iou - iou_grid;
+iou_loss_hierarchy = max_iou - iou_hierarchy;
 
-iou_grid_improve = (iou_grid - iou_random_for_grid) ./ iou_random_for_grid * 100;
-iou_hierarchy_improve = (iou_hierarchy - iou_random_for_hierarchy) ./ iou_random_for_hierarchy * 100;
-
-figure(1), clf
-set(gcf, 'Position', [200, 800, 900, 500]), hold on
-plot(keep_ratio_grid, iou_grid_improve, '-*', 'linewidth', 3, 'markersize', 8)
-plot(keep_ratio_hierarchy, iou_hierarchy_improve, '-o', 'linewidth', 3, 'markersize', 8)
-set(gca, 'fontsize', 22)
-legend('Grid Simplification', 'Hierarchy Simplification')
-xlabel('Point Cloud Size (%)')
-ylabel('IOU Improv. Ratio (%)')
-xlim([7, 60])
-box on
+figure(1), clf, hold on
+plot(keep_ratio_random, iou_loss_random, '-*', 'linewidth', 3)
+plot(keep_ratio_grid, iou_loss_grid, '-o', 'linewidth', 3)
+plot(keep_ratio_hierarchy, iou_loss_hierarchy, '-s', 'linewidth', 3)
+ylim([-0, 60])
 grid on
+box on
+legend('Random Simplification', 'Grid Simplification', 'Hierarchy Simplification')
+set(gca, 'fontsize', 22)
+xlabel('Point Cloud Size (%)')
+ylabel('IOU Loss (%)')
 hold off
+
+
+
+% iou_random_for_grid = interp1(keep_ratio_random, iou_random, keep_ratio_grid);
+% iou_random_for_hierarchy = interp1(keep_ratio_random, iou_random, keep_ratio_hierarchy);
+% 
+% iou_grid_improve = (iou_grid - iou_random_for_grid) ./ iou_random_for_grid * 100;
+% iou_hierarchy_improve = (iou_hierarchy - iou_random_for_hierarchy) ./ iou_random_for_hierarchy * 100;
+% 
+% figure(1), clf
+% set(gcf, 'Position', [200, 800, 900, 500]), hold on
+% plot(keep_ratio_grid, iou_grid_improve, '-*', 'linewidth', 3, 'markersize', 8)
+% plot(keep_ratio_hierarchy, iou_hierarchy_improve, '-o', 'linewidth', 3, 'markersize', 8)
+% set(gca, 'fontsize', 22)
+% legend('Grid Simplification', 'Hierarchy Simplification')
+% xlabel('Point Cloud Size (%)')
+% ylabel('IOU Improv. Ratio (%)')
+% xlim([10, 60])
+% box on
+% grid on
+% hold off
  
 
 % iou_max = iou_random(end);
