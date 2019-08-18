@@ -19,15 +19,15 @@ import sys
 scannet_dir = '/home/dtc/Data/ScanNet'
 
 # trained model in ../Model/
-model_name = "scannet_m16_rep2_residualTrue-000000530.pth"
+model_name = "scannet_m16_rep2_residualTrue-000000650.pth"
 
 # Original, Random, Grid, Hierarchy
-data_type = "Hierarchy"
+data_type = "Grid"
 
 # omit if data_type is Original
 keep_ratio = 20
 
-pth_filename = 'scene0011_00_vh_clean_2.pth'
+pth_filename = 'scene0015_00_vh_clean_2.pth'
 
 # --- end of configuration ---
 

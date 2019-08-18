@@ -11,7 +11,7 @@ import pptk
 # ------ Configurations ------
 
 # path to pth file
-pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Hierarchy.20"
+pth_file = "../tmp/scene0015_00_vh_clean_2.pth.Grid.20"
 
 show_gt = False  # show groundtruth or not
 

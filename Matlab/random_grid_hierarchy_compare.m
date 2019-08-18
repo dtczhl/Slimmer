@@ -38,16 +38,17 @@ iou_loss_grid = max_iou - iou_grid;
 iou_loss_hierarchy = max_iou - iou_hierarchy;
 
 figure(1), clf, hold on
+set(gcf, 'position', [400, 600, 900, 500])
 plot(keep_ratio_random, iou_loss_random, '-*', 'linewidth', 3)
 plot(keep_ratio_grid, iou_loss_grid, '-o', 'linewidth', 3)
 plot(keep_ratio_hierarchy, iou_loss_hierarchy, '-s', 'linewidth', 3)
-ylim([-0, 60])
+ylim([0, 60])
 grid on
 box on
 legend('Random Simplification', 'Grid Simplification', 'Hierarchy Simplification')
 set(gca, 'fontsize', 22)
 xlabel('Point Cloud Size (%)')
-ylabel('IOU Loss (%)')
+ylabel('IOU Loss')
 hold off
 
 
