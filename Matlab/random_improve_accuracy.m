@@ -1,4 +1,4 @@
-% grid improve accuracy
+% grid random accuracy
 
 clear, clc
 
@@ -15,17 +15,13 @@ models = {
 
 for i = 1:length(models)
     main_dir = strcat('/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/', models{i}, '/Backup/');
-    f_grid = strcat(main_dir, 'grid_result_main.csv');
+    f_grid = strcat(main_dir, 'random_result_main.csv');
     f_random = strcat(main_dir, 'random_result_main.csv');
     data_random = csvread(f_random, 1, 0);
     random_iou = data_random(end, 3);
     data_grid = csvread(f_grid, 1, 0);
     keep_ratio = data_grid(:, 1);
     iou = data_grid(:, 3);
-    
-    keep_ratio = [keep_ratio; 100];
-    iou = [iou; random_iou];
-    
     iou_result = [iou_result; [iou > random_iou]'];
 end
 

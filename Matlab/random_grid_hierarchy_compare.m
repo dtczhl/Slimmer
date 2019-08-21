@@ -32,7 +32,6 @@ inference_time_hierarchy = data_hierarchy(:, 4);
 flop_hierarchy = data_hierarchy(:, 5);
 memory_hierarchy = data_hierarchy(:, 6);
 
-
 iou_loss_random = max_iou - iou_random;
 iou_loss_grid = max_iou - iou_grid;
 iou_loss_hierarchy = max_iou - iou_hierarchy;
