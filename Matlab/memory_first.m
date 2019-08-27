@@ -23,9 +23,18 @@ data_simplify = {
 main_dir = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/';
 
 iou_device = 'pmserver';
-time_device = 'alienware';
+memory_device = 'alienware';
 
 result = [];
+
+% avg memory
+% from pmserver
+f_men = {
+    '_result_memory_1.csv';
+    '_result_memory_2.csv';
+    '_result_memory_3.csv';
+    '_result_memory_4.csv';
+};
 
 
 for i_model = 1:length(models)
@@ -33,12 +42,20 @@ for i_model = 1:length(models)
         f_data = strcat(main_dir, iou_device, '/', models{i_model}, '/Backup/', data_simplify{i_simplify}, '_result_main.csv');
         data = csvread(f_data, 1, 0);
         iou = data(:, 3);
-        f_data = strcat(main_dir, time_device, '/', models{i_model}, '/Backup/', data_simplify{i_simplify}, '_result_memory.csv');
+        f_data = strcat(main_dir, memory_device, '/', models{i_model}, '/Backup/', data_simplify{i_simplify}, '_result_memory.csv');
         data = csvread(f_data, 1, 0);
         keep_ratio = data(:, 1);
         memory = data(:, 4);
-        fitobject = fit(keep_ratio, memory, 'poly2');
-        memory = feval(fitobject, keep_ratio);
+        
+        for i_mem_avg = 1:length(f_men)
+           f_mem_avg =  strcat('../Result/pmserver/', models{i_model}, '/Backup/', data_simplify{i_simplify}, f_men{i_mem_avg});
+           data_memory_avg = csvread(f_mem_avg, 1, 0);
+           memory = memory + data_memory_avg(:, 4);
+        end
+        memory = memory / (1+length(f_men));
+        
+        % fitobject = fit(keep_ratio, memory, 'poly2');
+        % memory = feval(fitobject, keep_ratio);
     
         if length(iou) ~= length(memory)
             error('length does not match')

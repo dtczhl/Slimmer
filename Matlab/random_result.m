@@ -4,6 +4,14 @@ clear, clc
 f_main = '../Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_main.csv';
 f_memory = '../Result/alienware/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_memory.csv';
 
+% avg memory
+f_men = {
+    '../Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_memory_1.csv';
+    '../Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_memory_2.csv';
+    '../Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_memory_3.csv';
+    '../Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/random_result_memory_4.csv';
+};
+
 
 data_main = csvread(f_main, 1, 0);
 keep_ratio_main = data_main(:, 1);
@@ -18,6 +26,13 @@ keep_ratio_memory = data_memory(:, 1);
 inference_time_memory = data_memory(:, 2);
 flop_memory = data_memory(:, 3);
 memory_memory = data_memory(:, 4);
+
+% average memory
+for i = 1:length(f_men)
+    data_memory = csvread(f_men{i}, 1, 0);
+    memory_memory = memory_memory + data_memory(:, 4);
+end
+memory_memory = memory_memory / (1+length(f_men));
 
 % average IOU
 figure(1),clf
