@@ -26,8 +26,8 @@
 
         ```shell
         cd $CONDA_PREFIX
-        mkdir etc/conda/activate.d
-        mkdir etc/conda/deactivate.d
+        mkdir -p etc/conda/activate.d
+        mkdir -p etc/conda/deactivate.d
         ```
 
     2.  add `PYTHONPATH` to this conda environment
@@ -194,7 +194,7 @@ Index | m | rep | residual | epoch | #parameters | batch size | FLOPs | Memory (
 5 | 16 | 1 | False | 530 | 2689860 | 8 | 1.03 x 10^{10} | 0.84 | 0.87 | 67.11
 6 | 16 | 2 | False | 570 | 4288100 | 8 | 1.66 x 10^{10} | 1.12| 1.16 | 68.79
 7 | 16 | 1 | True | 500 | 4334692 | 8 | - | - | - | 68.72
-8 | 16 | 2 | True | 650 | 7531172 | 8 | 2.97 x 10^{10} | 1.85 | 1.81 | 69.79 
+8 | 16 | 2 | True | 650 | 7531172 | 8 | 2.97 x 10^{10} | 1.85 | 1.81 | 69.79
 
 ## Folder Structure
 *   `Cpp`. C++ program for data simplification

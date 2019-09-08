@@ -5,9 +5,12 @@ import re
 # ----- Configurations -----
 
 # path to root ScanNet folder
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # --- end of Configurations ---
+
+if not os.path.exists(scannet_dir):
+    os.makedirs(scannet_dir)
 
 scannet_url = "http://kaldir.vc.in.tum.de/scannet/download-scannet.py"
 
