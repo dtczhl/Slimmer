@@ -11,7 +11,7 @@ from shutil import copyfile
 # ----- Configurations -----
 
 # path to ScanNet dataset
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # path to dtc-sparseconvnet/
 git_dir = "/home/dtc/MyGit/dtc-scannet-sparseconvnet"

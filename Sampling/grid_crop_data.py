@@ -11,12 +11,12 @@ import shutil
 
 # ------ configuration ------
 
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 device = "alienware"
 
 # only calculating processing time
-processing_time_only = True
+processing_time_only = False
 
 cell_size_arr = np.linspace(0.01, 0.1, 100)
 

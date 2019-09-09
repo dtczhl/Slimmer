@@ -11,12 +11,12 @@ import shutil
 
 # ------ configuration ------
 
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 device = "alienware"
 
 # only calculating processing time
-processing_time_only = True
+processing_time_only = False
 
 cluster_size_arr = range(2, 30, 1)
 var_max = 0.33

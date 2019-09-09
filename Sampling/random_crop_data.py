@@ -11,9 +11,9 @@ import shutil
 
 # ------ configuration ------
 
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
-processing_time_only = True  # whether only care about processing time
+processing_time_only = False  # whether only care about processing time
 
 device = "alienware"
 

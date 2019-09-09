@@ -16,10 +16,10 @@ import sys
 # ------ configuration ------
 
 # path to this git
-git_dir = "/home/dtc/MyGit/dtc-sparseconvnet/"
+git_dir = "/home/dtc/MyGit/dtc-scannet-sparseconvnet/"
 
 # path to ScanNet directory
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # --- end of configuration ---
 
