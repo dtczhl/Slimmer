@@ -1,4 +1,6 @@
 
+Running on Ubuntu 18.04.
+
 ## Setup
 
 1.  Install Facebook SparseConvNet <https://github.com/facebookresearch/SparseConvNet>
@@ -18,6 +20,13 @@
     ```shell
     pip install plyfile
     conda install scipy psutil
+    pip install pptk
+    ```
+    Fix `pptk` compatibility issue with Ubuntu 18.04
+    ```shell
+    cd $CONDA_PREFIX/lib/python3.x/site-packages/pptk/libs
+    mv libz.so.1 libz.so.1.old
+    sudo ln -s /lib/x86_64-linux-gnu/libz.so.1
     ```
 
 3.  Add this git to `PYTHONPATH`
