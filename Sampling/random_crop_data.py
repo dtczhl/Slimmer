@@ -13,7 +13,7 @@ import shutil
 
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
-processing_time_only = False  # whether only care about processing time
+processing_time_only = True  # whether only care about processing time
 
 device = "alienware"
 
@@ -28,8 +28,10 @@ save_dir = os.path.join("../Result/ProcessingTime", device, data_type)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
+tmp_dir = "../tmp/"
+
 # clear tmp
-files = glob.glob("../tmp/*")
+files = glob.glob(os.path.join(tmp_dir, "*"))
 for file in files:
     os.remove(file)
 
@@ -52,7 +54,7 @@ def crop_data(keep_ratio):
 
         # copy file
         original_data = np.c_[coords, colors, labels]
-        tmp_dir = "../tmp/"
+        # tmp_dir = "../tmp/"
         tmp_file_name = os.path.join(tmp_dir, src_filename)
         original_data.ravel().tofile(tmp_file_name)
 
@@ -104,7 +106,7 @@ def crop_data(keep_ratio):
     print("saving file to:", save_file)
     shutil.move(os.path.join(tmp_dir, "time.txt"), save_file)
     # clear tmp
-    files = glob.glob("../tmp/*")
+    files = glob.glob(os.path.join(tmp_dir, "*"))
     for file in files:
         os.remove(file)
     print("------ ratio {}%, {:.2f}s".format(keep_ratio, time.time() - start_time))
