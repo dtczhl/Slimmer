@@ -13,12 +13,12 @@ import shutil
 
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
-processing_time_only = True  # whether only care about processing time
+processing_time_only = False  # whether only care about processing time
 
 device = "alienware"
 
 # keep ratios
-keep_ratio_arr = range(2, 101, 2)
+keep_ratio_arr = range(20, 21, 2)
 
 # --- end of configuration
 
