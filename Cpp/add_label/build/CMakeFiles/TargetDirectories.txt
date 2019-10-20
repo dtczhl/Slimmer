@@ -1,0 +1,3 @@
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/add_label/build/CMakeFiles/rebuild_cache.dir
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/add_label/build/CMakeFiles/add_label.dir
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/add_label/build/CMakeFiles/edit_cache.dir
