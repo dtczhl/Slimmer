@@ -11,9 +11,9 @@ import pptk
 # ------ Configurations ------
 
 # path to pth file
-pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Random.10"
+pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Original"
 
-show_gt = False  # show groundtruth or not
+show_gt = True  # show groundtruth or not
 
 # --- end of configurations ---
 

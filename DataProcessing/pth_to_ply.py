@@ -13,14 +13,15 @@ from plyfile import PlyData, PlyElement
 
 # ------ Configuration ------
 
-# path to Pth
-Pth_dir = "/home/dtc/Backup/Data/ScanNet/Pth/Original"
-
-# path to ply
-Ply_dir = "/home/dtc/Backup/Data/ScanNet/Ply"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # --- end of Configuration ---
 
+# path to Pth
+Pth_dir = os.path.join(scannet_dir, "Pth/Original")
+
+# path to save to ply
+Ply_dir = os.path.join(scannet_dir, "Ply")
 if not os.path.exists(Ply_dir):
     os.makedirs(Ply_dir)
 

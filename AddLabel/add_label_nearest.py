@@ -6,6 +6,7 @@ import numpy as np
 import glob
 import os
 import pandas as pd
+import sys
 
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
@@ -14,14 +15,21 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 # Random, Grid, Hierarchy
 data_type = "Random"
 
-specify_id = 40
+specify_id = 90
 
 # --- end of configuration ---
 
 original_ply_dir = os.path.join(scannet_dir, "Ply")
-simplified_pth_dir = os.path.join(scannet_dir, "PlyLabel", data_type, str(specify_id))
+if not os.path.exists(original_ply_dir):
+    print("{} does not exist! See DataProcessing/pth_to_ply.py".format(original_ply_dir))
+    sys.exit(1)
 
-save_dir = os.path.join(scannet_dir, "PlyLabelAdd", data_type, str(specify_id))
+simplified_pth_dir = os.path.join(scannet_dir, "PlyLabel", data_type, str(specify_id))
+if not os.path.exists(simplified_pth_dir):
+    print("{} does not exist! See Validation/memory_valid.py".format(simplified_pth_dir))
+    sys.exit(1)
+
+save_dir = os.path.join(scannet_dir, "AddMissingLabel", data_type, str(specify_id))
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 

@@ -155,10 +155,43 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
     device =
     model_name =
     data_type =
+    specify_id =
+    is_save_ply_label = save predication for each point
     ```
     Data are saved to `Result/{device}/{model_name}/{data_type}/result_memory.csv`. File structure
     ```plain
     ratio of point cloud, running time per point cloud, flop per point cloud, memory per point cloud
+    ```
+    If `is_save_ply_label = True`, then predications are saved to `{scannet_dir}/PlyLabel/{data_type}/{ratio of point cloud size}`
+
+## Recover to Full-Size
+
+1.  convert original pth to Ply. `DataProcessing/pth_to_ply.py`
+
+    ```python
+    scannet_dir =
+    ```
+    Data saved to `{scannet_dir}/Ply`
+
+2.  save predication labels for simplified point cloud. `Validation/memory_valid.py` with `is_save_ply_label = True`.
+
+3.  add missing label from nearest label. `AddLabel/add_label_nearest.py`
+
+    ```python
+    data_type =
+    specify_id =
+    ```
+    Data saved to `{scannet_dir}/AddMissingLabel/{data_type}/{keep_ratio}`. File structure `.txt`
+    ```plain
+    x (float), y (float), z (float), r (int), g (int), b (int), orig_label (int), pred_label (int)
+    ```
+
+4.  calculate IOU for adding labels. `AddLabel/iou_after_label.py`
+
+    ```python
+    scannet_dir =
+    data_type =
+    specify_id = 
     ```
 
 ## Auxiliary
@@ -206,12 +239,13 @@ Index | m | rep | residual | epoch | #parameters | batch size | FLOPs | Memory (
 8 | 16 | 2 | True | 650 | 7531172 | 8 | 2.97 x 10^{10} | 1.85 | 1.81 | 69.79
 
 ## Folder Structure
-*   `Cpp`. C++ program for data simplification
+*   `AddLabel`. Adding labels for simplified point clouds
+*   `Cpp`. C++ program for data simplification, label adding, etc
 *   `DataProcessing`. Data pre-processing.
-*   `Image`.
 *   `log`. Checkpoints during training
 *   `Matlab`.
 *   `Model`. Trained models
+*   `Image`. Experiment images
 *   `PointFeature`. Exploring point cloud features
 *   `Result`. Saved results
 *   `Sampling`. Data simplification

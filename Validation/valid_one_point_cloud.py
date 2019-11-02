@@ -22,7 +22,7 @@ scannet_dir = '/home/dtc/Backup/Data/ScanNet'
 model_name = "scannet_m16_rep2_residualTrue-000000650.pth"
 
 # Original, Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Original"
 
 # omit if data_type is Original
 keep_ratio = 10

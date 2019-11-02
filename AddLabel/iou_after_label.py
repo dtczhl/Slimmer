@@ -1,15 +1,28 @@
 """
-    Calculate IOU
+    Calculate IOU with added labels
 """
 
 import numpy as np
 import glob
 import os
 import iou
+import sys
 
-txt_dir = "/home/dtc/Backup/Data/ScanNet/PlyLabelAdd/Random/40"
+# ------ Configurations ------
 
-txt_files = glob.glob(os.path.join(txt_dir, "*.txt"))
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
+
+# Random, Grid, Hierarch
+data_type = "Random"
+
+specify_id = 90  # if want to valid specific ids
+
+# --- end of Configurations ---
+
+
+orig_pred_txt_dir = os.path.join(scannet_dir, "AddMissingLabel", data_type, str(specify_id))
+
+txt_files = glob.glob(os.path.join(orig_pred_txt_dir, "*.txt"))
 
 gt = []
 pred = []
