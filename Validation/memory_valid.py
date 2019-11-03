@@ -29,13 +29,13 @@ model_name = 'scannet_m16_rep2_residualTrue-000000650.pth'
 # Random, Grid, Hierarchy
 data_type = "Random"
 
-specify_id = [10, 30, 50, 70, 90]  # if want to valid specific ids
+specify_id = []  # if want to valid specific ids
 
 is_save_ply_label = True   # whether save prediction labels for each point
 
-# --- end of configuration ---
+use_cuda = True
 
-use_cuda = False
+# --- end of configuration ---
 
 model_file = os.path.join("../Model", model_name)
 

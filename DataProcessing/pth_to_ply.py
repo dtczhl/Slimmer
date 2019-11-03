@@ -25,8 +25,15 @@ Ply_dir = os.path.join(scannet_dir, "Ply")
 if not os.path.exists(Ply_dir):
     os.makedirs(Ply_dir)
 
+nIndex = 0
+start_time = time.time()
 pth_files = glob.glob(os.path.join(Pth_dir, "*.pth"))
 for pth_file in pth_files:
+
+    nIndex += 1
+    if nIndex % 10 == 0:
+        print("---{:.2f}s {}/{}".format(time.time() - start_time, nIndex, len(pth_files)))
+
     data = torch.load(pth_file)
     coords, colors, label = data
     colors = np.array((colors+1)/2 * 255, dtype="uint8")

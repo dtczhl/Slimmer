@@ -175,13 +175,14 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
 
 2.  save predication labels for simplified point cloud. `Validation/memory_valid.py` with `is_save_ply_label = True`.
 
-3.  add missing label from nearest label. `AddLabel/add_label_nearest.py`
+3.  add missing label from nearest labels. `AddLabel/add_label_nearest.py`
 
     ```python
     data_type =
     specify_id =
+    k_KNN = label from nearest k_KNN labels
     ```
-    Data saved to `{scannet_dir}/AddMissingLabel/{data_type}/{keep_ratio}`. File structure `.txt`
+    Data saved to `{scannet_dir}/AddMissingLabel/{data_type}/{k_KNN}/{keep_ratio}`. File structure `.txt`
     ```plain
     x (float), y (float), z (float), r (int), g (int), b (int), orig_label (int), pred_label (int)
     ```
@@ -191,7 +192,15 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
     ```python
     scannet_dir =
     data_type =
-    specify_id = 
+    specify_id =
+    k_KNN =
+
+    device =
+    model_name =
+    ```
+    Data saved to `Result/{device}/{model_name}/{data_type}/iou_knn_{k_KNN}.csv`. File structure
+    ```plain
+    ratio of point cloud, k_KNN, IOU(%)
     ```
 
 ## Auxiliary

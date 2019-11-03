@@ -54,11 +54,12 @@ void myReadPly(const std::string &file_name, pcl::PointCloud<MyPointType> &cloud
     }
 }
 
-void add_miss_label(std::string orig_file, std::string pred_file, std::string save_file){
+void add_miss_label(std::string orig_file, std::string pred_file, std::string save_file, int k_KNN){
     
-    int K = 1;
-    std::vector<int> pointSearchIndex(K);
-    std::vector<float> pointSearchDist(K);
+    // int K = 1;
+    std::vector<int> pointSearchIndex(k_KNN);
+    std::vector<float> pointSearchDist(k_KNN);
+    int *pVote = NULL;
 
     pcl::PointCloud<MyPointType> cloud_orig, cloud_pred;
     
@@ -70,10 +71,26 @@ void add_miss_label(std::string orig_file, std::string pred_file, std::string sa
     predKdTree.setInputCloud(ptrCloud);
 
     for (int i = 0; i < cloud_orig.size(); i++) {
-        if (predKdTree.nearestKSearch(cloud_orig[i], K, pointSearchIndex, pointSearchDist) < K) {
+        if (predKdTree.nearestKSearch(cloud_orig[i], k_KNN, pointSearchIndex, pointSearchDist) < k_KNN) {
             std::cerr << "Found Less Search" << std::endl;
         }
-        cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
+
+        // hard voting
+        int N_labels = 20; // [0, 19]
+        pVote = new int[N_labels]{0}; 
+        for (int k = 1; k < k_KNN; k++) {
+            pVote[cloud_pred[pointSearchIndex[k]].label_orig]++;
+        }
+        int maxValue = 0, maxIndex = 0;
+        for (int j = 0; j < N_labels; j++) {
+            if (pVote[j] > maxValue) {
+                maxValue = pVote[j];
+                maxIndex = j;
+            }
+        }
+
+        // cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
+        cloud_orig[i].label_pred = maxIndex; 
     }
 
     std::ofstream out(save_file);
@@ -92,19 +109,21 @@ Input:
     argv[1]: original_ply_file
     argv[2]: pred_ply_file
     argv[3]: save to file
+    argv[4]: number of neighbors for missing label
 */
 
-    if (argc != 4) {
-        std::cerr << "[add_label] requires argc: 4, input argc: " << argc << std::endl;
-        std::cerr << "Format: program orig_file pred_file save_file" << std::endl;
+    if (argc != 5) {
+        std::cerr << "[add_label] requires argc: 5, input argc: " << argc << std::endl;
+        std::cerr << "Format: program orig_file pred_file save_file k_in_KNN" << std::endl;
         exit(-1);
     }
 
     std::string orig_file(argv[1]);
     std::string pred_file(argv[2]);
     std::string save_file(argv[3]);
+    int K_KNN = atoi(argv[4]);
 
-    add_miss_label(orig_file, pred_file, save_file);
+    add_miss_label(orig_file, pred_file, save_file, K_KNN);
 
     return 0;
 }
