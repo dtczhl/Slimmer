@@ -78,7 +78,7 @@ void add_miss_label(std::string orig_file, std::string pred_file, std::string sa
         // hard voting
         int N_labels = 20; // [0, 19]
         pVote = new int[N_labels]{0}; 
-        for (int k = 1; k < k_KNN; k++) {
+        for (int k = 1; k <= k_KNN; k++) {
             pVote[cloud_pred[pointSearchIndex[k]].label_orig]++;
         }
         int maxValue = 0, maxIndex = 0;
