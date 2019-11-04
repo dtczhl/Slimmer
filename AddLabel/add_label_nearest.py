@@ -64,7 +64,7 @@ if __name__ == "__main__":
         for my_id in specify_id:
             add_label_KNN(my_id, k_KNN)
     else:
-        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "PlyLabel", data_type, "*")))
+        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "PlyLabel", data_type, "*")), key=func_filename)
         for data_dir in data_dirs:
             my_id = int(os.path.basename(data_dir))
             add_label_KNN(my_id, k_KNN)

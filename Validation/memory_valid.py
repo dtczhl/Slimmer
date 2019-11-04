@@ -29,11 +29,11 @@ model_name = 'scannet_m16_rep2_residualTrue-000000650.pth'
 # Random, Grid, Hierarchy
 data_type = "Random"
 
-specify_id = []  # if want to valid specific ids
+specify_id = [90]  # if want to valid specific ids
 
 is_save_ply_label = True   # whether save prediction labels for each point
 
-use_cuda = True
+use_cuda = False
 
 # --- end of configuration ---
 

@@ -1,4 +1,3 @@
-
 Running on Ubuntu 18.04.
 
 ## Setup
@@ -18,7 +17,7 @@ Running on Ubuntu 18.04.
 2.  Install extra packages
 
     ```shell
-    pip install plyfile
+    pip install plyfile pandas
     conda install scipy psutil
     pip install pptk
     ```
@@ -174,6 +173,16 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
     Data saved to `{scannet_dir}/Ply`
 
 2.  save predication labels for simplified point cloud. `Validation/memory_valid.py` with `is_save_ply_label = True`.
+
+    ```python
+    scannet_dir =
+    device =
+    model_name =
+    data_type =
+    specify_id =
+    is_save_ply_label =
+    use_cuda = 
+    ```
 
 3.  add missing label from nearest labels. `AddLabel/add_label_nearest.py`
 

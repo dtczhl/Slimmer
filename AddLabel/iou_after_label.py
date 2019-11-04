@@ -56,7 +56,7 @@ def calculate_iou_with_added_label(keep_ratio, k_KNN):
     iou_ret = iou.evaluate(pred, gt)
 
     print("{} --- {} k: {} keep ratio: {}".format(str(datetime.datetime.now()), data_type, str(k_KNN), str(keep_ratio)))
-    return keep_ratio, 100*iou_ret
+    return keep_ratio, k_KNN, 100*iou_ret
 
 
 if __name__ == "__main__":
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     print("id, iou(%)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    save_file = os.path.join(save_dir, "iou_knn_{}".format(str(k_KNN)), ".csv")
+    save_file = os.path.join(save_dir, "iou_knn_{}".format(str(k_KNN)) + ".csv")
     print("saving file to:", save_file)
     np.savetxt(save_file, result, fmt="%d,%d,%.2f",
                header="data_id,k_KNN,IOU(%)")
