@@ -19,7 +19,7 @@ data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 2  # number of nearest labels
 
 # --- end of configuration ---
 
