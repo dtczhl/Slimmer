@@ -21,8 +21,8 @@ import numpy as np
 
 # ------ Configurations ------
 
-m = 16  # 16 or 32; 16
-residual_blocks = False  # True or False; False
+m = 32  # 16 or 32; 16
+residual_blocks = True  # True or False; False
 block_reps = 2  # Conv block repetition factor: 1 or 2; 1
 
 training_epochs = 1024

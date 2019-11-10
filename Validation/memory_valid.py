@@ -143,6 +143,9 @@ def valid_data(data_id):
         y = y.cpu().detach().numpy()
         y = np.argmax(y, axis=1)
 
+        ret_memory += process.memory_info().rss / 1e6
+        ret_time += time.time() - start_time_ret
+
         # save pth and labels
         if is_save_ply_label:
             dst_pth_label_dir = os.path.join(scannet_dir, "PlyLabel", data_type, str(data_id))
@@ -162,9 +165,6 @@ def valid_data(data_id):
             el = PlyElement.describe(ply_save, "vertex")
             plydata = PlyData([el], text=True)
             plydata.write(dst_path_file)
-
-        ret_memory += process.memory_info().rss / 1e6
-        ret_time += time.time() - start_time_ret
 
     ret_flop = scn.forward_pass_multiplyAdd_count / 1e6
 

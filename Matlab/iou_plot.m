@@ -2,7 +2,7 @@
 
 clear, clc
 
-main_dir = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/scannet_m8_rep1_residualTrue-000000650/Backup/';
+main_dir = '/home/dtc/MyGit/dtc-scannet-sparseconvnet/Result/pmserver/scannet_m16_rep2_residualTrue-000000650/Backup/';
 f_random = strcat(main_dir, 'random_result_main.csv');
 f_grid = strcat(main_dir, 'grid_result_main.csv');
 f_hierarchy = strcat(main_dir, 'hierarchy_result_main.csv');
