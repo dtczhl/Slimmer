@@ -181,8 +181,9 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
     data_type =
     specify_id =
     is_save_ply_label =
-    use_cuda = 
+    use_cuda =
     ```
+    Data saved to `{scannet_dir/PlyLabel}`
 
 3.  add missing label from nearest labels. `AddLabel/add_label_nearest.py`
 
