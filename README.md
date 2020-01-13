@@ -241,6 +241,8 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
 
     Data are saved to `Result/EmptyCell/kitti_empty_cell.csv`
 
+5.  For C++ implementation. `DataProcessing/pth_to_bin.py`: convert pth data to binary. 
+
 
 ## Trained Models
 

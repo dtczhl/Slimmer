@@ -1,4 +1,4 @@
-# Install script for directory: /home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data
+# Install script for directory: /home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/sample_data
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/dtc/MyGit/dtc-sparseconvnet/Cpp/sample_data/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/sample_data/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

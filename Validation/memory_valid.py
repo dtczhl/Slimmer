@@ -24,16 +24,19 @@ scannet_dir = '/home/dtc/Backup/Data/ScanNet'
 
 device = "alienware"
 
-model_name = 'scannet_m16_rep2_residualTrue-000000650.pth'
+model_name = 'scannet_m32_rep2_residualTrue-000000670.pth'
 
 # Random, Grid, Hierarchy
 data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-is_save_ply_label = True   # whether save prediction labels for each point
+is_save_ply_label = False   # whether save prediction labels for each point
 
 use_cuda = False
+
+#!!!!!!!!!!!1
+n_scene = 30
 
 # --- end of configuration ---
 
@@ -125,7 +128,12 @@ def valid_data(data_id):
 
     pth_folder = os.path.join(scannet_dir, "Pth", data_type, str(data_id))
     pth_files = glob.glob(os.path.join(pth_folder, '*.pth'))
+
+    # !!!!!!!!!!!!!!!!!!!!!!
+    pth_files = pth_files[:n_scene]
+
     n_file = len(pth_files)
+
     for pth_file in pth_files:
         data = torch.load(pth_file)
         coords_bak, colors_bak, label_bak = data  # for saving purpose
