@@ -35,7 +35,7 @@ is_save_ply_label = False   # whether save prediction labels for each point
 
 use_cuda = False
 
-#!!!!!!!!!!!1
+#!!!!!!!!!!!
 n_scene = 30
 
 # --- end of configuration ---
