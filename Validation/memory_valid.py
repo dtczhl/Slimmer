@@ -31,7 +31,7 @@ data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-is_save_ply_label = False   # whether save prediction labels for each point
+is_save_ply_label = True   # whether save prediction labels for each point
 
 use_cuda = False
 

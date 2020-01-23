@@ -19,7 +19,7 @@ data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 3  # number of nearest labels
+k_KNN = 5  # number of nearest labels
 
 # --- end of configuration ---
 
@@ -40,13 +40,12 @@ def add_label_KNN(keep_ratio, k_KNN):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-    ply_base_files = glob.glob(os.path.join(original_ply_dir, "*.ply"))
-    for ply_base_file in ply_base_files:
-        ply_base_name = os.path.basename(ply_base_file)
+    pred_files = glob.glob(os.path.join(simplified_pth_dir, "*.ply"))
+    for pred_file in pred_files:
+        pred_base_name = os.path.basename(pred_file)
 
-        orig_file = ply_base_file
-        pred_file = os.path.join(simplified_pth_dir, ply_base_name)
-        save_file = os.path.join(save_dir, ply_base_name[:-4]+".txt")
+        orig_file = os.path.join(scannet_dir, "Ply", pred_base_name)
+        save_file = os.path.join(save_dir, pred_base_name[:-4]+".txt")
 
         mycmd = "../Cpp/add_label/build/add_label {} {} {} {}"\
                 .format(orig_file, pred_file, save_file, k_KNN)

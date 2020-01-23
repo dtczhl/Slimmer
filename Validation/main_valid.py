@@ -15,12 +15,12 @@ import sys
 import psutil
 
 # ------ Configurations ------
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 device = "alienware"
 
 # trained model in ../Model/
-model_name = "scannet_m8_rep1_residualFalse-000000470.pth"
+model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
 # Random, Grid, Hierarchy
 data_type = "Random"
@@ -28,6 +28,9 @@ data_type = "Random"
 specify_id = []  # if want to valid specific ids
 
 use_cuda = True
+
+#!!!!!!!!!!!
+n_scene = 30
 
 # --- end of configurations ---
 
@@ -164,7 +167,7 @@ def valid_data(data_id):
     global val
     val = []
     for x in torch.utils.data.DataLoader(
-            glob.glob(os.path.join(data_dir, "*.pth")),
+            glob.glob(os.path.join(data_dir, "*.pth"))[:n_scene],
             collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
         val.append(x)
     print("data from {} scenes".format(len(val)))

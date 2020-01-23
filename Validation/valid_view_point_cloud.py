@@ -1,5 +1,6 @@
 """
-    view predication for point cloud
+    view predication for point cloud,
+    Run valid_one_point_cloud first
 """
 
 import torch
@@ -11,7 +12,7 @@ import pptk
 # ------ Configurations ------
 
 # path to pth file
-pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Original"
+pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Random.20"
 
 show_gt = True  # show groundtruth or not
 
