@@ -1,0 +1,3 @@
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/recover_full/build/CMakeFiles/rebuild_cache.dir
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/recover_full/build/CMakeFiles/recover_full.dir
+/home/dtc/MyGit/dtc-scannet-sparseconvnet/Cpp/recover_full/build/CMakeFiles/edit_cache.dir

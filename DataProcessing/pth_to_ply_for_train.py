@@ -1,5 +1,5 @@
 """
-    transform pth to ply under train_ply dir for training simplification ratio predictor
+    transform pth to ply under {scannet_dir}/Train_ply dir for training simplification ratio predictor
 """
 
 
@@ -9,12 +9,23 @@ import glob
 import os
 import sys
 from plyfile import PlyData, PlyElement
+import time
 
+# ------ Configuration ------
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
+# --- end of Configuration ---
 
-# train -> train_txt
+# train -> {scannet_dir}/Train_ply
 pth_files = glob.glob(os.path.join("../train", "*.pth"))
+ply_dir = os.path.join(scannet_dir, "Train_ply")
+if not os.path.exists(ply_dir):
+    os.makedirs(ply_dir)
 
+index = 1
 for pth_file in pth_files:
+
+    time_start = time.time()
+
     data = torch.load(pth_file)
     coords, colors, label = data
     colors = np.array((colors + 1) / 2 * 255, dtype="uint8")
@@ -28,8 +39,13 @@ for pth_file in pth_files:
                                ("label", "u1")])
     el = PlyElement.describe(ply_save, "vertex")
     plydata = PlyData([el], text=True)
-    dst_ply = os.path.join("../train_ply", os.path.basename(pth_file)[:-4]+".ply")
+    dst_ply = os.path.join(ply_dir, os.path.basename(pth_file)[:-4]+".ply")
     plydata.write(dst_ply)
+
+    if index % 10 == 0:
+        print("{}: {}/{}".format(time.time() - time_start, index, len(pth_files)))
+    index += 1
+
 
 
 

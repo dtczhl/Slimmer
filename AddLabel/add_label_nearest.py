@@ -17,11 +17,15 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 # Random, Grid, Hierarchy
 data_type = "Random"
 
+
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 5  # number of nearest labels
+k_KNN = 1  # number of nearest labels
 
 # --- end of configuration ---
+
+ply_label_dir = "PlyLabel"
+add_label_dir = "AddMissingLabel"
 
 original_ply_dir = os.path.join(scannet_dir, "Ply")
 if not os.path.exists(original_ply_dir):
@@ -31,12 +35,12 @@ if not os.path.exists(original_ply_dir):
 
 def add_label_KNN(keep_ratio, k_KNN):
 
-    simplified_pth_dir = os.path.join(scannet_dir, "PlyLabel", data_type, str(keep_ratio))
+    simplified_pth_dir = os.path.join(scannet_dir, ply_label_dir, data_type, str(keep_ratio))
     if not os.path.exists(simplified_pth_dir):
         print("{} does not exist! See Validation/memory_valid.py".format(simplified_pth_dir))
         sys.exit(1)
 
-    save_dir = os.path.join(scannet_dir, "AddMissingLabel", data_type, str(k_KNN), str(keep_ratio))
+    save_dir = os.path.join(scannet_dir, add_label_dir, data_type, str(k_KNN), str(keep_ratio))
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
@@ -63,7 +67,7 @@ if __name__ == "__main__":
         for my_id in specify_id:
             add_label_KNN(my_id, k_KNN)
     else:
-        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, "PlyLabel", data_type, "*")), key=func_filename)
+        data_dirs = sorted(glob.glob(os.path.join(scannet_dir, ply_label_dir, data_type, "*")), key=func_filename)
         for data_dir in data_dirs:
             my_id = int(os.path.basename(data_dir))
             add_label_KNN(my_id, k_KNN)

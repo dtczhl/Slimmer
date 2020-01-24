@@ -166,10 +166,16 @@ def valid_data(data_id):
     print("loading val data", data_name)
     global val
     val = []
-    for x in torch.utils.data.DataLoader(
-            glob.glob(os.path.join(data_dir, "*.pth"))[:n_scene],
-            collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
-        val.append(x)
+    if "n_scene" in locals() or "n_scene" in globals():
+        for x in torch.utils.data.DataLoader(
+                glob.glob(os.path.join(data_dir, "*.pth"))[:n_scene],
+                collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
+            val.append(x)
+    else:
+        for x in torch.utils.data.DataLoader(
+                glob.glob(os.path.join(data_dir, "*.pth")),
+                collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
+            val.append(x)
     print("data from {} scenes".format(len(val)))
 
     global valOffsets

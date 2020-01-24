@@ -1,22 +1,16 @@
 """
-    view predication for point cloud,
-    Run valid_one_point_cloud first
+    Showing raw point cloud in ply
 """
 
-import torch
 import numpy as np
-import sys
-import os
+import torch
 import pptk
+from plyfile import PlyData
 
-# ------ Configurations ------
 
-# path to pth file
-pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Random.20"
+ply_file = "/home/dtc/Backup/Data/ScanNet/Train_ply/scene0000_00_vh_clean_2.ply"
 
-show_gt = True  # show groundtruth or not
 
-# --- end of configurations ---
 
 CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf',
                 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink',
@@ -79,27 +73,18 @@ for valid_id in VALID_CLASS_IDS:
 CLASS_COLOR = np.array(CLASS_COLOR) / 255.0
 
 
-def show_predication_result(pth_file, show_gt):
+ply_data = PlyData.read(ply_file)
+data_xyz = np.asarray([ply_data["vertex"]["x"], ply_data["vertex"]["y"], ply_data["vertex"]["z"]]).transpose() # x, y, z for each point
+data_rgb = np.asarray([ply_data["vertex"]["red"], ply_data["vertex"]["green"], ply_data["vertex"]["blue"]]).transpose() # r, g, b for each point
+data_rgb = data_rgb / 255.0  # color normalized to [0, 1.0]
+data_label = np.asarray(ply_data["vertex"]["label"]).transpose()
 
-    data = torch.load(pth_file)
-    coords, colors, labels, pred = data
+ignore_index = (0 > data_label) | (data_label > 19)
+data_xyz = data_xyz[~ignore_index]
+data_rgb = data_rgb[~ignore_index]
+data_label = data_label[~ignore_index]
+print(data_label)
+gt_color = [CLASS_COLOR[x] for x in data_label.astype("int32")]
 
-    ignore_index = labels == -100
-    coords = coords[~ignore_index]
-    colors = colors[~ignore_index]
-    labels = labels[~ignore_index]
-    pred = pred[~ignore_index]
+pptk.viewer(data_xyz, gt_color)
 
-    gt_color = [CLASS_COLOR[x] for x in labels.astype("int32")]
-    pred_color = [CLASS_COLOR[x] for x in pred.astype("int32")]
-
-    if show_gt:
-        v1 = pptk.viewer(coords, gt_color)
-        v1.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False, show_info=False)
-
-    v2 = pptk.viewer(coords, pred_color)
-    v2.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False, show_info=False)
-
-
-if __name__ == "__main__":
-    show_predication_result(pth_file, show_gt)

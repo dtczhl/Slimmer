@@ -147,15 +147,18 @@ def valid_data(data_id):
             colors = colors.cuda()
 
         start_time_ret = time.time()
+
         y = unet([coords, colors])
         y = y.cpu().detach().numpy()
         y = np.argmax(y, axis=1)
+
 
         ret_memory += process.memory_info().rss / 1e6
         ret_time += time.time() - start_time_ret
 
         # save pth and labels
         if is_save_ply_label:
+
             dst_pth_label_dir = os.path.join(scannet_dir, "PlyLabel", data_type, str(data_id))
             if not os.path.exists(dst_pth_label_dir):
                 os.makedirs(dst_pth_label_dir)
