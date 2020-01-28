@@ -19,9 +19,11 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # path to Pth
 Pth_dir = os.path.join(scannet_dir, "Pth/Original")
+# Pth_dir = "/home/dtc/Data/ScanNet/Pth"
 
 # path to save to ply
 Ply_dir = os.path.join(scannet_dir, "Ply")
+# Ply_dir = "/home/dtc/Data/ScanNet/Ply"
 if not os.path.exists(Ply_dir):
     os.makedirs(Ply_dir)
 

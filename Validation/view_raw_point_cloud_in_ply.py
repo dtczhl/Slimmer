@@ -8,7 +8,7 @@ import pptk
 from plyfile import PlyData
 
 
-ply_file = "/home/dtc/Backup/Data/ScanNet/Train_ply/scene0000_00_vh_clean_2.ply"
+ply_file = "/home/dtc/Backup/Data/ScanNet/Ply_partial/scene0430_00_vh_clean_2.ply"
 
 
 

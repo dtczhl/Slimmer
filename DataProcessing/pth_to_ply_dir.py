@@ -19,7 +19,7 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 # Random, Hierarchy, Grid
 data_type = "Random"
 
-n_scene = 30
+n_scene = 50
 
 # --- end of Configuration ---
 

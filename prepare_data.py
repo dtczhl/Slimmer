@@ -10,6 +10,7 @@ import numpy as np
 import multiprocessing as mp
 import torch
 import sys
+import os
 
 # Map relevant classes to {0,1,...,19}, and ignored classes to -100
 remapper = np.ones(150)*(-100)
@@ -35,6 +36,7 @@ def f(fn):
     a = plyfile.PlyData().read(fn2)
     w = remapper[np.array(a.elements[0]['label'])]
     torch.save((coords, colors, w), fn[:-4]+'.pth')
+    # torch.save((coords, colors, np.array(a.elements[0]['label'])), os.path.join("/home/dtc/Data/ScanNet/Pth", os.path.basename(fn[:-4])+".pth"))
     print(fn, fn2)
 
 

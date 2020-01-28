@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 project (recover_full)
 
+set (CMAKE_CXX_FLAGS "-Ofast")
+
 find_package(PCL 1.8 REQUIRED)
 
 include_directories(${PCL_INCLUDE_DIRS} include)

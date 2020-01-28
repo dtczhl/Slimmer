@@ -31,12 +31,12 @@ data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-is_save_ply_label = True   # whether save prediction labels for each point
+is_save_ply_label = False   # whether save prediction labels for each point
 
 use_cuda = False
 
 #!!!!!!!!!!!
-n_scene = 30
+n_scene = 50
 
 # --- end of configuration ---
 
@@ -151,7 +151,7 @@ def valid_data(data_id):
         y = unet([coords, colors])
         y = y.cpu().detach().numpy()
         y = np.argmax(y, axis=1)
-
+        # y = np.zeros(len(coords_bak))
 
         ret_memory += process.memory_info().rss / 1e6
         ret_time += time.time() - start_time_ret
