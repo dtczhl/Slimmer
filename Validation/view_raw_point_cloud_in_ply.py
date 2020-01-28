@@ -8,7 +8,7 @@ import pptk
 from plyfile import PlyData
 
 
-ply_file = "/home/dtc/Backup/Data/ScanNet/Ply_partial/scene0430_00_vh_clean_2.ply"
+ply_file = "/home/dtc/Backup/Data/ScanNet/Train_ply/scene0288_00_vh_clean_2.ply"
 
 
 
@@ -86,5 +86,8 @@ data_label = data_label[~ignore_index]
 print(data_label)
 gt_color = [CLASS_COLOR[x] for x in data_label.astype("int32")]
 
-pptk.viewer(data_xyz, gt_color)
+# pptk.viewer(data_xyz, gt_color)
+v = pptk.viewer(data_xyz, data_rgb)
+v.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False,
+       show_info=False)
 
