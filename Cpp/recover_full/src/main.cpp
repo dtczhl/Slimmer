@@ -80,6 +80,7 @@ void myReadPly(const std::string &file_name, pcl::PointCloud<MyPointType> &cloud
     while (std::getline(infile, line)){
         std::istringstream iss(line);
         iss >> x >> y >> z >> r >> g >> b >> label;
+        if (label < 0 || label >= 20) continue;
         MyPointType point;
         point.x = x; point.y = y; point.z = z; point.r = r; point.g = g; point.b = b;
         point.label_orig = label;
@@ -116,7 +117,7 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
 
         for (int i_point = 0; i_point < cloud_full.size(); i_point++) {
 
-            bool bPointOriginal = false;
+            // bool bPointOriginal = false;
 
             if (cloud_full[i_point].label_orig < 0 || 
                     cloud_full[i_point].label_orig >= N_labels) continue;
@@ -125,17 +126,19 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
                 std::cerr << "Found Less Search" << std::endl;
             }
 
-            if (pointSearchDist[0] == 0) { // points in cloud_partial
-                bPointOriginal = true;
-            }
+            // if (pointSearchDist[0] == 0) { // points in cloud_partial
+            //     bPointOriginal = true;
+            // }
 
             int maxValue = 0, maxIndex = 0;
-            if (!bPointOriginal) {
+            // if (!bPointOriginal) {
             // hard voting
                 pVote = new int[N_labels]{0}; 
                 for (int k = 0; k < K; k++) {
                     if (cloud_partial[pointSearchIndex[k]].label_orig < 0 || 
-                        cloud_partial[pointSearchIndex[k]].label_orig >= N_labels) continue;
+                        cloud_partial[pointSearchIndex[k]].label_orig >= N_labels) {
+                            continue;
+                        };
                     pVote[cloud_partial[pointSearchIndex[k]].label_orig]++;
                 }
 
@@ -145,9 +148,9 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
                         maxIndex = j;
                     }
                 }
-            } else {
-                maxIndex = cloud_partial[pointSearchIndex[0]].label_orig;  // points in cloud_partial
-            }
+            // } else {
+            //     maxIndex = cloud_partial[pointSearchIndex[0]].label_orig;  // points in cloud_partial
+            // }
 
             if (cloud_full[i_point].label_orig == maxIndex) {
                 // true positive

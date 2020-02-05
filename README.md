@@ -213,6 +213,14 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
     ratio of point cloud, k_KNN, IOU(%)
     ```
 
+## Predictor for Simplification
+
+1.  copy pth of training data to ply. `DataProcessing/pth_to_ply_for_train.py`. Data saved to `{scannet_dir}/Train_ply`
+
+2.  generate labels for training dataset. `AddLabel/recover_full.py`. Data saved to `{scannet_dir}/Train_ply_label`. Each point cloud is sparsified and results saved to csv
+
+3.  calculate iou of each point cloud. `AddLabel/iou_after_label_each.py`. Data saved to `Result`.
+
 ## Auxiliary
 
 1.  validate one point cloud. `Validation/valid_one_point_cloud.py`
@@ -241,7 +249,7 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
 
     Data are saved to `Result/EmptyCell/kitti_empty_cell.csv`
 
-5.  For C++ implementation. `DataProcessing/pth_to_bin.py`: convert pth data to binary. 
+5.  For C++ implementation. `DataProcessing/pth_to_bin.py`: convert pth data to binary.
 
 
 ## Trained Models

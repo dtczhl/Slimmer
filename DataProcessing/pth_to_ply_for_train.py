@@ -22,10 +22,8 @@ if not os.path.exists(ply_dir):
     os.makedirs(ply_dir)
 
 index = 1
+time_start = time.time()
 for pth_file in pth_files:
-
-    time_start = time.time()
-
     data = torch.load(pth_file)
     coords, colors, label = data
     colors = np.array((colors + 1) / 2 * 255, dtype="uint8")

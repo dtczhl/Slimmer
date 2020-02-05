@@ -18,6 +18,9 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
+# train, val
+train_type = "train"
+
 k_KNN = 1  # number of nearest labels
 
 # --- end of Configurations ---
@@ -28,7 +31,8 @@ data_type = "Random"
 save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
-save_file = os.path.join(save_dir, "train_label_gt.csv")
+# save_file = os.path.join(save_dir, "train_label_gt.csv")
+save_file = os.path.join(save_dir, "{}_label_gt.csv".format(train_type))
 
 
 def iou_for_point_cloud(csv_file):
@@ -52,15 +56,20 @@ def iou_for_point_cloud(csv_file):
             FP = data[i_ratio, i_class, 2]
             FN = data[i_ratio, i_class, 3]
             denominator = TP + FP + FN
-            if denominator > 0:
+            if TP + FN <= 0 and FP > 0:
+                print("Error", csv_file, i_ratio)
+                sys.exit()
+            if TP + FN > 0:
                 n_effective_class += 1
                 CSI[i_class] = TP / denominator
-
         ret[0, i_ratio] = np.sum(CSI) / n_effective_class
     return ret
 
 
-csv_files = glob.glob(os.path.join(scannet_dir, "Train_ply_label", str(k_KNN), "*.csv"))
+if train_type == "train":
+    csv_files = glob.glob(os.path.join(scannet_dir, "Train_ply_label", str(k_KNN), "*.csv"))
+else:
+    csv_files = glob.glob(os.path.join(scannet_dir, "Ply_label", str(k_KNN), "*.csv"))
 iou_data = np.zeros(shape=(len(csv_files), 100))
 for i in range(len(csv_files)):
     iou_data[i, :] = iou_for_point_cloud(csv_files[i])
