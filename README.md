@@ -221,6 +221,11 @@ Data simplification is implemented in C++ under `Cpp/sample_data`. Require CGAL 
 
 3.  calculate iou of each point cloud. `AddLabel/iou_after_label_each.py`. Data saved to `Result`.
 
+### KNN Compare
+
+1.  `recover_full.py`
+2.  dtc-c-sparse/Matlab/k_nearest_neighbor.m
+
 ## Auxiliary
 
 1.  validate one point cloud. `Validation/valid_one_point_cloud.py`

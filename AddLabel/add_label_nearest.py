@@ -1,5 +1,7 @@
 """
     add label to missing points
+
+    From PlyLabel -> AddMissingLabel
 """
 
 import numpy as np
@@ -15,7 +17,7 @@ import datetime
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Grid"
 
 
 specify_id = []  # if want to valid specific ids

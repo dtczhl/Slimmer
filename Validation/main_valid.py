@@ -1,3 +1,19 @@
+"""
+    Validating IOU of a trained model.
+
+    Configurations
+        scannet_dir: root dir of scannet
+        device: for saving
+        model_name: trained DNN
+        data_type: Random, Grid, Hierarchy
+        specify_id: if want to valid specific ids
+        n_scene: how many scenes to validate
+
+    Results saved to ../Result/{device}/{model_name}/{data_type}/result_main.csv.
+        Format: keep ratio; average number of points; mean IOU; average running time (s); FLOPs (M); memory (M)
+
+"""
+
 import torch
 import torch.nn as nn
 import numpy as np
@@ -30,7 +46,7 @@ specify_id = []  # if want to valid specific ids
 use_cuda = True
 
 #!!!!!!!!!!!
-n_scene = 30
+n_scene = 50
 
 # --- end of configurations ---
 

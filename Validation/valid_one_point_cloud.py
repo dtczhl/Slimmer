@@ -25,7 +25,7 @@ model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 data_type = "Random"
 
 # omit if data_type is Original
-keep_ratio = 20
+keep_ratio = 100
 
 pth_filename = 'scene0011_00_vh_clean_2.pth'
 

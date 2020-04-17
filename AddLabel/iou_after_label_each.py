@@ -1,5 +1,24 @@
 """
-    Calculate IOU with added labels for each point cloud in training dataset
+    Calculate IOU for each point cloud of different sizes
+
+    Configurations
+        * Data Source *
+        scannet_dir: root data folder of ScanNet
+        data_type: point cloud sparsified method. For data saving path
+        pc_type: point cloud dataset. [train, val]
+        k_KNN: number of nearest neighbors for label recovering
+
+        * Data Saving Path *
+        device: computer name. For data saving path
+        model_name: segmentation model name. For data saving path
+
+
+    if pc_type == "train":
+        {scannet_dir}/Train_ply_label/{k_KNN}/*.csv => ../Result/{device}/{model_name}/{data_type}/train_label_gt.csv
+
+    if pc_type == "val":
+        {scannet_dir}/Ply_label/{k_KNN}/*.csv => ../Result/{device}/{model_name}/{data_type}/val_label_gt.csv
+
 """
 
 import numpy as np
@@ -17,22 +36,23 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 # --- for saving...
 device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
+data_type = "Random"
 
 # train, val
-train_type = "train"
+pc_type = "val"
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 3  # number of nearest labels
 
 # --- end of Configurations ---
 nRatio = 100
 nClass = 20
 
-data_type = "Random"
+
 save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 # save_file = os.path.join(save_dir, "train_label_gt.csv")
-save_file = os.path.join(save_dir, "{}_label_gt.csv".format(train_type))
+save_file = os.path.join(save_dir, "{}_label_gt.csv".format(pc_type))
 
 
 def iou_for_point_cloud(csv_file):
@@ -66,7 +86,7 @@ def iou_for_point_cloud(csv_file):
     return ret
 
 
-if train_type == "train":
+if pc_type == "train":
     csv_files = glob.glob(os.path.join(scannet_dir, "Train_ply_label", str(k_KNN), "*.csv"))
 else:
     csv_files = glob.glob(os.path.join(scannet_dir, "Ply_label", str(k_KNN), "*.csv"))

@@ -6,9 +6,17 @@
         scannet_dir: root data folder of ScanNet
         ply_dirname: folder of point cloud in PLY. [Ply_partial, Train_ply, Ply]
         K: number of nearest neighbors for label recovering of removed points
+        n_scene: only effective if ply_dir == "Ply_partial". Copy n_scene point clouds only
 
     if ply_dirname == "Train_ply":
-        point clouds in {scannet_dir}/Train_ply => {scannet_dir}/Train_ply_label/{K}
+        point clouds in {scannet_dir}/{ply_dirname} => {scannet_dir}/{ply_dirname}_label/{K}/*.csv
+
+    if ply_dirname == "Ply":
+        point clouds in {scannet_dir}/{ply_dirname} => {scannet_dir}/{ply_dirname}_label/{K}/*.csv
+
+    if ply_dirname == "Ply_partial":
+        first n_scene point clouds in {scannet_dir}/Ply => {scannet_dir}/{ply_dirname}_label/{K}/*.csv
+
 """
 
 import os
@@ -21,13 +29,13 @@ import time
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Ply_partial, Train_ply, Ply
-ply_dirname = "Train_ply"
+ply_dirname = "Ply_partial"
 
 # only effective if ply_dir == "Ply_partial"
 n_scene = 50
 
 # number of nearest neighbors
-K = 1
+K = 5
 
 # --- end of configuration ---
 

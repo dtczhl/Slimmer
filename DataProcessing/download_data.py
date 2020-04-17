@@ -1,3 +1,10 @@
+"""
+    Download ScanNet dataset
+
+    Configurations
+        scannet_dir: directory to save the data
+"""
+
 import urllib.request
 import os
 import re
@@ -5,7 +12,7 @@ import re
 # ----- Configurations -----
 
 # path to root ScanNet folder
-scannet_dir = "/home/dtc/Backup/Data/ScanNet"
+scannet_dir = "/home/dtc/Data/ScanNet"
 
 # --- end of Configurations ---
 

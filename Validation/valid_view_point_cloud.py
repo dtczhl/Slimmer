@@ -12,7 +12,7 @@ import pptk
 # ------ Configurations ------
 
 # path to pth file
-pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Random.20"
+pth_file = "../tmp/scene0011_00_vh_clean_2.pth.Random.100"
 
 show_gt = True  # show groundtruth or not
 
@@ -96,10 +96,11 @@ def show_predication_result(pth_file, show_gt):
     if show_gt:
         v1 = pptk.viewer(coords, gt_color)
         v1.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False, show_info=False)
+        v1.set(lookat=[0, 0, 0], phi=-0.1)
 
     v2 = pptk.viewer(coords, pred_color)
     v2.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False, show_info=False)
-
+    v2.set(lookat=[0, 0, 0], phi=-0.1)
 
 if __name__ == "__main__":
     show_predication_result(pth_file, show_gt)

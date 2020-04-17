@@ -1,5 +1,10 @@
 """
-    transform pth to ply under {scannet_dir}/Train_ply dir for training simplification ratio predictor
+    transform pth to ply for training a predictor
+
+    Configuration
+        scannet_dir: root data folder of ScanNet
+
+    ../train/*.pth => {scannet_dir}/Train_ply/*.ply
 """
 
 

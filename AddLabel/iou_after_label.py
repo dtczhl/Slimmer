@@ -1,5 +1,7 @@
 """
     Calculate IOU with added labels
+
+    AddMissingLabel -> {data_type}_iou_knn_{k_KNN}.csv
 """
 
 import numpy as np
@@ -20,7 +22,7 @@ data_type = "Random"
 device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 5  # number of nearest labels
 
 specify_id = []  # if want to valid specific ids
 

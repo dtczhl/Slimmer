@@ -117,7 +117,7 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
 
         for (int i_point = 0; i_point < cloud_full.size(); i_point++) {
 
-            // bool bPointOriginal = false;
+            bool bPointOriginal = false;
 
             if (cloud_full[i_point].label_orig < 0 || 
                     cloud_full[i_point].label_orig >= N_labels) continue;
@@ -126,12 +126,12 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
                 std::cerr << "Found Less Search" << std::endl;
             }
 
-            // if (pointSearchDist[0] == 0) { // points in cloud_partial
-            //     bPointOriginal = true;
-            // }
+            if (pointSearchDist[0] == 0) { // points in cloud_partial
+                bPointOriginal = true;
+            }
 
             int maxValue = 0, maxIndex = 0;
-            // if (!bPointOriginal) {
+            if (!bPointOriginal) {
             // hard voting
                 pVote = new int[N_labels]{0}; 
                 for (int k = 0; k < K; k++) {
@@ -148,9 +148,9 @@ void recover_full_from_partial(std::string ply_file, int K, std::string save_fil
                         maxIndex = j;
                     }
                 }
-            // } else {
-            //     maxIndex = cloud_partial[pointSearchIndex[0]].label_orig;  // points in cloud_partial
-            // }
+            } else {
+                maxIndex = cloud_partial[pointSearchIndex[0]].label_orig;  // points in cloud_partial
+            }
 
             if (cloud_full[i_point].label_orig == maxIndex) {
                 // true positive

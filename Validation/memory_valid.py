@@ -1,5 +1,7 @@
 """
-    validating memory
+    validating FLOPs and memory
+
+    if is_save_ply_label = True: Pth -> PlyLabel
 """
 
 import torch
@@ -27,11 +29,11 @@ device = "alienware"
 model_name = 'scannet_m32_rep2_residualTrue-000000670.pth'
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Grid"
 
 specify_id = []  # if want to valid specific ids
 
-is_save_ply_label = False   # whether save prediction labels for each point
+is_save_ply_label = True   # whether save prediction labels for each point
 
 use_cuda = False
 
