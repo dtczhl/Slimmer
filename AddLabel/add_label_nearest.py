@@ -17,7 +17,7 @@ import datetime
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarchy
-data_type = "Grid"
+data_type = "Hierarchy"
 
 
 specify_id = []  # if want to valid specific ids

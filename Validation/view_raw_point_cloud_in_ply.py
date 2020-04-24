@@ -8,8 +8,8 @@ import pptk
 from plyfile import PlyData
 
 # --- Path to the ply_file
-# ply_file = "/home/dtc/Backup/Data/ScanNet/Ply/scene0704_01_vh_clean_2.ply"
-ply_file = "/home/dtc/Desktop/train_ply/Ply/scene0050_00_vh_clean_2.ply"
+ply_file = "/home/dtc/Backup/Data/ScanNet/Ply/scene0015_00_vh_clean_2.ply"
+# ply_file = "/home/dtc/Desktop/train_ply/Ply/scene0050_00_vh_clean_2.ply"
 
 
 CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf',
@@ -79,15 +79,15 @@ data_rgb = np.asarray([ply_data["vertex"]["red"], ply_data["vertex"]["green"], p
 data_rgb = data_rgb / 255.0  # color normalized to [0, 1.0]
 data_label = np.asarray(ply_data["vertex"]["label"]).transpose()
 
-# ignore_index = (0 > data_label) | (data_label > 19)
-# data_xyz = data_xyz[~ignore_index]
-# data_rgb = data_rgb[~ignore_index]
-# data_label = data_label[~ignore_index]
+ignore_index = (0 > data_label) | (data_label > 19)
+data_xyz = data_xyz[~ignore_index]
+data_rgb = data_rgb[~ignore_index]
+data_label = data_label[~ignore_index]
 # print(data_label)
-# gt_color = [CLASS_COLOR[x] for x in data_label.astype("int32")]
+gt_color = [CLASS_COLOR[x] for x in data_label.astype("int32")]
 
 # pptk.viewer(data_xyz, gt_color)
 v = pptk.viewer(data_xyz, data_rgb)
-# v.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False,
-#        show_info=False)
+v.set(point_size=0.01, bg_color=[1, 1, 1, 1], floor_color=[1, 1, 1, 1], show_grid=False, show_axis=False,
+       show_info=False)
 

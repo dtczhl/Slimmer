@@ -39,14 +39,14 @@ device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Grid"
 
 specify_id = []  # if want to valid specific ids
 
 use_cuda = True
 
 #!!!!!!!!!!!
-n_scene = 50
+# n_scene = 50
 
 # --- end of configurations ---
 
@@ -184,7 +184,7 @@ def valid_data(data_id):
     val = []
     if "n_scene" in locals() or "n_scene" in globals():
         for x in torch.utils.data.DataLoader(
-                glob.glob(os.path.join(data_dir, "*.pth"))[:n_scene],
+                glob.glob(os.path.join(data_dir, "*.pth")),
                 collate_fn=lambda x: torch.load(x[0]), num_workers=mp.cpu_count()):
             val.append(x)
     else:

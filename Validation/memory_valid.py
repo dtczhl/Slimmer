@@ -29,16 +29,16 @@ device = "alienware"
 model_name = 'scannet_m32_rep2_residualTrue-000000670.pth'
 
 # Random, Grid, Hierarchy
-data_type = "Grid"
+data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-is_save_ply_label = True   # whether save prediction labels for each point
+is_save_ply_label = False   # whether save prediction labels for each point
 
 use_cuda = False
 
 #!!!!!!!!!!!
-n_scene = 50
+# n_scene = 50
 
 # --- end of configuration ---
 
@@ -132,7 +132,7 @@ def valid_data(data_id):
     pth_files = glob.glob(os.path.join(pth_folder, '*.pth'))
 
     # !!!!!!!!!!!!!!!!!!!!!!
-    pth_files = pth_files[:n_scene]
+    # pth_files = pth_files[:n_scene]
 
     n_file = len(pth_files)
 
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     print("id, time(s), FLOP(M), memory(M)")
     print(np.array_str(result_vstack, precision=2, suppress_small=True))
 
-    save_file = os.path.join(save_dir, "result_memory.csv")
+    save_file = os.path.join(save_dir, "{}_result_memory.csv".format(data_type))
     print("saving file to:", save_file)
     np.savetxt(save_file, result, fmt="%d,%.2f,%.2f,%.2f",
                header="data_id,Time(s),FLOP(M),memory(M)")

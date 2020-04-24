@@ -1,14 +1,18 @@
 """
     View inferred labels. Perform difference between pth_first_file and pth_second_file
 
-    generating a pth
+    generating a ply
 """
 
 import torch
+import numpy as np
+from plyfile import PlyData, PlyElement
 
 pth_first_file = "/home/dtc/Backup/Data/ScanNet/Pth/Random/100/scene0011_00_vh_clean_2.pth"
 
 pth_second_file = "/home/dtc/Backup/Data/ScanNet/Pth/Random/40/scene0011_00_vh_clean_2.pth"
+
+dst_path_file = "/home/dtc/Desktop/infer_diff.ply"
 
 
 data_first = torch.load(pth_first_file)
@@ -40,6 +44,20 @@ for i_first in range(len(coord_first)):
 
 print("Points:", [len(coord_first), len(coord_second)])
 print(len(data_save_coord))
+
+ply_save = []
+for i in range(len(data_save_coord)):
+    ply_save.append((data_save_coord[i][0], data_save_coord[i][1], data_save_coord[i][2],
+                     data_save_color[i][0], data_save_color[i][1], data_save_color[i][2], data_save_label[i]))
+ply_save = np.array(ply_save,
+                    dtype=[("x", "f4"), ("y", "f4"), ("z", "f4"),
+                           ("red", "u1"), ("green", "u1"), ("blue", "u1"),
+                           ("label", "u1")])
+el = PlyElement.describe(ply_save, "vertex")
+plydata = PlyData([el], text=True)
+plydata.write(dst_path_file)
+print("saving file to ", dst_path_file)
+
 
 
 
