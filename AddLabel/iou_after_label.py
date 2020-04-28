@@ -16,13 +16,13 @@ import datetime
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarch
-data_type = "Grid"
+data_type = "Random"
 
 # --- for saving...
 device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 5  # number of nearest labels
 
 specify_id = []  # if want to valid specific ids
 
@@ -31,6 +31,7 @@ specify_id = []  # if want to valid specific ids
 save_dir = os.path.join("../Result", device, os.path.splitext(model_name)[0], data_type)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
+
 
 def calculate_iou_with_added_label(keep_ratio, k_KNN):
 

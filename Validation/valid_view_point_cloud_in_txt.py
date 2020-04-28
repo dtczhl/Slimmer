@@ -1,18 +1,18 @@
 """
-    view predication for point cloud,
-    Run valid_one_point_cloud first
+    Plot point clouds after KNN
 """
 
 import torch
 import numpy as np
+import pandas as pd
 import sys
 import os
 import pptk
 
 # ------ Configurations ------
 
-# path to pth file
-pth_file = "../tmp/scene0015_00_vh_clean_2.pth.Random.100"
+# path to txt file
+txt_file = "/home/dtc/Backup/Data/ScanNet/AddMissingLabel/Hierarchy/1/20/scene0015_00_vh_clean_2.txt"
 
 show_gt = False  # show groundtruth or not; groudtruth draw first, i.e., on back
 
@@ -79,16 +79,21 @@ for valid_id in VALID_CLASS_IDS:
 CLASS_COLOR = np.array(CLASS_COLOR) / 255.0
 
 
-def show_predication_result(pth_file, show_gt):
+def show_predication_result(txt_file, show_gt):
 
-    data = torch.load(pth_file)
-    coords, colors, labels, pred = data
+    data_pd = pd.read_csv(txt_file, sep=" ", header=None,
+                          names=["x", "y", "z", "r", "g", "b", "label_orig", "label_pred"])
+    # data = torch.load(pth_file)
+    coords = data_pd[["x", "y", "z"]].to_numpy()
+    colors = data_pd[["r", "g", "b"]].to_numpy()
+    labels = data_pd["label_orig"].to_numpy()
+    pred = data_pd["label_pred"].to_numpy()
 
-    ignore_index = labels == -100
-    coords = coords[~ignore_index]
-    colors = colors[~ignore_index]
-    labels = labels[~ignore_index]
-    pred = pred[~ignore_index]
+    valid_index = (0 <= labels) & (labels <= 19)
+    coords = coords[valid_index]
+    colors = colors[valid_index]
+    labels = labels[valid_index]
+    pred = pred[valid_index]
 
     gt_color = [CLASS_COLOR[x] for x in labels.astype("int32")]
     pred_color = [CLASS_COLOR[x] for x in pred.astype("int32")]
@@ -103,4 +108,4 @@ def show_predication_result(pth_file, show_gt):
     v2.set(theta=1.8, lookat=[0, 0, 0], phi=0.52)
 
 if __name__ == "__main__":
-    show_predication_result(pth_file, show_gt)
+    show_predication_result(txt_file, show_gt)
