@@ -75,22 +75,30 @@ void add_miss_label(std::string orig_file, std::string pred_file, std::string sa
             std::cerr << "Found Less Search" << std::endl;
         }
 
-        // hard voting
-        int N_labels = 20; // [0, 19]
-        pVote = new int[N_labels]{0}; 
-        for (int k = 0; k < k_KNN; k++) {
-            pVote[cloud_pred[pointSearchIndex[k]].label_orig]++;
-        }
-        int maxValue = 0, maxIndex = 0;
-        for (int j = 0; j < N_labels; j++) {
-            if (pVote[j] > maxValue) {
-                maxValue = pVote[j];
-                maxIndex = j;
-            }
-        }
+        if (pointSearchDist[0] != 0) {
+            // point is not in simplified point cloud
 
-        // cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
-        cloud_orig[i].label_pred = maxIndex; 
+            // hard voting
+            int N_labels = 20; // [0, 19]
+            pVote = new int[N_labels]{0}; 
+            for (int k = 0; k < k_KNN; k++) {
+                pVote[cloud_pred[pointSearchIndex[k]].label_orig]++;
+            }
+            int maxValue = 0, maxIndex = 0;
+            for (int j = 0; j < N_labels; j++) {
+                if (pVote[j] > maxValue) {
+                    maxValue = pVote[j];
+                    maxIndex = j;
+                }
+            }
+  
+            // cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
+            cloud_orig[i].label_pred = maxIndex; 
+
+        } else {
+            // point is in simplified point cloud
+            cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig;
+        }
     }
 
     std::ofstream out(save_file);

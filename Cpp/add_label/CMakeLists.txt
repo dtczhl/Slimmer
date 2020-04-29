@@ -7,7 +7,8 @@ include_directories(${PCL_INCLUDE_DIRS} include)
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-set (SOURCES    "src/main.cpp")
+set (SOURCES    "src/main.cpp"
+                "src/DtcMainHelper.cpp")
 
 add_executable(add_label ${SOURCES})
 
