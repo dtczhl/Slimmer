@@ -12,6 +12,8 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/kdtree/kdtree_flann.h>
 
+#include "DtcMainHelper.hpp"
+
 struct MyPointType{
     PCL_ADD_POINT4D;
     int r;
@@ -56,19 +58,25 @@ void myReadPly(const std::string &file_name, pcl::PointCloud<MyPointType> &cloud
 
 void add_miss_label(std::string orig_file, std::string pred_file, std::string save_file, int k_KNN){
     
+    uint64_t time_tot = 0, time_start, time_end;
+
     // int K = 1;
     std::vector<int> pointSearchIndex(k_KNN);
     std::vector<float> pointSearchDist(k_KNN);
     int *pVote = NULL;
 
-    pcl::PointCloud<MyPointType> cloud_orig, cloud_pred;
+    pcl::PointCloud<MyPointType> cloud_orig, cloud_pred, cloud_removed;
     
     myReadPly(orig_file, cloud_orig);
     myReadPly(pred_file, cloud_pred);
 
+    time_start = DtcMainHelper::getTimestamp();
     pcl::KdTreeFLANN<MyPointType> predKdTree;
     pcl::PointCloud<MyPointType>::Ptr ptrCloud(cloud_pred.makeShared());
     predKdTree.setInputCloud(ptrCloud);
+    time_end = DtcMainHelper::getTimestamp();
+    DtcMainHelper::dataToFile() << time_end - time_start << " ";
+    time_tot += time_end - time_start;
 
     for (int i = 0; i < cloud_orig.size(); i++) {
         if (predKdTree.nearestKSearch(cloud_orig[i], k_KNN, pointSearchIndex, pointSearchDist) < k_KNN) {
@@ -95,11 +103,46 @@ void add_miss_label(std::string orig_file, std::string pred_file, std::string sa
             // cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
             cloud_orig[i].label_pred = maxIndex; 
 
+            // remove set
+            MyPointType point; 
+            point.x = cloud_orig[i].x; point.y = cloud_orig[i].y; point.z = cloud_orig[i].z;
+            point.r = cloud_orig[i].r; point.g = cloud_orig[i].g; point.b = cloud_orig[i].b;
+            cloud_removed.push_back(point);
+
         } else {
             // point is in simplified point cloud
             cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig;
         }
     }
+
+    time_start = DtcMainHelper::getTimestamp();
+    // for time calculating only
+    // std::cout << "Full Size " << cloud_orig.size() << " Simplified: " << cloud_pred.size() << " Cloud removed points # = " << cloud_removed.size() << std::endl;
+    for (int i = 0; i < cloud_removed.size(); i++) {
+        if (predKdTree.nearestKSearch(cloud_removed[i], k_KNN, pointSearchIndex, pointSearchDist) < k_KNN) {
+            std::cerr << "Found Less Search" << std::endl;
+        }
+
+        int N_labels = 20; // [0, 19]
+        pVote = new int[N_labels]{0}; 
+        for (int k = 0; k < k_KNN; k++) {
+            pVote[cloud_pred[pointSearchIndex[k]].label_orig]++;
+        }
+        int maxValue = 0, maxIndex = 0;
+        for (int j = 0; j < N_labels; j++) {
+            if (pVote[j] > maxValue) {
+                maxValue = pVote[j];
+                maxIndex = j;
+            }
+        }
+
+        // cloud_orig[i].label_pred = cloud_pred[pointSearchIndex[0]].label_orig; 
+        cloud_removed[i].label_pred = maxIndex; 
+    }
+    time_end = DtcMainHelper::getTimestamp(); 
+    DtcMainHelper::dataToFile() << time_end - time_start << " ";
+    time_tot += time_end - time_start;
+    DtcMainHelper::dataToFile() << time_tot << std::endl;
 
     std::ofstream out(save_file);
     for (int i = 0; i < cloud_orig.size(); i++) {

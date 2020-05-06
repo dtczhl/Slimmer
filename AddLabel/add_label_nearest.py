@@ -10,21 +10,32 @@ import os
 import pandas as pd
 import sys
 import datetime
-
+import shutil
 
 # ------ Configuration ------
 
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarchy
-data_type = "Hierarchy"
+data_type = "Random"
 
+device = "alienware"
 
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 5  # number of nearest labels
 
 # --- end of configuration ---
+
+time_save_dir = os.path.join("../Result/KnnTime", device, data_type, str(k_KNN))
+if not os.path.exists(time_save_dir):
+    os.makedirs(time_save_dir)
+
+tmp_dir = "../tmp/"
+# clear tmp
+files = glob.glob(os.path.join(tmp_dir, "*"))
+for file in files:
+    os.remove(file)
 
 ply_label_dir = "PlyLabel"
 add_label_dir = "AddMissingLabel"
@@ -56,6 +67,14 @@ def add_label_KNN(keep_ratio, k_KNN):
         mycmd = "../Cpp/add_label/build/add_label {} {} {} {}"\
                 .format(orig_file, pred_file, save_file, k_KNN)
         os.system(mycmd)
+
+    time_save_file = os.path.join(time_save_dir, "time.txt.{}".format(keep_ratio))
+    print("saving file to:", time_save_file)
+    shutil.move(os.path.join(tmp_dir, "time.txt"), time_save_file)
+    # clear tmp
+    tmp_files = glob.glob(os.path.join(tmp_dir, "*"))
+    for tmp_file in tmp_files:
+        os.remove(tmp_file)
 
     print("{} --- {} k: {} keep ratio: {}".format(str(datetime.datetime.now()), data_type, str(k_KNN), str(keep_ratio)))
 

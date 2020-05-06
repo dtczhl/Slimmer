@@ -29,13 +29,13 @@ import time
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Ply_partial, Train_ply, Ply
-ply_dirname = "Ply_partial"
+ply_dirname = "Ply"
 
 # only effective if ply_dir == "Ply_partial"
 n_scene = 50
 
 # number of nearest neighbors
-K = 5
+K = 1
 
 # --- end of configuration ---
 

@@ -41,7 +41,7 @@ data_type = "Random"
 # train, val
 pc_type = "val"
 
-k_KNN = 3  # number of nearest labels
+k_KNN = 1  # number of nearest labels
 
 # --- end of Configurations ---
 nRatio = 100

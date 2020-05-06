@@ -16,7 +16,7 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 device = "alienware"
 
 # only calculating processing time
-processing_time_only = False
+processing_time_only = True
 
 cell_size_arr = np.linspace(0.01, 0.1, 100)
 

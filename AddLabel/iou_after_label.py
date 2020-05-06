@@ -16,13 +16,13 @@ import datetime
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarch
-data_type = "Random"
+data_type = "Grid"
 
 # --- for saving...
 device = "alienware"
 model_name = "scannet_m32_rep2_residualTrue-000000670.pth"
 
-k_KNN = 4  # number of nearest labels
+k_KNN = 1  # number of nearest labels
 
 specify_id = []  # if want to valid specific ids
 

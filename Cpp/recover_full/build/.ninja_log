@@ -50,3 +50,6 @@
 6	270	1588096234	CMakeFiles/recover_full.dir/src/DtcMainHelper.cpp.o	7a89d3bcdbb56b56
 6	6495	1588096240	CMakeFiles/recover_full.dir/src/main.cpp.o	44160c85439619a1
 6495	7078	1588096240	recover_full	1495f29753ed68af
+43	503	1588726404	CMakeFiles/recover_full.dir/src/DtcMainHelper.cpp.o	2852301c0a0a1d20
+43	14200	1588726418	CMakeFiles/recover_full.dir/src/main.cpp.o	42f4dc25f5ff07fd
+14200	14863	1588726419	recover_full	81844d7fd90122bb

@@ -12,7 +12,7 @@ import re
 # ----- Configurations -----
 
 # path to root ScanNet folder
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Data/ScanNetMinkowski"
 
 # --- end of Configurations ---
 
