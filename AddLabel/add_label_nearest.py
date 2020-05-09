@@ -17,7 +17,7 @@ import shutil
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Hierarchy"
 
 device = "alienware"
 

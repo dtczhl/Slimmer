@@ -1,5 +1,5 @@
 """
-    Calculate IOU for each simplified point cloud
+    Log TP FP FN for each simplified point cloud
 
     AddMissingLabel -> AddMissingLabelEach
 
@@ -22,7 +22,7 @@ data_type = "Random"
 
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 1  # number of nearest labels
+k_KNN = 5  # number of nearest labels
 
 # --- end of configuration ---
 
