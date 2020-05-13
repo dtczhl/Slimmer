@@ -10,7 +10,8 @@ import sys
 
 data_dir = "/home/dtc/Data/KITTI"
 
-cell_size_arr = np.arange(0.03, 0.21, 0.02)
+# cell_size_arr = np.arange(0.03, 0.21, 0.02)
+cell_size_arr = [0.1]
 
 original_dir = os.path.join(data_dir, "PointPillars/testing/velodyne_reduced")
 save_dir = "../Result/EmptyCell"

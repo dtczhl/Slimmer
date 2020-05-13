@@ -8,9 +8,10 @@ import glob
 import os
 import sys
 
-scannet_dir = "/home/dtc/Data/ScanNet"
+scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
-cell_size_arr = np.arange(0.03, 0.21, 0.02)
+# cell_size_arr = np.arange(0.03, 0.21, 0.02)
+cell_size_arr = [0.1]
 
 # path to pth
 original_dir = os.path.join(scannet_dir, "Pth/Original")

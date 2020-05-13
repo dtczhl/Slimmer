@@ -12,7 +12,7 @@ import pptk
 # ------ Configurations ------
 
 # path to txt file
-txt_file = "/home/dtc/Backup/Data/ScanNet/AddMissingLabel/Hierarchy/1/20/scene0015_00_vh_clean_2.txt"
+txt_file = "/home/dtc/Backup/Data/ScanNet/AddMissingLabel/Grid/1/20/scene0015_00_vh_clean_2.txt"
 
 show_gt = False  # show groundtruth or not; groudtruth draw first, i.e., on back
 
@@ -94,6 +94,8 @@ def show_predication_result(txt_file, show_gt):
     colors = colors[valid_index]
     labels = labels[valid_index]
     pred = pred[valid_index]
+
+    print(np.unique(pred))
 
     gt_color = [CLASS_COLOR[x] for x in labels.astype("int32")]
     pred_color = [CLASS_COLOR[x] for x in pred.astype("int32")]

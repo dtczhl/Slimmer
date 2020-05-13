@@ -272,6 +272,12 @@ Index | m | rep | residual | epoch | #parameters | batch size | FLOPs | Memory (
 7 | 16 | 1 | True | 500 | 4334692 | 8 | - | - | - | 68.72
 8 | 16 | 2 | True | 650 | 7531172 | 8 | 2.97 x 10^{10} | 1.85 | 1.81 | 69.79
 
+## Point Cloud of Max point
+
+scene0231_01_vh_clean_2.pth
+
+438565
+
 ## Folder Structure
 *   `AddLabel`. Adding labels for simplified point clouds
 *   `Cpp`. C++ program for data simplification, label adding, etc

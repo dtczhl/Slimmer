@@ -18,11 +18,11 @@ import shutil
 scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 
 # Random, Grid, Hierarchy
-data_type = "Random"
+data_type = "Hierarchy"
 
 specify_id = []  # if want to valid specific ids
 
-k_KNN = 5  # number of nearest labels
+k_KNN = 1  # number of nearest labels
 
 # --- end of configuration ---
 

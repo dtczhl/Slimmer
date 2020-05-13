@@ -20,7 +20,7 @@ scannet_dir = "/home/dtc/Backup/Data/ScanNet"
 data_type = "Random"
 
 # reduce number of scenes
-n_scene = 30
+# n_scene = 30
 
 # --- end of Configuration ---
 
@@ -74,7 +74,7 @@ if data_type.lower() == "original":
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 
-    pth_files = glob.glob(os.path.join(Pth_dir, "*.pth"))[:n_scene]
+    pth_files = glob.glob(os.path.join(Pth_dir, "*.pth"))
     for i in range(len(pth_files)):
         if (i+1) % 10 == 0:
             print("--- {} {}/{}".format(data_type, i+1, len(pth_files)))
@@ -89,7 +89,7 @@ else:
         save_dir = os.path.join(Bin_dir, data_type, os.path.basename(data_dir))
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
-        pth_files = glob.glob(os.path.join(data_dir, "*.pth"))[:n_scene]
+        pth_files = glob.glob(os.path.join(data_dir, "*.pth"))
         for pth_file in pth_files:
             convert_pth_to_bin(save_dir, pth_file)
 
