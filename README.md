@@ -1,4 +1,11 @@
-Running on Ubuntu 18.04.
+# Slimmer: Accelerating 3D Semantic Segmentation for Mobile Augmented Reality
+
+Paper published in IEEE International Conference on Mobile Ad-Hoc and Smart Systems (MASS), Delhi NCR, India, 2020.
+
+Authors: Huanle Zhang, Bo Han, Cheuk Ip, and Prasant Mohapatra. 
+
+
+Expriment platform: Ubuntu 18.04.
 
 ## Setup
 
